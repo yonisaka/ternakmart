@@ -1,28 +1,26 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+  <v-app>
+    <div id="app">
+        <!-- <SystemBar/> -->
+        <!-- <router-view name="header"></router-view> -->
+        <v-main>
+          <fade-transition origin="center" mode="out-in" :duration="250">
+              <router-view/>
+          </fade-transition>
+        </v-main>
+        <router-view name="footer"></router-view>
+    </div>
+  </v-app>
 </template>
-
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+// import SystemBar from "@/components/SystemBar";
+import { FadeTransition } from "vue2-transitions";
 
 export default {
-  name: 'App',
   components: {
-    HelloWorld
+    // SystemBar,
+    FadeTransition
   }
-}
+};
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
