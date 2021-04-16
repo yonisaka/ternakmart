@@ -4,13 +4,6 @@ import store from "../store"
 
 import AppHeader from "@/layout/AppHeader";
 import AppFooter from "@/layout/AppFooter";
-import Splash from "@/views/Splash.vue";
-import Login from "@/views/Login.vue";
-import Register from "@/views/Register.vue";
-
-import Home from "@/views/pages/Home.vue";
-import Detail from "@/views/pages/Detail.vue";
-import Cart from "@/views/pages/Cart.vue";
 
 Vue.use(Router)
 
@@ -19,36 +12,50 @@ const router = new Router({
     {
       path: "/splash",
       name: "splash",
-      component: Splash
+      component: () => import("@/views/Splash")
     },
     {
       path: "/login",
       name: "login",
-      component: Login
+      component: () => import("@/views/Login")
     },
     {
       path: "/register",
       name: "register",
-      component: Register
+      component: () => import("@/views/Register")
     },
     {
       path: '/',
       name: 'home',
       components: {
         header: AppHeader,
-        default: Home,
+        default: () => import("@/views/pages/Home/Home"),
         footer: AppFooter
       },
-      meta: {
-        requiresAuth: true
-      }
+      // meta: {
+      //   requiresAuth: true
+      // }
     },
     {
       path: '/detail',
       name: 'detail',
       components: {
         header: AppHeader,
-        default: Detail,
+        default: () => import("@/views/pages/Home/Detail"),
+      }
+    },
+    {
+      path: '/detail/add',
+      name: 'detail_add',
+      components: {
+        default: () => import("@/views/pages/Home/DetailAdd"),
+      }
+    },
+    {
+      path: '/detail/payment',
+      name: 'detail_payment',
+      components: {
+        default: () => import("@/views/pages/Home/Payment"),
       }
     },
     {
@@ -56,7 +63,7 @@ const router = new Router({
       name: 'cart',
       components: {
         header: AppHeader,
-        default: Cart,
+        default: () => import("@/views/pages/Cart/Cart"),
         footer: AppFooter
       }
     },

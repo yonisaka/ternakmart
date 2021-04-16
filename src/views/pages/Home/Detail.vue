@@ -127,6 +127,7 @@
             <v-btn
             color="#139CA4"
             class="white--text px-10"
+            :to="{ name: 'detail_add'}"
             >
                 Beli
             </v-btn>
