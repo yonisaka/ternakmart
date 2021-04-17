@@ -85,7 +85,8 @@ export default {
             name: "",
             email: "",
             password: "",
-            password_confirmation: ""
+            password_confirmation: "",
+            role:""
         }
     },
     computed: {
@@ -107,7 +108,8 @@ export default {
                     name: this.name,
                     email: this.email,
                     password: this.password,
-                    password_confirmation: this.password_confirmation
+                    password_confirmation: this.password_confirmation,
+                    role:"user"
                 })
                 .then((response) => {
                     this.$toast.success(response.message, {

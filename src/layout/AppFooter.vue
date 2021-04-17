@@ -7,7 +7,8 @@
     <v-bottom-navigation
         background-color="#139CA4"
         color="dark-grey"
-        class="nav-bottom"
+        class="nav-bottom position"
+        fixed :active.sync="e3"
     >
         <v-btn :to="{ name: 'home' }">
         <span>Home</span>
@@ -27,7 +28,7 @@
         <v-icon>mdi-cart</v-icon>
         </v-btn>
 
-        <v-btn :to="{ name: 'login' }">
+        <v-btn :to="{ name: 'profile' }">
         <span>Account</span>
 
         <v-icon>mdi-account</v-icon>
@@ -40,7 +41,9 @@ export default {
     data() {
         return {
             // value: 1,
-            year: new Date().getFullYear()
+            year: new Date().getFullYear(),
+
+            e3: 0
         }
     },
     computed: {

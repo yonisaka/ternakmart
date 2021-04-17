@@ -11,6 +11,7 @@ import Register from "@/views/Register.vue";
 import Home from "@/views/pages/Home.vue";
 import Detail from "@/views/pages/Detail.vue";
 import Cart from "@/views/pages/Cart.vue";
+import Profile from "@/views/pages/Profile.vue";
 
 Vue.use(Router)
 
@@ -40,7 +41,7 @@ const router = new Router({
         footer: AppFooter
       },
       meta: {
-        requiresAuth: true
+        requiresAuth: false
       }
     },
     {
@@ -58,6 +59,21 @@ const router = new Router({
         header: AppHeader,
         default: Cart,
         footer: AppFooter
+      },
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/profile',
+      name: 'profile',
+      components: {
+        header: AppHeader,
+        default: Profile,
+        footer: AppFooter
+      },
+      meta: {
+        requiresAuth: true
       }
     },
   ]
@@ -76,6 +92,7 @@ router.beforeEach((to, from, next) => {
     next() // does not require auth, make sure to always call next()!
   }
 })
+
 
 // const router = new VueRouter({
 //   mode: 'history',
