@@ -57,7 +57,19 @@
               <Card/>
             </slideritem>
             <!-- Customizable loading -->
-            <div slot="loading">loading...</div>
+            <div slot="loading">
+                <v-sheet
+              :color="`grey ${theme.isDark ? 'darken-2' : 'lighten-4'}`"
+              class="pa-3"
+            >
+              <v-skeleton-loader
+                class="mx-auto"
+                max-width="300"
+                type="card"
+              ></v-skeleton-loader>
+            </v-sheet>
+            </div>
+            
         </slider>
         <!-- <v-row dense>
           <v-col
@@ -104,5 +116,10 @@ export default {
       }
     }
   },
+  inject: {
+      theme: {
+        default: { isDark: false },
+      },
+    },
 }
 </script>
