@@ -53,8 +53,8 @@
         </v-row>
         <slider ref="slider" :options="options" class="mt-5">
             <!-- slideritem wrapped package with the components you need -->
-            <slideritem v-for="n in 5" :key="n" style="width:48%; margin-right:2%">
-              <Card/>
+            <slideritem v-for="ternak in ternaks" :key="ternak.id" style="width:48%; margin-right:2%">
+              <Card :ternak="ternak"/>
             </slideritem>
             <!-- Customizable loading -->
             <div slot="loading">
@@ -90,6 +90,7 @@ import Carousel from "@/components/Carousel";
 import Card from "@/components/Card";
 import ButtonCategory from "@/components/ButtonCategory";
 import AppHeader from '@/layout/AppHeader.vue';
+import axios from "axios";
 
 export default {
   name: 'Home',
@@ -103,6 +104,7 @@ export default {
   },
   data () {
     return {
+      ternaks: [],
       //Slider configuration [obj]
       options: {
         pagination: true,
@@ -115,6 +117,19 @@ export default {
         // autoplay: 0 // Auto play[ms]
       }
     }
+  },
+  methods: {
+    setternaks(data) {
+      this.ternaks = data;
+      console.log(this.ternaks);
+    },
+  },
+  mounted() {
+    // console.log(this.$cookie.get('user'));
+    axios
+      .get("http://localhost:8000/api/ternak")
+      .then((response) => this.setternaks(response.data.ternak))
+      .catch((error) => console.log(error))
   },
   inject: {
       theme: {

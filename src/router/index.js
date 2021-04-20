@@ -4,13 +4,13 @@ import store from "../store"
 
 import AppHeader from "@/layout/AppHeader";
 import AppFooter from "@/layout/AppFooter";
-import Splash from "@/views/Splash.vue";
-import Login from "@/views/Login.vue";
-import Register from "@/views/Register.vue";
+// import Splash from "@/views/Splash.vue";
+// import Login from "@/views/Login.vue";
+// import Register from "@/views/Register.vue";
 
-import Home from "@/views/pages/Home.vue";
-import Detail from "@/views/pages/Detail.vue";
-import Cart from "@/views/pages/Cart.vue";
+// import Home from "@/views/pages/Home.vue";
+// import Detail from "@/views/pages/Detail.vue";
+// import Cart from "@/views/pages/Cart.vue";
 import Profile from "@/views/pages/Profile.vue";
 
 Vue.use(Router)
@@ -45,8 +45,8 @@ const router = new Router({
       }
     },
     {
-      path: '/detail',
-      name: 'detail',
+      path: '/detail/:id',
+      name: 'detail/',
       components: {
         header: AppHeader,
         default: () => import("@/views/pages/Home/Detail"),
