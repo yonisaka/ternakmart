@@ -11,7 +11,7 @@
                     gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
                     height="150px"
                 >
-                    <v-card-title>Tes</v-card-title>
+                    <v-card-title>{{ ternak.ternak_nama }}</v-card-title>
                 </v-img>
                 <v-card-text
                     align="left"
@@ -26,7 +26,8 @@
                     size="14"
                     ></v-rating>
                     <div class="subtitle font-weight-bold" color="#FF8F0B">
-                        Rp. 15.500.000
+                        <!-- Rp. 15.500.000 -->
+                        Rp. {{ formatPrice(ternak.ternak_harga) }}
                     </div>
 
                 </v-card-text>
@@ -45,7 +46,7 @@
                     >
                         <v-btn
                         color="#139CA4"
-                        :to="{ name: 'detail' }"
+                        :to="'detail/'+ternak.id"
                         >Beli</v-btn>
                     </v-overlay>
                 </v-fade-transition>
@@ -55,6 +56,7 @@
 </template>
 <script>
     export default {
+        props: ["ternak"],
         data: () => ({
             loading: false,
             selection: 1,
@@ -67,6 +69,10 @@
 
                 setTimeout(() => (this.loading = false), 2000)
             },
+            formatPrice(value) {
+                let val = (value/1).toFixed(2).replace('.', ',')
+                return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+            }
         },
     }
 </script>

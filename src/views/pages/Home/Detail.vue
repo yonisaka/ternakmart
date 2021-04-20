@@ -51,26 +51,26 @@
                 <v-col>
                     <div class="title font-weight-bold text-center"
                     >
-                        <span class="cyan--text">Sapi Qurban Premium</span>
+                        <span class="cyan--text">{{data.ternak_nama}}</span>
                     </div>
                 </v-col>
             </v-row>
             <v-row>
                 <v-col cols="4">
                     <div class="subtitle font-weight-bold text-center">
-                        147 KG<br>
+                        {{data.ternak_berat}} KG<br>
                         Berat Hidup
                     </div>
                 </v-col>
                 <v-col cols="4">
                     <div class="subtitle font-weight-bold text-center">
-                        147 CM<br>
+                        {{data.ternak_tinggi}} CM<br>
                         Tinggi Badan
                     </div>
                 </v-col>
                 <v-col cols="4">
                     <div class="subtitle font-weight-bold text-center">
-                        14 Bulan <br>
+                        {{data.ternak_umur}} Bulan <br>
                         Umur
                     </div>
                 </v-col>
@@ -91,10 +91,7 @@
                         <v-card-text
                             class="text-justify"
                         >
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-                            Quis quam urna id viverra netus et quis pharetra et. Suscipit pellentesque volutpat sit libero in amet. 
-                            Lorem tincidunt enim imperdiet ut. Lacinia nisi, nisi elit sit. Ullamcorper non sit orci vitae vitae. 
-                            Sit consectetur lorem ut turpis faucibus iaculis mattis aliquam.
+                            {{data.ternak_deskripsi}}
                         </v-card-text>
                     </v-card>
                 </v-col>
@@ -139,10 +136,29 @@
 
 <script>
 
+import axios from "axios";
+
 export default {
   name: 'Detail',
   components: {
     
+  },
+  data(){
+      return{
+          data:{}
+      }
+  },
+  methods:{
+    setData(data) {
+    this.data = data;
+    console.log(this.data);
+    },
+  },
+  mounted() {
+    axios
+      .get("http://localhost:8000/api/ternak/" + this.$route.params.id)
+      .then((response) => this.setData(response.data.ternak))
+      .catch((error) => console.log(error));
   },
 }
 </script>
