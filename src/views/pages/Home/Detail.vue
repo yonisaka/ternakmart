@@ -4,7 +4,7 @@
         class="mx-auto"
     >
         <v-img
-        src="https://cdn.vuetifyjs.com/images/lists/ali.png"
+        :src="data.file_path"
         height="300px"
         dark
         >

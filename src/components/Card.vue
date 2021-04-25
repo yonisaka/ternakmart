@@ -6,7 +6,7 @@
             class="mx-auto"
             >
                 <v-img
-                    src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
+                    :src=ternak.file_path
                     class="white--text align-end"
                     gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
                     height="150px"
