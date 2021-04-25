@@ -53,7 +53,7 @@ const router = new Router({
       }
     },
     {
-      path: '/detail/add',
+      path: '/detail/:id/add',
       name: 'detail_add',
       components: {
         default: () => import("@/views/pages/Home/DetailAdd"),
