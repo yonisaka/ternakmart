@@ -1,7 +1,7 @@
 <template>
     <v-card class="overflow-hidden">
         <v-app-bar
-        color="cyan darken-3"
+        color="#139CA4"
         flat
         >
             <v-img
@@ -11,10 +11,13 @@
             ></v-img>
             <v-card-text>
                 <v-text-field
-                    class="mt-5 ml-5 pt-2"
+                    class="ml-2 mt-7"
                     label="Cari"
                     single-line
                     solo
+                    style="
+width: 240px;
+                    "
                 ></v-text-field>
             </v-card-text>
             <v-btn 

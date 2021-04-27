@@ -58,9 +58,10 @@ const actions = {
   [CHECK_AUTH](context) {
     if (JwtService.getToken()) {
       ApiService.setHeader();
-      ApiService.get("users")
+      const id = JwtService.getId();
+      ApiService.get("users", id)
         .then(({ data }) => {
-          context.commit(SET_AUTH, data.user);
+          context.commit(SET_AUTH, data);
         })
         .catch(({ response }) => {
           context.commit(SET_ERROR, response);
@@ -97,6 +98,7 @@ const mutations = {
     state.user = data.user;
     state.errors = {};
     JwtService.saveToken(data.token.original.token);
+    JwtService.saveId(data.user.id);
   },
   [PURGE_AUTH](state) {
     state.isAuthenticated = false;
