@@ -1,12 +1,22 @@
 <template>
   <div class="home">
     <app-header/>
+    <div class="oval">
+  <div class="square">
+  </div>
+  
+  </div>
+    
       <v-container>
-        <v-row no-gutters height="100">
+        <div class="wrapper"><subtitle style="color:white">Selamat Datang, </subtitle>
+        <h4 style="color:white">{{profile.name}}</h4>
+    <v-row no-gutters height="100">
           <v-col>
             <Carousel/>
           </v-col>
         </v-row>
+  </div>
+        
         <v-row>
           <v-col>
             <div class="subtitle font-weight-bold">
@@ -84,6 +94,31 @@
   </div>
 </template>
 
+<style>
+.oval {
+  height: 200px;
+  width: 110%;
+  background-color: #139CA4;
+  border-radius: 50%;
+  margin-left: -5%;
+}
+.square {
+  height: 110px;
+  width: 100%;
+  background-color: #139CA4;
+  margin-top: -2em;
+  /* border:solid; */
+}
+.wrapper{
+  padding: 10px;
+  padding-top:0px;
+  padding-bottom: 0px;
+  margin-bottom: 10px;
+  margin-top: -10em;
+  /* border:solid; */
+}
+</style>
+
 <script>
 import { slider, slideritem } from 'vue-concise-slider'
 import Carousel from "@/components/Carousel";
@@ -105,6 +140,7 @@ export default {
   data () {
     return {
       ternaks: [],
+      profile:[],
       //Slider configuration [obj]
       options: {
         pagination: true,
@@ -123,9 +159,13 @@ export default {
       this.ternaks = data;
       console.log(this.ternaks);
     },
+    setProfile(data) {
+      this.profile = data;
+    },
   },
   mounted() {
     // console.log(this.$cookie.get('user'));
+    this.setProfile(this.$store.state.auth.user)
     axios
       .get("http://localhost:8000/api/ternak")
       .then((response) => this.setternaks(response.data.ternak))
