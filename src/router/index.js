@@ -90,6 +90,18 @@ const router = new Router({
         requiresAuth: true
       }
     },
+    {
+      path: '/qurban',
+      name: 'qurban',
+      components: {
+        header: AppHeader,
+        default: () => import("@/views/pages/Home/Qurban"),
+        footer: AppFooter
+      },
+      meta: {
+        requiresAuth: false
+      }
+    },
   ]
 });
 

@@ -22,10 +22,17 @@
         <v-icon>mdi-clipboard-list-outline</v-icon>
         </v-btn>
 
+        
         <v-btn :to="{ name: 'cart' }">
         <span>Cart</span>
-
+        <v-badge
+        overlap
+        color="#139CA4"
+          :content="updateCart ? updateCart.length : jumlah_cart.length"
+          bordered
+        >
         <v-icon>mdi-cart</v-icon>
+        </v-badge>
         </v-btn>
 
         <v-btn :to="{ name: 'profile' }">
@@ -36,14 +43,21 @@
     </v-bottom-navigation>
 </template>
 <script>
+
+import axios from "axios";
+
 export default {
     name: 'app-footer',
+        props: ["updateCart"],
+
     data() {
         return {
             // value: 1,
             year: new Date().getFullYear(),
 
-            e3: 0
+            e3: 0,
+            counts: [],
+            jumlah_cart:[],
         }
     },
     computed: {
@@ -57,6 +71,17 @@ export default {
         //     }
         // },
     },
+    methods:{
+    setJumlah(data) {
+      this.jumlah_cart = data;
+    },
+    },
+    mounted() {
+    axios
+      .get("http://localhost:8000/api/transaksi/"+this.$store.state.auth.user.id)
+      .then((response) => this.setJumlah(response.data.cart))
+      .catch((error) => console.log(error));
+  },
 };
 </script>
 <style>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <AppBar :page="page"/>
+    <AppBar :page="page" :updateCart="carts"/>
     <v-container class="elevation-0 mt-12">
       <v-row dense>
 
