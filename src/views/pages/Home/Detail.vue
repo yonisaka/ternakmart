@@ -10,14 +10,7 @@
         >
         <v-row>
             <v-card-title>
-            <v-btn
-                :to="{ name: 'home' }"
-                class="mt-3 ml-3"
-                dark
-                icon
-            >
-                <v-icon>mdi-chevron-left</v-icon>
-            </v-btn>
+            <ButtonBack :history="current"/>
 
             <v-spacer></v-spacer>
 
@@ -51,27 +44,34 @@
                 <v-col>
                     <div class="title font-weight-bold text-center"
                     >
-                        <span class="cyan--text">{{data.ternak_nama}}</span>
+                        <span style="color:#139CA4;">{{data.ternak_nama}}</span>
                     </div>
                 </v-col>
             </v-row>
             <v-row>
                 <v-col cols="4">
                     <div class="subtitle font-weight-bold text-center">
-                        {{data.ternak_berat}} KG<br>
+                        <b style="color:#139CA4;">{{data.ternak_berat}} KG</b><br>
                         Berat Hidup
                     </div>
                 </v-col>
                 <v-col cols="4">
                     <div class="subtitle font-weight-bold text-center">
-                        {{data.ternak_tinggi}} CM<br>
-                        Tinggi Badan
+                        <b style="color:#139CA4;">{{data.jenis_nama}}</b><br>
+                        Jenis / Breed
                     </div>
                 </v-col>
                 <v-col cols="4">
                     <div class="subtitle font-weight-bold text-center">
-                        {{data.ternak_umur}} Bulan <br>
+                        <b style="color:#139CA4;">{{data.ternak_umur}} Bulan</b> <br>
                         Umur
+                    </div>
+                </v-col>
+            </v-row>
+            <v-row>
+                <v-col>
+                    <div class=" text-center">
+                        <span style="color:#139CA4;">Dibawah pengawasan {{data.nama_lengkap}}</span>
                     </div>
                 </v-col>
             </v-row>
@@ -81,18 +81,28 @@
                         color="grey lighten-2"
                         elevation="2"
                         outlined
-                        shaped
+                        flat
                     >
                         <v-card-title>
-                            <div class="subtitle font-weight-bold">
+                            <div style="color:#139CA4;" class="subtitle font-weight-bold">
                                 Deskripsi
                             </div>
                         </v-card-title>
-                        <v-card-text
-                            class="text-justify"
-                        >
-                            {{data.ternak_deskripsi}}
+                        <v-card-text class="text-justify">
+                            <div class="subtitle font-weight-bold">
+                                Peternakan
+                            </div>
+                            {{data.ternak_deskripsi}} <br/>
+                            <div class="subtitle font-weight-bold">
+                                Kesehatan Ternak
+                            </div>
                         </v-card-text>
+                        <v-card-title>
+                            
+                            <v-card-text>
+                                
+                            </v-card-text>
+                        </v-card-title>
                     </v-card>
                 </v-col>
             </v-row>
@@ -117,8 +127,8 @@
             <v-row
             class="my-1 mx-3"
             >
-            <div class="title font-weight-bold ml-3">
-                Rp 13.500.000
+            <div class="subtitle font-weight-bold ml-2">
+                <h2 class="" style="color:#fca311;">Rp {{formatPrice(data.ternak_harga)}}</h2> /Kg
             </div>
             <v-spacer></v-spacer>
             <v-btn
@@ -136,16 +146,18 @@
 
 <script>
 
+import ButtonBack from "@/components/ButtonBack";
 import axios from "axios";
 
 export default {
   name: 'Detail',
   components: {
-    
+    ButtonBack,
   },
   data(){
       return{
-          data:{}
+          data:{},
+          current:'home'
       }
   },
   methods:{
@@ -153,6 +165,10 @@ export default {
     this.data = data;
     console.log(this.data);
     },
+    formatPrice(value) {
+                let val = (value/1).toFixed(0).replace('.', ',')
+                return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+            }
   },
   mounted() {
     axios
