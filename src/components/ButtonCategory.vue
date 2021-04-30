@@ -6,7 +6,8 @@
         plain
         x-large
         >
-        <v-icon color="#139CA4">{{ data.icon }}</v-icon>
+        <!-- <v-icon color="#139CA4"></v-icon> -->
+        {{data.icon}}
         </v-btn>
         <span class="subtitle">{{ data.title }}</span>
     </div>

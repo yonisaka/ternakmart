@@ -112,7 +112,7 @@ export default {
         axios
           .post("http://localhost:8000/api/transaksi", this.order)
           .then(() => {
-            // this.$router.push({ path: "/cart"})
+            this.$router.push({ path: "/cart"})
             this.$toast.success("Sukses Masuk Keranjang", {
               type: "success",
               position: "top-right",
