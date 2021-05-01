@@ -85,7 +85,7 @@ export default {
 
   mounted() {
     axios
-      .get("http://localhost:8000/api/transaksi/"+this.$store.state.auth.user.id)
+      .get("http://api.ternakmart.id/api/transaksi/"+this.$store.state.auth.user.id)
       .then((response) => this.setCarts(response.data.cart))
       .catch((error) => console.log(error));
   },

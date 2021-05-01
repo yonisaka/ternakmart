@@ -172,7 +172,7 @@ export default {
   },
   mounted() {
     axios
-      .get("http://localhost:8000/api/ternak/" + this.$route.params.id)
+      .get("http://api.ternakmart.id/api/ternak/" + this.$route.params.id)
       .then((response) => this.setData(response.data.ternak))
       .catch((error) => console.log(error));
   },
