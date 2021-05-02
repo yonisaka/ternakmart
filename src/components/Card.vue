@@ -11,6 +11,11 @@
                     gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
                     height="150px"
                 >
+                <template v-slot:placeholder>
+                    <v-sheet>
+                    <v-skeleton-loader />
+                    </v-sheet>
+                </template>
                     <v-card-title>{{ ternak.ternak_nama }}</v-card-title>
                 </v-img>
                 <v-card-text
