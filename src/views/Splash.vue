@@ -16,7 +16,9 @@
                                 Selamat Datang
                             </div>
                             <div class="text-center subtitle font-weight-bold my-3">
-                                Dapatkan kebutuhan sayuran & buah-buahan berkulitas langsung ketempat anda dengan waktu yang cepat
+                                Dapatkan Kebutuhan Hewan Kurban, Hewan Ternak dan Aqiqah
+                                berkualitas dengan pengawasan langsung dari dokter hewan
+                                sehingga terjamin kualitasnya.
                             </div>
                             <div class="text-center">
                                 <v-btn :to="{ name: 'login' }"
