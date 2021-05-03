@@ -189,7 +189,7 @@ export default {
     // console.log(this.$cookie.get('user'));
     this.setProfile(this.$store.state.auth.user)
     axios
-      .get("http://api.ternakmart.id/api/ternak")
+      .get("http://ternakmart.id/ternakmart_api/public/api/ternak")
       .then((response) => this.setternaks(response.data.ternak))
       .catch((error) => console.log(error))
   },

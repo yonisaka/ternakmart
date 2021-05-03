@@ -110,7 +110,7 @@ export default {
 
         console.log(this.order);
         axios
-          .post("http://api.ternakmart.id/api/transaksi", this.order)
+          .post("http://ternakmart.id/ternakmart_api/public/api/transaksi", this.order)
           .then(() => {
             this.$router.push({ path: "/cart"})
             this.$toast.success("Sukses Masuk Keranjang", {
@@ -126,7 +126,7 @@ export default {
     },
     mounted() {
     axios
-      .get("http://api.ternakmart.id/api/ternak/" + this.$route.params.id)
+      .get("http://ternakmart.id/ternakmart_api/public/api/ternak/" + this.$route.params.id)
       .then((response) => this.setTernak(response.data.ternak))
       .catch((error) => console.log(error));
   },

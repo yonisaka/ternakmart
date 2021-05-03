@@ -1,2 +1,2 @@
-export const API_URL = "http://api.ternakmart.id/api/";
+export const API_URL = "http://ternakmart.id/ternakmart_api/public/api/";
 export default API_URL;

@@ -105,14 +105,14 @@ import { LOGOUT } from "@/store/actions.type";
     },
     searchTernak() {
     axios
-      .get("http://api.ternakmart.id/cariternak/?search="+this.search)
+      .get("http://ternakmart.id/ternakmart_api/public/api/cariternak/?search="+this.search)
       .then((response) => this.setternaks(response.data.ternak))
       .catch((error) => console.log(error))
   },
   },
   mounted() {
     axios
-      .get("http://api.ternakmart.id/ternak")
+      .get("http://ternakmart.id/ternakmart_api/public/api/ternak")
       .then((response) => this.setternaks(response.data.ternak))
       .catch((error) => console.log(error))
   },
