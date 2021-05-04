@@ -1,7 +1,7 @@
 <template>
   <div>
     <AppBar :page="page" :updateCart="carts"/>
-    <v-container class="elevation-0 mt-12">
+    <v-container class="elevation-0 mt-12 mb-12">
       <v-row dense>
 
         <v-col
@@ -32,14 +32,95 @@
                 </div>
                 </v-card-subtitle>
                 <v-card-actions>
-                  <v-btn
-                    class="ml-2 mt-2"
-                    outlined
-                    rounded
-                    small
-                  >
-                    Details
-                  </v-btn>
+                  <div class="text-center">
+                    <v-dialog
+                      v-model="dialog"
+                      width="500"
+                    >
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-btn
+                          color="red lighten-1"
+                          dark
+                          v-bind="attrs"
+                          v-on="on"
+                        >
+                          Details
+                        </v-btn>
+                        <v-btn
+                          color="orange lighten-2"
+                          dark
+                          :to="{ name: 'detail_payment'}"
+                        >
+                          Checkout
+                        </v-btn>
+                      </template>
+
+                      <v-card>
+                        <v-card-title class="headline grey lighten-2">
+                          Detail Pesanan
+                        </v-card-title>
+
+                        <v-card-text>
+                          <table class="table">
+                            <tbody>
+                              <tr>
+                                <td>Nama Ternak</td>
+                                <td> : </td>
+                                <td>{{item.ternak_nama}}</td>
+                              </tr>
+                              <tr>
+                                <td>Deskripsi</td>
+                                <td> : </td>
+                                <td>{{item.ternak_deskripsi}}</td>
+                              </tr>
+                              <tr>
+                                <td>Harga</td>
+                                <td> : </td>
+                                <td>{{item.ternak_harga}}</td>
+                              </tr>
+                              <tr>
+                                <td>Penerima</td>
+                                <td> : </td>
+                                <td>{{JSON.parse(item.transaksi_alamat).name}}</td>
+                              </tr>
+                              <tr>
+                                <td>Detail Alamat</td>
+                                <td> : </td>
+                                <td>{{JSON.parse(item.transaksi_alamat).alamat}}, 
+                                    {{JSON.parse(item.transaksi_alamat).detail_alamat}}
+                                  </td>
+                              </tr>
+                              <tr>
+                                <td>Note</td>
+                                <td> : </td>
+                                <td>{{JSON.parse(item.transaksi_alamat).note}}</td>
+                              </tr>
+                            </tbody>
+                            </table>
+                        </v-card-text>
+
+                        <v-divider></v-divider>
+
+                        <v-card-actions>
+                          <v-spacer></v-spacer>
+                          <!-- <v-btn
+                            color="primary"
+                            text
+                            @click="dialog = false"
+                          >
+                            I accept
+                          </v-btn> -->
+                          <v-btn
+                          color="orange lighten-2"
+                          dark
+                          :to="{ name: 'detail_payment'}"
+                        >
+                          Checkout
+                        </v-btn>
+                        </v-card-actions>
+                      </v-card>
+                    </v-dialog>
+                  </div>
                 </v-card-actions>
               </div>
 

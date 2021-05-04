@@ -54,7 +54,7 @@ export default {
     },
     data: () => ({
         page: {
-            link: '/detail/add',
+            link: '/cart',
             title: 'Metode Pembayaran',
         },
         sheet: false,
