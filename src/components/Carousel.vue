@@ -1,30 +1,22 @@
 <template>
     <v-carousel
+    elevation="24"
     cycle
     height="150"
     width="150"
     hide-delimiter-background
     show-arrows-on-hover
     class="shadow-md"
+    :rounded="rounded"
+    delimiter-icon="mdi-minus"
   >
     <v-carousel-item
       v-for="(slide, i) in slides"
       :key="i"
+      :src=slide
+      
     >
-      <v-sheet
-        :color="colors[i]"
-        height="100%"
-      >
-        <v-row
-          class="fill-height"
-          align="center"
-          justify="center"
-        >
-          <div class="display-3">
-            {{ slide }} Slide
-          </div>
-        </v-row>
-      </v-sheet>
+
     </v-carousel-item>
   </v-carousel>
   
@@ -45,11 +37,11 @@
           'deep-purple accent-4',
         ],
         slides: [
-          'First',
-          'Second',
-          'Third',
-          'Fourth',
-          'Fifth',
+          'http://ternakmart.id/ternakmart_api/public/carousel/cr1.jpeg',
+          'http://ternakmart.id/ternakmart_api/public/carousel/cr2.jpeg',
+          'http://ternakmart.id/ternakmart_api/public/carousel/cr3.jpeg',
+          'http://ternakmart.id/ternakmart_api/public/carousel/cr4.jpeg',
+          'http://ternakmart.id/ternakmart_api/public/carousel/cr5.jpeg',
         ],
     }),
   }

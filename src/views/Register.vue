@@ -86,7 +86,6 @@ export default {
             email: "",
             password: "",
             password_confirmation: "",
-            role:""
         }
     },
     computed: {
@@ -109,17 +108,10 @@ export default {
                     email: this.email,
                     password: this.password,
                     password_confirmation: this.password_confirmation,
-                    role:"user"
+                    role_id:4,
+                    user_st:"Aktif"
                 })
-                .then((response) => {
-                    this.$toast.success(response.message, {
-                        type: "success",
-                        position: "top-right",
-                        duration: 3000,
-                        dismissible: true,
-                    });
-                    this.$router.push({ name: "login" })
-                });
+                .then(() => this.$router.push({ name: "home" }));
         }
     }
 };

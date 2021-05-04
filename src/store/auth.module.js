@@ -34,7 +34,7 @@ const actions = {
           resolve(data);
         })
         .catch(({ response }) => {
-          context.commit(SET_ERROR, response.data);
+          context.commit(SET_ERROR, response);
         });
     });
   },

@@ -183,6 +183,7 @@ export default {
     },
     setProfile(data) {
       this.profile = data;
+      console.log(this.ternaks);
     },
   },
   mounted() {
