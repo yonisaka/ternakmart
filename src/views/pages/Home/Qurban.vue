@@ -58,7 +58,7 @@
     </v-row>
 
     
-    <div class="text-center">
+    <div class="text-center mt-4">
     <v-pagination
       v-model="page"
       :length="ternaks.length"
