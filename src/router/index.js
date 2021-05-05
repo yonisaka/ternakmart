@@ -60,8 +60,8 @@ const router = new Router({
       }
     },
     {
-      path: '/detail/payment',
-      name: 'detail_payment',
+      path: '/payment/:id',
+      name: 'payment',
       components: {
         default: () => import("@/views/pages/Home/Payment"),
       }
