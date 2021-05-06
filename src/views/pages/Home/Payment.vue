@@ -4,74 +4,69 @@
         <v-container fluid fill-height>
             <v-layout align-center justify-center>
                 <v-flex xs12 sm12 md12>
-                    <v-row>
+                    
+                    <v-row class="mt-12">
                         <v-col cols="12">
-                            <v-card class="elevation-2 mt-15" >
-                                <v-card-text>
-                                    <span class="subtitle font-weight-bold"
-                                    > Total Pembayaran </span> <br>
-                                    <span class="title font-weight-bold">
+                            <v-card>
+                        
+
+                        <v-card-text>
+                            <h3 class="subtitle font-weight-bold"
+                                    > Detail Pemesanan </h3>
+                          <table class="table">
+                            <tbody>
+                              <tr>
+                                <td>Nama Ternak</td>
+                                <td> : </td>
+                                <td>{{data.ternak_nama}}</td>
+                              </tr>
+                              <tr>
+                                <td>Harga</td>
+                                <td> : </td>
+                                <td>{{data.ternak_harga}}</td>
+                              </tr>
+                              <tr>
+                                <td>Penerima</td>
+                                <td> : </td>
+                                <td>{{JSON.parse(data.transaksi_alamat).name}}</td>
+                              </tr>
+                              <tr>
+                                <td>Detail Alamat</td>
+                                <td> : </td>
+                                <td>{{JSON.parse(data.transaksi_alamat).alamat}}, 
+                                    {{JSON.parse(data.transaksi_alamat).detail_alamat}}
+                                  </td>
+                              </tr>
+                              <tr>
+                                <td>Note</td>
+                                <td> : </td>
+                                <td>{{JSON.parse(data.transaksi_alamat).note}}</td>
+                              </tr>
+                            </tbody>
+                            </table>
+                        </v-card-text>
+                        <v-divider class="mx-4"></v-divider>
+                        <v-card-actions>
+                          <v-spacer></v-spacer>
+                          <span class="subtitle font-weight ml-auto mr-3"
+                                    > Total Pembayaran</span>
+                                    <span class="subtitle font-weight-bold ml-auto mr-3">
                                         Rp {{formatPrice(data.ternak_harga)}}
                                     </span>
-                                </v-card-text>
-                            </v-card>
+                                    
+                        </v-card-actions>
+                        <v-btn
+                          color="orange lighten-2"
+                          dark
+                          v-on:click="testPay()"
+                          class="mb-3 ml-3"
+                        >
+                            Cek Payment
+                        </v-btn>
+                      </v-card>
                         </v-col>
                     </v-row>
-                    <v-row>
-                        <v-col cols="12">
-                            <v-card class="elevation-2 mt-1" >
-                                <v-card-text>
-                                    <span class="subtitle font-weight-bold"
-                                    > Pilih Metode Pembayaran </span>
-                                    <v-list flat>
-                                        <v-radio-group v-model="selectedPayment">
-                                        <v-list-item-group
-                                        >
-                                            <v-list-item>
-                                            <v-list-item-avatar>
-                                            <v-avatar
-                                                size="32px"
-                                                tile>
-                                                <img
-                                                src="icon/cash.png"
-                                                >
-                                            </v-avatar>
-                                            </v-list-item-avatar>
-                                            <v-list-item-content>
-                                                <v-list-item-title >Tunai</v-list-item-title>
-                                            </v-list-item-content>
-                                            <v-radio
-                                                value="tunai"
-                                            ></v-radio>
-                                            </v-list-item>
-                                            
-
-                                            <v-list-item>
-                                            <v-list-item-avatar>
-                                            <v-avatar
-                                                size="32px"
-                                                >
-                                                <img
-                                                src="icon/bca.png"
-                                                >
-                                            </v-avatar>
-                                            </v-list-item-avatar>
-                                            <v-list-item-content>
-                                                <v-list-item-title >Bank Transfer</v-list-item-title>
-                                            </v-list-item-content>
-                                            <v-radio
-                                                value="bank"
-                                            ></v-radio>
-
-                                            </v-list-item>
-                                        </v-list-item-group>
-                                        </v-radio-group>
-                                        </v-list>
-                                </v-card-text>
-                            </v-card>
-                        </v-col>
-                    </v-row>
-                    <v-row>
+                    <!-- <v-row>
                         <v-btn
                           color="orange lighten-2"
                           dark
@@ -80,17 +75,7 @@
                         >
                           Konfirmasi dan Buat Pesanan
                         </v-btn>
-                    </v-row>
-                    <v-row class="mt-8">
-                        <v-btn
-                          color="orange lighten-2"
-                          dark
-                          v-on:click="testPay()"
-                          class="ml-auto mr-3"
-                        >
-                            Cek Payment
-                        </v-btn>
-                    </v-row>
+                    </v-row> -->
                 </v-flex>
             </v-layout>
         </v-container>
@@ -115,28 +100,21 @@ export default {
         data:{},
         selectedPayment:null,
         radios: null,
-        parameter: {
-            "transaction_details": {
-                "order_id": "ORDER-FAKE-01",
-                "gross_amount": 10000
-            },
-            "credit_card":{
-                "secure" : true
-            },
-            "customer_details": {
-                "first_name": "Bowo",
-                "last_name": "pratama",
-                "email": "budi.pra@example.com",
-                "phone": "08111222333"
-            }
-        },
+        parameter: {},
+        token:"",
+        profile: [],
     }),
 
     methods:{
     setData(data) {
     this.data = data;
-    console.log(this.data);
+    console.log(this.data)
     },
+
+    setProfile(data) {
+      this.profile = data;
+      console.log(this.profile)
+    },  
 
     formatPrice(value) {
         let val = (value/1).toFixed(0).replace('.', ',')
@@ -155,18 +133,26 @@ export default {
     },
 
     testPay(){
+        this.parameter.order_id = this.data.id;
+        this.parameter.gross_amount = this.data.ternak_harga;
+        this.parameter.name = this.profile.name;
+        this.parameter.email = this.profile.email;
+        this.parameter.order_id = this.data.id;
+        this.parameter.order_id = this.data.id;
+
+        axios
+            .post("http://ternakmart.id/ternakmart_api/public/api/transaksi_getToken",  this.parameter)
+            .then((response) => {
+                window.snap.pay(response.data.token);
+                console.log(response)
+            })
         
-            // window.snap.pay(transactionToken);
-            // console.log('test')
+        console.log(this.parameter.customer_details)
     },
 
   },
   mounted() {
-      axios
-            .post("http://ternakmart.id/ternakmart_api/public/api/transaksi/getToken",  this.parameter)
-            .then((response) => {
-                console.log(response)
-            })
+      this.setProfile(this.$store.state.auth.user)
             
       //change this to the script source you want to load, for example this is snap.js sandbox env
         const midtransScriptUrl = 'https://app.sandbox.midtrans.com/snap/snap.js'; 
@@ -186,7 +172,10 @@ export default {
 
     axios
       .get("http://ternakmart.id/ternakmart_api/public/api/transaksi/"+this.$route.params.id+"/detail")
-      .then((response) => this.setData(response.data.cart))
+      .then((response) => {
+          this.setData(response.data.cart)
+          
+      })
       .catch((error) => console.log(error));
 
     
