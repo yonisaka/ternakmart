@@ -12,6 +12,7 @@ import 'vue-toast-notification/dist/theme-default.css';
 import { CHECK_AUTH } from "./store/actions.type";
 import ApiService from "./common/api.service";
 
+
 Vue.config.productionTip = false
 // Vue.use(Argon);
 Vue.use(VueToast);

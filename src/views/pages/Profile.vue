@@ -125,7 +125,7 @@ export default {
       console.log(this.$store.state.auth.user);
 
       axios
-      .get("http://ternakmart.id/ternakmart_api/public/api/transaksi/"+this.$store.state.auth.user.id)
+      .get("http://ternakmart.id/ternakmart_api/public/api/transaksi/"+this.$store.state.auth.user.id+"/waiting")
       .then((response) => this.setCarts(response.data.cart))
       .catch((error) => console.log(error));
   
