@@ -81,15 +81,27 @@
                           Konfirmasi dan Buat Pesanan
                         </v-btn>
                     </v-row>
+                    <v-row class="mt-8">
+                        <v-btn
+                          color="orange lighten-2"
+                          dark
+                          v-on:click="testPay()"
+                          class="ml-auto mr-3"
+                        >
+                            Cek Payment
+                        </v-btn>
+                    </v-row>
                 </v-flex>
             </v-layout>
         </v-container>
     </div>
 </template>
 
+
 <script>
 import AppBar from '@/components/AppBar.vue';
 import axios from 'axios';
+
 
 export default {
     components: {
@@ -103,6 +115,21 @@ export default {
         data:{},
         selectedPayment:null,
         radios: null,
+        parameter: {
+            "transaction_details": {
+                "order_id": "ORDER-FAKE-01",
+                "gross_amount": 10000
+            },
+            "credit_card":{
+                "secure" : true
+            },
+            "customer_details": {
+                "first_name": "Bowo",
+                "last_name": "pratama",
+                "email": "budi.pra@example.com",
+                "phone": "08111222333"
+            }
+        },
     }),
 
     methods:{
@@ -125,14 +152,45 @@ export default {
 
       })
       .catch((error) => console.log(error));
-    }
+    },
+
+    testPay(){
+        
+            // window.snap.pay(transactionToken);
+            // console.log('test')
+    },
+
   },
   mounted() {
-    
+      axios
+            .post("http://ternakmart.id/ternakmart_api/public/api/transaksi/getToken",  this.parameter)
+            .then((response) => {
+                console.log(response)
+            })
+            
+      //change this to the script source you want to load, for example this is snap.js sandbox env
+        const midtransScriptUrl = 'https://app.sandbox.midtrans.com/snap/snap.js'; 
+        //change this according to your client-key
+        const myMidtransClientKey = 'SB-Mid-client-oFw30zXYyh5KvFiA'; 
+
+        let scriptTag = document.createElement('script');
+        scriptTag.src = midtransScriptUrl;
+        // optional if you want to set script attribute
+        // for example snap.js have data-client-key attribute
+        scriptTag.setAttribute('data-client-key', myMidtransClientKey);
+
+        document.body.appendChild(scriptTag);
+        return () => {
+        document.body.removeChild(scriptTag);
+        },
+
     axios
       .get("http://ternakmart.id/ternakmart_api/public/api/transaksi/"+this.$route.params.id+"/detail")
       .then((response) => this.setData(response.data.cart))
       .catch((error) => console.log(error));
+
+    
+
   },
 }
 </script>
