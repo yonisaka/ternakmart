@@ -61,7 +61,7 @@
                           v-on:click="testPay()"
                           class="mb-3 ml-3"
                         >
-                            Cek Payment
+                            Bayar Sekarang
                         </v-btn>
                       </v-card>
                         </v-col>
@@ -133,21 +133,22 @@ export default {
     },
 
     testPay(){
-        this.parameter.order_id = this.data.id;
-        this.parameter.gross_amount = this.data.ternak_harga;
-        this.parameter.name = this.profile.name;
-        this.parameter.email = this.profile.email;
-        this.parameter.order_id = this.data.id;
-        this.parameter.order_id = this.data.id;
+        // this.parameter.order_id = this.data.id;
+        // this.parameter.gross_amount = this.data.ternak_harga;
+        // this.parameter.name = this.profile.name;
+        // this.parameter.email = this.profile.email;
+        // this.parameter.order_id = this.data.id;
 
-        axios
-            .post("http://ternakmart.id/ternakmart_api/public/api/transaksi_getToken",  this.parameter)
-            .then((response) => {
-                window.snap.pay(response.data.token);
-                console.log(response)
-            })
+        // axios
+        //     .post("http://ternakmart.id/ternakmart_api/public/api/transaksi_getToken",  this.parameter)
+        //     .then((response) => {
+        //         window.snap.pay(response.data.token);
+        //         console.log(response)
+        //     })
         
-        console.log(this.parameter.customer_details)
+        // console.log(this.parameter.customer_details)
+
+        window.snap.pay(this.data.transaksi_token);
     },
 
   },

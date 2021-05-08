@@ -28,6 +28,17 @@
         <v-badge
         overlap
         color="#139CA4"
+        v-if="(updateCart ? updateCart.length : jumlah_cart.length)==0"
+          :content="updateCart ? updateCart.length : jumlah_cart.length"
+          bordered
+          :value=false
+        >
+        <v-icon>mdi-cart</v-icon>
+        </v-badge>
+        <v-badge
+        overlap
+        color="#139CA4"
+        v-else
           :content="updateCart ? updateCart.length : jumlah_cart.length"
           bordered
         >
@@ -78,7 +89,7 @@ export default {
     },
     mounted() {
     axios
-      .get("http://ternakmart.id/ternakmart_api/public/api/transaksi/"+this.$store.state.auth.user.id)
+      .get("http://ternakmart.id/ternakmart_api/public/api/transaksi/"+this.$store.state.auth.user.id+"/cart")
       .then((response) => this.setJumlah(response.data.cart))
       .catch((error) => console.log(error));
   },
