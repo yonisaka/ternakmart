@@ -8,7 +8,7 @@
   </div>
     
       <v-container class="mb-12">
-        <div class="wrapper "><subtitle style="color:white">Selamat Datang, </subtitle>
+        <div class="wrapper "><h4 style="color:white">Selamat Datang, </h4>
         <h4 style="color:white">{{profile.name}}</h4>
     <v-row no-gutters height="100">
           <v-col>

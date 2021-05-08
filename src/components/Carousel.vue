@@ -1,25 +1,29 @@
 <template>
+<v-card
+    elevation="12"
+    class="mx-auto"
+  >
     <v-carousel
-    elevation="24"
     cycle
-    height="150"
-    width="150"
+    height="150px"
     hide-delimiter-background
     show-arrows-on-hover
     class="shadow-md"
-    :rounded="rounded"
     delimiter-icon="mdi-minus"
   >
     <v-carousel-item
       v-for="(slide, i) in slides"
       :key="i"
-      :src=slide
       
     >
-
+    <v-img :src=slide
+    width="100%"
+    height="100%"></v-img>
     </v-carousel-item>
   </v-carousel>
   
+  </v-card>
+    
 </template>
 
 

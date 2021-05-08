@@ -90,41 +90,69 @@ export default {
             },
             ternak:{},
             alamat:{},
-            order:{}
+            order:{},
+            parameter:{},
+            profile:[]
         }
     },
     methods:{
+        setProfile(data) {
+        this.profile = data;
+        console.log(this.profile)
+        }, 
         setTernak(data) {
         this.ternak = data;
         console.log(this.ternak);
         },
         pemesanan() {
         
+        //set data ke tabel transaksi
         this.order.id_ternak = this.ternak.id;
         this.order.id_user =  this.$store.state.auth.user.id;
         this.order.ternak_harga = this.ternak.ternak_harga;  
         this.order.masa_perawatan = 12; //contoh
-        this.order.total_harga = 1444455;
+        this.order.total_harga = 80*this.ternak.ternak_harga;
         this.order.transaksi_st = "cart";
         this.order.transaksi_alamat = JSON.stringify(this.alamat);
+        this.order.order_id = "ORDER-"+(new Date().getTime());
 
-        console.log(this.order);
+        //set data parameter getToken
+        this.parameter.order_id = this.order.order_id;
+        this.parameter.gross_amount = this.order.total_harga;
+        this.parameter.name = this.profile.name;
+        this.parameter.email = this.profile.email;
+        this.parameter.phone = "089602015445";
+
+        
+
         axios
-          .post("http://ternakmart.id/ternakmart_api/public/api/transaksi", this.order)
-          .then(() => {
-            this.$router.push({ path: "/cart"})
-            this.$toast.success("Sukses Masuk Keranjang", {
-              type: "success",
-              position: "top-right",
-              duration: 3000,
-              dismissible: true,
-            });
-          })
-          .catch((err) => console.log(err));
+            .post("http://ternakmart.id/ternakmart_api/public/api/transaksi_getToken",  this.parameter)
+            .then((response) => {
+                // window.snap.pay(response.data.token);
+                // console.log(response)
+
+                this.order.transaksi_token = response.data.token;
+
+                axios
+                    .post("http://ternakmart.id/ternakmart_api/public/api/transaksi", this.order)
+                    .then(() => {
+                        this.$router.push({ path: "/cart"})
+                        this.$toast.success("Sukses Masuk Keranjang", {
+                        type: "success",
+                        position: "top-right",
+                        duration: 3000,
+                        dismissible: true,
+                        });
+                    })
+                    .catch((err) => console.log(err));
+
+            })
+    
      
     },
     },
     mounted() {
+        this.setProfile(this.$store.state.auth.user)
     axios
       .get("http://ternakmart.id/ternakmart_api/public/api/ternak/" + this.$route.params.id)
       .then((response) => this.setTernak(response.data.ternak))

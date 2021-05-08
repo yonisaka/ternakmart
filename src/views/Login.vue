@@ -16,8 +16,8 @@
                         Masuk <br> ke Akun Saya
                      </div>
                      <ul v-if="errors" class="red--text my-3">
-                        <li v-for="(v, k) in errors" :key="k"> {{ v[0] | error }}</li>
-                     </ul>
+                                <li v-for="(v, k) in errors" :key="k"> {{ v[0] | error }}</li>
+                            </ul>
                      <v-form @submit.prevent="onSubmit(email, password)" id="login">
                         <v-text-field
                            append-icon="mdi-gmail"
