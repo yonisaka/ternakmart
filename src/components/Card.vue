@@ -16,11 +16,13 @@
                     <v-skeleton-loader />
                     </v-sheet>
                 </template>
-                    <v-card-title>{{ ternak.ternak_nama }}</v-card-title>
+                    <!-- <v-card-title>{{ ternak.ternak_nama }}</v-card-title> -->
                 </v-img>
                 <v-card-text
                     align="left"
                 >
+                    <span class="font-weight-bold" > {{ ternak.ternak_nama }}</span> <br>
+                    <small style="color:#139CA4;">Dibawah Pengawasan {{ ternak.dokter_nama }}</small>
                     <v-rating
                     align="left"
                     :value="4.5"
@@ -30,9 +32,9 @@
                     readonly
                     size="14"
                     ></v-rating>
-                    <div class="subtitle font-weight-bold" color="#FF8F0B">
-                        <!-- Rp. 15.500.000 -->
-                        Rp. {{ formatPrice(ternak.ternak_harga) }}
+                    <div class="subtitle font-weight-bold">
+                        <span style="color:#fca311;">Rp. {{ formatPrice(ternak.ternak_harga) }}</span>
+                        <span>/ Kg</span>
                     </div>
 
                 </v-card-text>

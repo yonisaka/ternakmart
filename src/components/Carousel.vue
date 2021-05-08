@@ -5,7 +5,7 @@
   >
     <v-carousel
     cycle
-    height="150px"
+    height="auto"
     hide-delimiter-background
     show-arrows-on-hover
     class="shadow-md"
@@ -14,11 +14,10 @@
     <v-carousel-item
       v-for="(slide, i) in slides"
       :key="i"
-      
     >
     <v-img :src=slide
-    width="100%"
-    height="100%"></v-img>
+    aspect-ratio="2.5"
+    ></v-img>
     </v-carousel-item>
   </v-carousel>
   
