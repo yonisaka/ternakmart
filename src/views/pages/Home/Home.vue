@@ -172,17 +172,25 @@ export default {
         // timingFunction: 'ease', // Sliding mode
         // loop: false, // Infinite loop
         // autoplay: 0 // Auto play[ms]
-      }
+      },
+      search:''
     }
   },
   methods: {
+    // filter(){
+    //   if(this.search){
+    //     return this.ternaks.filter((item)=>{
+    //       return this.search.toLowerCase().split(' ').every(v => item.ternak_nama.toLowerCase().includes(v))
+    //     })
+    //   } else {
+    //     return this.ternaks;
+    //   }
+    // },
     setternaks(data) {
       this.ternaks = data;
-      console.log(this.ternaks);
     },
     setProfile(data) {
       this.profile = data;
-      console.log(this.ternaks);
     },
   },
   mounted() {

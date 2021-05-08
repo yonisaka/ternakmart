@@ -74,7 +74,18 @@ export default {
         onSubmit(email, password) {
         this.$store
             .dispatch(LOGIN, { email, password })
-            .then(() => this.$router.push({ name: "home" }));
+            .then((res) => {
+               if (res.user.role_id != '4'){
+                  this.$toast.success("Akun tidak tersedia", {
+                  type: "error",
+                  position: "top-right",
+                  duration: 3000,
+                  dismissible: true,
+                  });
+               } else {
+                  this.$router.push({ name: "home" })
+               }
+            });
         }
     },
     computed: {

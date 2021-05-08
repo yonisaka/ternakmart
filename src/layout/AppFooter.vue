@@ -8,7 +8,7 @@
         background-color="#139CA4"
         color="dark-grey"
         class="nav-bottom position"
-        fixed :active.sync="e3"
+        fixed
     >
         <v-btn :to="{ name: 'home' }">
         <span>Home</span>

@@ -39,25 +39,26 @@ width: 240px;
       flat
       
     >
-         <v-img
-            src="img/brand/ternakmart.png"
-            max-height="30"
-            max-width="30"
-            ></v-img>
-
-<v-spacer></v-spacer>
+        <v-img
+          src="img/brand/ternakmart.png"
+          max-height="30"
+          max-width="30"
+          
+          ></v-img>
+      <v-spacer></v-spacer>
       <v-text-field
             class="ml-2 mt-7"
             label="Cari"
             single-line
             solo
+            dense
             append-icon="mdi-magnify"
           ></v-text-field>
       <v-spacer></v-spacer>
 
-      <v-btn icon>
+      <!-- <v-btn icon>
         <v-icon>mdi-bell</v-icon>
-      </v-btn>
+      </v-btn> -->
 
       <v-menu
         left

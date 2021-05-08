@@ -17,6 +17,7 @@
             label="Cari"
             single-line
             solo
+            dense
             append-icon="mdi-magnify"
             color="#FFFFFF"
           ></v-text-field>
