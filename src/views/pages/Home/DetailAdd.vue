@@ -38,6 +38,17 @@
                                     type="text"
                                 >
                                 </v-text-field>
+                                <v-select
+                                :items="provinces"
+                                label="Provinsi"
+                                append-outer-icon="mdi-map"
+                                >
+                                </v-select>
+                                <v-select
+                                :items="cities"
+                                label="Kabupaten/Kota"
+                                append-outer-icon="mdi-map"
+                                ></v-select>
                             </v-form> 
                         </v-card-text>
                         <v-row>
@@ -92,7 +103,14 @@ export default {
             alamat:{},
             order:{},
             parameter:{},
-            profile:[]
+            profile:[],
+            cities:[],
+            city_id:[],
+            province_id:[],
+            provinces:[],
+            raw_id:[],
+            raw_name:[],
+            kota:[]
         }
     },
     methods:{
@@ -150,14 +168,38 @@ export default {
     
      
     },
+  
     },
     mounted() {
         this.setProfile(this.$store.state.auth.user)
+        //get data terbaj by id ternak
     axios
       .get("http://ternakmart.id/ternakmart_api/public/api/ternak/" + this.$route.params.id)
       .then((response) => this.setTernak(response.data.ternak))
       .catch((error) => console.log(error));
+
   },
+
+    created: async function () {
+     //get data provinsi dan kota
+    axios
+      .get("http://ternakmart.id/ternakmart_api/public/api/lokasi")
+      .then((response) => {
+            
+            for(let i=0; i<response.data.daftar_kota.length; i++){
+                this.city_id[i] =response.data.daftar_kota[i].city_id,
+                this.cities[i] =response.data.daftar_kota[i].city_name,
+                this.raw_id[i] = response.data.daftar_kota[i].province_id,
+                this.raw_name[i] = response.data.daftar_kota[i].province
+            }
+
+            this.province_id = [...new Set(this.raw_id)];
+            this.provinces = [...new Set(this.raw_name)];
+            this.cities = [...new Set(this.cities)];
+            console.log(response.data.daftar_kota)
+      })
+      .catch((error) => console.log(error));
+  }
 }
 </script>
 <style scoped>
