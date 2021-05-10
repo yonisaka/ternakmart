@@ -45,9 +45,21 @@
                                 >
                                 </v-select>
                                 <v-select
-                                :items="cities"
+                                :items="kota"
+                                item-text="city_nama"
+                                item-value="id"
                                 label="Kabupaten/Kota"
                                 append-outer-icon="mdi-map"
+                                ></v-select>
+                                <v-select
+                                item-text="city_name"
+                                item-value="id"
+                                :items="kota"
+                                color="teal"
+                                label="Kelamin"
+                                outlined
+                                dense
+                                required
                                 ></v-select>
                             </v-form> 
                         </v-card-text>
@@ -110,7 +122,26 @@ export default {
             provinces:[],
             raw_id:[],
             raw_name:[],
-            kota:[]
+            kota:[
+                // {
+                //     'city_name' : 'Pilih golongan terlebih dahulu',
+                //     'id' : ''
+                // } 
+                // {
+                //     text: 'Jantan',
+                //     value: 'J',
+                // }
+            ],
+            jenis_kelamin: [
+                { 
+                    text: 'Betina',
+                    value: 'B',
+                }, 
+                {
+                    text: 'Jantan',
+                    value: 'J',
+                }
+            ],
         }
     },
     methods:{
@@ -165,10 +196,7 @@ export default {
                     .catch((err) => console.log(err));
 
             })
-    
-     
-    },
-  
+        },
     },
     mounted() {
         this.setProfile(this.$store.state.auth.user)
@@ -178,29 +206,32 @@ export default {
       .then((response) => this.setTernak(response.data.ternak))
       .catch((error) => console.log(error));
 
+    
   },
 
-    created: async function () {
+    created: function () {
      //get data provinsi dan kota
     axios
       .get("http://ternakmart.id/ternakmart_api/public/api/lokasi")
       .then((response) => {
             
             for(let i=0; i<response.data.daftar_kota.length; i++){
-                this.city_id[i] =response.data.daftar_kota[i].city_id,
-                this.cities[i] =response.data.daftar_kota[i].city_name,
-                this.raw_id[i] = response.data.daftar_kota[i].province_id,
-                this.raw_name[i] = response.data.daftar_kota[i].province
+                this.kota[i]={
+                    city_name: response.data.daftar_kota[i].city_name,
+                    id: response.data.daftar_kota[i].city_id,
+                }
             }
 
             this.province_id = [...new Set(this.raw_id)];
             this.provinces = [...new Set(this.raw_name)];
             this.cities = [...new Set(this.cities)];
-            console.log(response.data.daftar_kota)
+            this.kota = [...new Set(this.kota)];
+            console.log(this.kota)
       })
       .catch((error) => console.log(error));
+    }
   }
-}
+
 </script>
 <style scoped>
 
