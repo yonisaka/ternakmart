@@ -34,7 +34,7 @@
                 <v-card-actions>
                   <div class="text-center">
                     <v-dialog
-                      v-model="dialog"
+                      
                       width="500"
                     >
                       <template v-slot:activator="{ on, attrs }">
@@ -103,13 +103,7 @@
 
                         <v-card-actions>
                           <v-spacer></v-spacer>
-                          <!-- <v-btn
-                            color="primary"
-                            text
-                            @click="dialog = false"
-                          >
-                            I accept
-                          </v-btn> -->
+                          
                           <v-btn
                           color="orange lighten-2"
                           dark

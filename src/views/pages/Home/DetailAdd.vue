@@ -18,19 +18,30 @@
                                 >
                                 </v-text-field>
                                 <v-text-field
-                                    append-icon="mdi-map"
-                                    v-model="alamat.alamat"
-                                    label="Address"
-                                    type="text"
-                                >
-                                </v-text-field>
-                                <v-text-field
                                     append-icon="mdi-map-marker"
-                                    v-model="alamat.detail_alamat"
-                                    label="Detail Address"
+                                    v-model="alamat.alamat"
+                                    label="Alamat"
                                     type="text"
                                 >
                                 </v-text-field>
+                                <v-select
+                                v-model="alamat.selectedProv"
+                                :items="provinces"
+                                item-text="province"
+                                item-value="province_id"
+                                label="Provinsi"
+                                append-outer-icon="mdi-map"
+                                @change="getkotabyidProv"
+                                >
+                                </v-select>
+                                <v-select
+                                v-model="alamat.selectedCity"
+                                :items="cities"
+                                item-text="city_name"
+                                item-value="city_id"
+                                label="Kabupaten/Kota"
+                                append-outer-icon="mdi-map"
+                                ></v-select>
                                 <v-text-field
                                     append-icon="mdi-note"
                                     v-model="alamat.note"
@@ -38,17 +49,7 @@
                                     type="text"
                                 >
                                 </v-text-field>
-                                <v-select
-                                :items="provinces"
-                                label="Provinsi"
-                                append-outer-icon="mdi-map"
-                                >
-                                </v-select>
-                                <v-select
-                                :items="cities"
-                                label="Kabupaten/Kota"
-                                append-outer-icon="mdi-map"
-                                ></v-select>
+                                
                             </v-form> 
                         </v-card-text>
                         <v-row>
@@ -105,22 +106,16 @@ export default {
             parameter:{},
             profile:[],
             cities:[],
-            city_id:[],
-            province_id:[],
             provinces:[],
-            raw_id:[],
-            raw_name:[],
-            kota:[]
+            costData:{}
         }
     },
     methods:{
         setProfile(data) {
         this.profile = data;
-        console.log(this.profile)
         }, 
         setTernak(data) {
         this.ternak = data;
-        console.log(this.ternak);
         },
         pemesanan() {
         
@@ -133,6 +128,8 @@ export default {
         this.order.transaksi_st = "cart";
         this.order.transaksi_alamat = JSON.stringify(this.alamat);
         this.order.order_id = "ORDER-"+(new Date().getTime());
+        this.order.origin_id = this.ternak.city_id;
+        this.order.destination_id = 472;
 
         //set data parameter getToken
         this.parameter.order_id = this.order.order_id;
@@ -141,34 +138,55 @@ export default {
         this.parameter.email = this.profile.email;
         this.parameter.phone = "089602015445";
 
+        // set data parameter ger Cost Rajaognkri
+        this.costData.origin = this.ternak.city_id;
+        this.costData.destination = this.order.destination_id;
+        this.costData.weight = 800;
+        this.costData.courier = "jne";
+
+        console.log(this.costData)
+
         
 
-        axios
-            .post("http://ternakmart.id/ternakmart_api/public/api/transaksi_getToken",  this.parameter)
-            .then((response) => {
-                // window.snap.pay(response.data.token);
-                // console.log(response)
+                // axios
+                //     .post("http://ternakmart.id/ternakmart_api/public/api/transaksi", this.order)
+                //     .then(() => {
+                //         this.$router.push({ path: "/cart"})
+                //         this.$toast.success("Sukses Masuk Keranjang", {
+                //         type: "success",
+                //         position: "top-right",
+                //         duration: 3000,
+                //         dismissible: true,
+                //         });
+                //     })
+                //     .catch((err) => console.log(err));
 
-                this.order.transaksi_token = response.data.token;
-
-                axios
-                    .post("http://ternakmart.id/ternakmart_api/public/api/transaksi", this.order)
-                    .then(() => {
-                        this.$router.push({ path: "/cart"})
-                        this.$toast.success("Sukses Masuk Keranjang", {
-                        type: "success",
-                        position: "top-right",
-                        duration: 3000,
-                        dismissible: true,
-                        });
+            var instance = axios.create();
+            delete instance.defaults.headers.common['Authorization'];
+                instance.post("https://api.rajaongkir.com/starter/cost",  
+                    {
+                        headers: {
+                        'content-type': 'application/x-www-form-urlencoded',
+                        'key': 'acbbd724a63c95cde3c321e1edafee7c',
+                        },
+                        data:this.costData
                     })
-                    .catch((err) => console.log(err));
+                    .then(() => {
+                        console.log(this.costData)
+                        });
 
+        },
+
+        getkotabyidProv(){
+            //get data kota
+            axios
+            .get("http://ternakmart.id/ternakmart_api/public/api/lokasi/kota/"+this.alamat.selectedProv)
+            .then((response) => {
+                    this.cities = response.data.kota
+                    console.log(this.cities)
             })
-    
-     
-    },
-  
+            .catch((error) => console.log(error));
+                }
     },
     mounted() {
         this.setProfile(this.$store.state.auth.user)
@@ -178,29 +196,20 @@ export default {
       .then((response) => this.setTernak(response.data.ternak))
       .catch((error) => console.log(error));
 
+    
   },
 
-    created: async function () {
-     //get data provinsi dan kota
+    created: function () {
+     //get data provinsi
     axios
-      .get("http://ternakmart.id/ternakmart_api/public/api/lokasi")
+      .get("http://ternakmart.id/ternakmart_api/public/api/lokasi/provinsi")
       .then((response) => {
-            
-            for(let i=0; i<response.data.daftar_kota.length; i++){
-                this.city_id[i] =response.data.daftar_kota[i].city_id,
-                this.cities[i] =response.data.daftar_kota[i].city_name,
-                this.raw_id[i] = response.data.daftar_kota[i].province_id,
-                this.raw_name[i] = response.data.daftar_kota[i].province
-            }
-
-            this.province_id = [...new Set(this.raw_id)];
-            this.provinces = [...new Set(this.raw_name)];
-            this.cities = [...new Set(this.cities)];
-            console.log(response.data.daftar_kota)
+            this.provinces = response.data.provinsi
       })
       .catch((error) => console.log(error));
+    }
   }
-}
+
 </script>
 <style scoped>
 
