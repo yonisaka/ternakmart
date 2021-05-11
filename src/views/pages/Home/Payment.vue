@@ -66,16 +66,6 @@
                       </v-card>
                         </v-col>
                     </v-row>
-                    <!-- <v-row>
-                        <v-btn
-                          color="orange lighten-2"
-                          dark
-                          v-on:click="addBilling()"
-                          class="ml-auto mr-3"
-                        >
-                          Konfirmasi dan Buat Pesanan
-                        </v-btn>
-                    </v-row> -->
                 </v-flex>
             </v-layout>
         </v-container>
@@ -121,34 +111,22 @@ export default {
         return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
     },
 
-    addBilling(){
-        axios
-            .put("http://ternakmart.id/ternakmart_api/public/api/transaksi/"+this.$route.params.id+"/billing")
-            .then(() => {
-          
-              this.$router.push({ path: "/"})
-
-      })
-      .catch((error) => console.log(error));
-    },
-
     testPay(){
-        // this.parameter.order_id = this.data.id;
-        // this.parameter.gross_amount = this.data.ternak_harga;
-        // this.parameter.name = this.profile.name;
-        // this.parameter.email = this.profile.email;
-        // this.parameter.order_id = this.data.id;
+        this.parameter.order_id = this.data.order_id;
+        this.parameter.gross_amount = this.data.ternak_harga;
+        this.parameter.name = this.profile.name;
+        this.parameter.email = this.profile.email;
 
-        // axios
-        //     .post("http://ternakmart.id/ternakmart_api/public/api/transaksi_getToken",  this.parameter)
-        //     .then((response) => {
-        //         window.snap.pay(response.data.token);
-        //         console.log(response)
-        //     })
+        axios
+            .post("http://ternakmart.id/ternakmart_api/public/api/transaksi_getToken",  this.parameter)
+            .then((response) => {
+                window.snap.pay(response.data.token);
+                console.log(response)
+            })
         
         // console.log(this.parameter.customer_details)
 
-        window.snap.pay(this.data.transaksi_token);
+        // window.snap.pay(this.data.transaksi_token);
     },
 
   },
