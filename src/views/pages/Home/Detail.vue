@@ -164,8 +164,7 @@ export default {
   },
   methods:{
     setData(data) {
-    this.data = data;
-    console.log(this.data);
+        this.data = data;
     },
     formatPrice(value) {
                 let val = (value/1).toFixed(0).replace('.', ',')
