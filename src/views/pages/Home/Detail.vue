@@ -71,7 +71,7 @@
             <v-row>
                 <v-col>
                     <div class=" text-center">
-                        <span style="color:#139CA4;">Dibawah pengawasan {{data.nama_lengkap}}</span>
+                        <span style="color:#139CA4;">Dibawah pengawasan {{data.dokter_nama}}</span>
                     </div>
                 </v-col>
             </v-row>
@@ -96,6 +96,8 @@
                             <div class="subtitle font-weight-bold">
                                 Kesehatan Ternak
                             </div>
+
+                            {{data.verifikasi_note}}
                         </v-card-text>
                         <v-card-title>
                             
@@ -172,7 +174,7 @@ export default {
   },
   mounted() {
     axios
-      .get("http://ternakmart.id/ternakmart_api/public/api/ternak/" + this.$route.params.id)
+      .get("ternak/" + this.$route.params.id)
       .then((response) => this.setData(response.data.ternak))
       .catch((error) => console.log(error));
   },

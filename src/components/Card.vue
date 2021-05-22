@@ -22,7 +22,7 @@
                     align="left"
                 >
                     <span class="font-weight-bold" > {{ ternak.ternak_nama }}</span> <br>
-                    <small style="color:#139CA4;">Dibawah Pengawasan {{ ternak.dokter_nama }}</small>
+                    <small style="color:#139CA4;">Dibawah Pengawasan <br/> {{ ternak.dokter_nama }}</small>
                     <v-rating
                     align="left"
                     :value="4.5"

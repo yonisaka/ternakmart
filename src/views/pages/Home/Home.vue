@@ -197,8 +197,10 @@ export default {
     // console.log(this.$cookie.get('user'));
     this.setProfile(this.$store.state.auth.user)
     axios
-      .get("http://ternakmart.id/ternakmart_api/public/api/ternak")
-      .then((response) => this.setternaks(response.data.ternak))
+      .get("ternak")
+      .then((response) => this.setternaks(response.data.ternak.filter(ternak => {
+            return ternak.ternak_st == '1'
+        })))
       .catch((error) => console.log(error))
   },
   inject: {
