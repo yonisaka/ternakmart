@@ -12,20 +12,13 @@
                             <v-form @submit.prevent="pemesanan" id="register">
                                 <v-text-field
                                     append-icon="mdi-account"
-                                    v-model="alamat.name"
-                                    label="Nama Lengkap"
-                                    type="text"
-                                >
-                                </v-text-field>
-                                <v-text-field
-                                    append-icon="mdi-map-marker"
-                                    v-model="alamat.alamat"
-                                    label="Alamat"
+                                    v-model="order.nama_penerima"
+                                    label="Nama Penerima"
                                     type="text"
                                 >
                                 </v-text-field>
                                 <v-select
-                                v-model="alamat.selectedProv"
+                                v-model="order.province_id"
                                 :items="provinces"
                                 item-text="province"
                                 item-value="province_id"
@@ -35,21 +28,36 @@
                                 >
                                 </v-select>
                                 <v-select
-                                v-model="alamat.selectedCity"
+                                v-model="order.city_id"
                                 :items="cities"
                                 item-text="city_name"
                                 item-value="city_id"
                                 label="Kabupaten/Kota"
                                 append-outer-icon="mdi-map"
+                                @change="gethargaOngkir"
                                 ></v-select>
                                 <v-text-field
+                                    append-icon="mdi-map-marker"
+                                    v-model="order.detail_alamat"
+                                    label="Alamat"
+                                    type="text"
+                                >
+                                </v-text-field>
+                                <v-text-field
                                     append-icon="mdi-note"
-                                    v-model="alamat.note"
+                                    v-model="order.transaksi_note"
                                     label="Note to Driver"
                                     type="text"
                                 >
                                 </v-text-field>
-                                
+                                <v-text-field
+                                    append-icon="mdi-dollar"
+                                    v-model="harga_ongkir"
+                                    label="Harga Ongkir"
+                                    type="text"
+                                    readonly
+                                >
+                                </v-text-field>
                             </v-form> 
                         </v-card-text>
                         <v-row>
@@ -101,13 +109,15 @@ export default {
                 title: 'Add Address',
             },
             ternak:{},
-            alamat:{},
+            // alamat:{},
             order:{},
             parameter:{},
             profile:[],
             cities:[],
             provinces:[],
-            costData:{}
+            costData:{},
+            distance: '',
+            harga_ongkir: ''
         }
     },
     methods:{
@@ -126,11 +136,13 @@ export default {
         this.order.masa_perawatan = 12; //contoh
         this.order.total_harga = 80*this.ternak.ternak_harga;
         this.order.transaksi_st = "cart";
-        this.order.transaksi_alamat = JSON.stringify(this.alamat);
+        // this.order.transaksi_alamat = JSON.stringify(this.alamat);
         this.order.order_id = "ORDER-"+(new Date().getTime());
         this.order.origin_id = this.ternak.city_id;
         this.order.destination_id = 472;
-
+        // ongkir
+        this.order.distance = this.distance;
+        this.order.harga_ongkir = this.harga_ongkir;
         //set data parameter getToken
         this.parameter.order_id = this.order.order_id;
         this.parameter.gross_amount = this.order.total_harga;
@@ -146,7 +158,7 @@ export default {
 
         console.log(this.costData)
                 axios
-                    .post("http://ternakmart.id/ternakmart_api/public/api/transaksi", this.order)
+                    .post("transaksi", this.order)
                     .then(() => {
                         this.$router.push({ path: "/cart"})
                         this.$toast.success("Sukses Masuk Keranjang", {
@@ -173,23 +185,42 @@ export default {
             //             });
 
         },
-
         getkotabyidProv(){
             //get data kota
             axios
-            .get("http://ternakmart.id/ternakmart_api/public/api/lokasi/kota/"+this.alamat.selectedProv)
+            .get("lokasi/kota/"+this.order.province_id)
             .then((response) => {
-                    this.cities = response.data.kota
-                    console.log(this.cities)
+                this.cities = response.data.kota
             })
             .catch((error) => console.log(error));
-                }
+        },
+        gethargaOngkir(){
+            //get data kota
+            axios
+            .get("lokasi/kota/"+this.order.city_id+"/detail")
+            .then((response) => {
+                let start_point = (response.data.kota.latitude + "," + response.data.kota.longitude)
+                let end_point = (this.ternak.latitude + "," + this.ternak.longitude)
+                
+                axios.get("https://distance-calculator.p.rapidapi.com/v1/one_to_one?start_point="+start_point+"&end_point="+end_point+"&unit=kilometers", {
+                    headers: {
+                        'x-rapidapi-key': '38066ec1d5msh0c6db7b7abef6cap10f235jsn47d20ec77887',
+                        'x-rapidapi-host': 'distance-calculator.p.rapidapi.com',
+                        'useQueryString': 'true'
+                    }
+                }).then((res) => {
+                    this.distance = Math.round(res.data.distance)
+                    this.harga_ongkir = Math.round(res.data.distance)*5620
+                })
+            })
+            .catch((error) => console.log(error));
+        }
     },
     mounted() {
         this.setProfile(this.$store.state.auth.user)
         //get data terbaj by id ternak
     axios
-      .get("http://ternakmart.id/ternakmart_api/public/api/ternak/" + this.$route.params.id)
+      .get("ternak/" + this.$route.params.id)
       .then((response) => this.setTernak(response.data.ternak))
       .catch((error) => console.log(error));
 
@@ -199,7 +230,7 @@ export default {
     created: function () {
      //get data provinsi
     axios
-      .get("http://ternakmart.id/ternakmart_api/public/api/lokasi/provinsi")
+      .get("lokasi/provinsi")
       .then((response) => {
             this.provinces = response.data.provinsi
       })

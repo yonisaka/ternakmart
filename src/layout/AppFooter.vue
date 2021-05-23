@@ -89,7 +89,7 @@ export default {
     },
     mounted() {
     axios
-      .get("http://ternakmart.id/ternakmart_api/public/api/transaksi/"+this.$store.state.auth.user.id+"/cart")
+      .get("transaksi/"+this.$store.state.auth.user.id+"/cart")
       .then((response) => this.setJumlah(response.data.cart))
       .catch((error) => console.log(error));
   },

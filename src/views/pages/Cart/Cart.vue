@@ -9,27 +9,46 @@
           :key="i"
           cols="12"
         >
-          <v-card>
-            <div class="d-flex flex-no-wrap">
-              <v-avatar
-                class="ma-3"
+          <v-card class="mt-3">
+              <!-- <v-avatar
                 size="125"
                 tile
               >
-                <v-img :src="item.file_path"></v-img>
-              </v-avatar>
-              <div>
-                
-                <v-card-title
+                <v-img :src="item.file_path" 
+                gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"></v-img>
+              </v-avatar> -->
+                <v-img
+                  class="white--text align-end"
+                  height="200px"
+                  :src="item.file_path" 
+                >
+                  <v-card-title>{{item.ternak_nama}}</v-card-title>
+                </v-img>
+                <!-- <v-card-title
                   class="text-h5"
                   v-text="item.ternak_nama"
-                ></v-card-title>
+                ></v-card-title> -->
 
-                <v-card-subtitle v-text="item.ternak_deskripsi"></v-card-subtitle>
+                <v-card-text> {{subStr(item.ternak_deskripsi)}}</v-card-text>
                 <v-card-subtitle>
-                  <div class="subtitle font-weight-bold" color="#FF8F0B">
-                    Rp. {{ formatPrice(item.ternak_harga) }}
-                </div>
+                  <v-row>
+                    <v-col cols="5">Harga Ternak</v-col>
+                    <v-col cols="1">:</v-col>
+                    <v-col cols="6">
+                      <div class="subtitle font-weight-bold" color="#FF8F0B">
+                        Rp. {{ formatPrice(item.ternak_harga) }}
+                      </div>
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col cols="5">Harga Pengiriman</v-col>
+                    <v-col cols="1">:</v-col>
+                    <v-col cols="6">
+                      <div class="subtitle font-weight-bold" color="#FF8F0B">
+                        Rp. {{ formatPrice(item.harga_ongkir) }}
+                      </div>
+                    </v-col>
+                  </v-row>
                 </v-card-subtitle>
                 <v-card-actions>
                   <div class="text-center">
@@ -61,7 +80,39 @@
                         </v-card-title>
 
                         <v-card-text>
-                          <table class="table">
+                          <div class="mt-3">
+                            <v-row>
+                              <v-col cols="4">Nama Ternak</v-col>
+                              <v-col cols="1">:</v-col>
+                              <v-col cols="7">{{item.ternak_nama}}</v-col>
+                            </v-row>
+                            <v-row>
+                              <v-col cols="4">Deskripsi</v-col>
+                              <v-col cols="1">:</v-col>
+                              <v-col cols="12">{{item.ternak_deskripsi}}</v-col>
+                            </v-row>
+                            <v-row>
+                              <v-col cols="4">Harga</v-col>
+                              <v-col cols="1">:</v-col>
+                              <v-col cols="7">Rp. {{formatPrice(item.ternak_harga)}}</v-col>
+                            </v-row>
+                            <v-row>
+                              <v-col cols="4">Penerima</v-col>
+                              <v-col cols="1">:</v-col>
+                              <v-col cols="7">{{item.nama_penerima}}</v-col>
+                            </v-row>
+                            <v-row>
+                              <v-col cols="4">Alamat Penerima</v-col>
+                              <v-col cols="1">:</v-col>
+                              <v-col cols="7">{{item.detail_alamat}}, {{item.city_name}}, {{item.province}}</v-col>
+                            </v-row>
+                            <v-row>
+                              <v-col cols="4">Catatan</v-col>
+                              <v-col cols="1">:</v-col>
+                              <v-col cols="7">{{item.transaksi_note}}</v-col>
+                            </v-row>
+                          </div>
+                          <!-- <table class="table">
                             <tbody>
                               <tr>
                                 <td>Nama Ternak</td>
@@ -76,27 +127,28 @@
                               <tr>
                                 <td>Harga</td>
                                 <td> : </td>
-                                <td>{{item.ternak_harga}}</td>
+                                <td>{{formatPrice(item.ternak_harga)}}</td>
                               </tr>
                               <tr>
                                 <td>Penerima</td>
                                 <td> : </td>
-                                <td>{{JSON.parse(item.transaksi_alamat).name}}</td>
+                                <td>{{item.nama_penerima}}</td>
                               </tr>
                               <tr>
                                 <td>Detail Alamat</td>
                                 <td> : </td>
-                                <td>{{JSON.parse(item.transaksi_alamat).alamat}}, 
-                                    {{JSON.parse(item.transaksi_alamat).detail_alamat}}
+                                <td>{{item.detail_alamat}},
+                                    {{item.city_name}}, 
+                                    {{item.province}}
                                   </td>
                               </tr>
                               <tr>
                                 <td>Note</td>
                                 <td> : </td>
-                                <td>{{JSON.parse(item.transaksi_alamat).note}}</td>
+                                <td>{{item.transaksi_note}}</td>
                               </tr>
                             </tbody>
-                            </table>
+                            </table> -->
                         </v-card-text>
 
                         <v-divider></v-divider>
@@ -116,10 +168,6 @@
                     </v-dialog>
                   </div>
                 </v-card-actions>
-              </div>
-
-              
-            </div>
           </v-card>
         </v-col>
       </v-row>
@@ -149,18 +197,20 @@ export default {
   },
   methods:{
     setCarts(data) {
-    this.carts = data;
-    console.log(this.carts);
+      this.carts = data;
+    },
+    subStr(value) {
+      return value.substring(0,100) + '...';
     },
     formatPrice(value) {
-                let val = (value/1).toFixed(2).replace('.', ',')
-                return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
-            }
+      let val = (value/1).toFixed(2).replace('.', ',')
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+    }
   },
 
   mounted() {
     axios
-      .get("http://ternakmart.id/ternakmart_api/public/api/transaksi/"+this.$store.state.auth.user.id+"/cart")
+      .get("transaksi/"+this.$store.state.auth.user.id+"/cart")
       .then((response) => this.setCarts(response.data.cart))
       .catch((error) => console.log(error));
   },
