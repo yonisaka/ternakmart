@@ -145,35 +145,32 @@ export default {
         this.costData.courier = "jne";
 
         console.log(this.costData)
-
-        
-
-                // axios
-                //     .post("http://ternakmart.id/ternakmart_api/public/api/transaksi", this.order)
-                //     .then(() => {
-                //         this.$router.push({ path: "/cart"})
-                //         this.$toast.success("Sukses Masuk Keranjang", {
-                //         type: "success",
-                //         position: "top-right",
-                //         duration: 3000,
-                //         dismissible: true,
-                //         });
-                //     })
-                //     .catch((err) => console.log(err));
-
-            var instance = axios.create();
-            delete instance.defaults.headers.common['Authorization'];
-                instance.post("https://api.rajaongkir.com/starter/cost",  
-                    {
-                        headers: {
-                        'content-type': 'application/x-www-form-urlencoded',
-                        'key': 'acbbd724a63c95cde3c321e1edafee7c',
-                        },
-                        data:this.costData
-                    })
+                axios
+                    .post("http://ternakmart.id/ternakmart_api/public/api/transaksi", this.order)
                     .then(() => {
-                        console.log(this.costData)
+                        this.$router.push({ path: "/cart"})
+                        this.$toast.success("Sukses Masuk Keranjang", {
+                        type: "success",
+                        position: "top-right",
+                        duration: 3000,
+                        dismissible: true,
                         });
+                    })
+                    .catch((err) => console.log(err));
+
+            // var instance = axios.create();
+            // delete instance.defaults.headers.common['Authorization'];
+            //     instance.post("https://api.rajaongkir.com/starter/cost",  
+            //         {
+            //             headers: {
+            //             'content-type': 'application/x-www-form-urlencoded',
+            //             'key': 'acbbd724a63c95cde3c321e1edafee7c',
+            //             },
+            //             data:this.costData
+            //         })
+            //         .then(() => {
+            //             console.log(this.costData)
+            //             });
 
         },
 
