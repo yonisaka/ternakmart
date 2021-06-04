@@ -28,19 +28,17 @@
                               <tr>
                                 <td>Penerima</td>
                                 <td> : </td>
-                                <td>{{JSON.parse(data.transaksi_alamat).name}}</td>
+                                <td>{{data.nama_penerima}}</td>
                               </tr>
                               <tr>
                                 <td>Detail Alamat</td>
                                 <td> : </td>
-                                <td>{{JSON.parse(data.transaksi_alamat).alamat}}, 
-                                    {{JSON.parse(data.transaksi_alamat).detail_alamat}}
-                                  </td>
+                                <td>{{data.detail_alamat}}</td>
                               </tr>
                               <tr>
                                 <td>Note</td>
                                 <td> : </td>
-                                <td>{{JSON.parse(data.transaksi_alamat).note}}</td>
+                                <td>{{data.transaksi_note}}</td>
                               </tr>
                             </tbody>
                             </table>
@@ -153,6 +151,7 @@ export default {
       .get("http://ternakmart.id/ternakmart_api/public/api/transaksi/"+this.$route.params.id+"/detail")
       .then((response) => {
           this.setData(response.data.cart)
+          console.log(response.data.cart)
           
       })
       .catch((error) => console.log(error));
