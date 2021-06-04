@@ -56,7 +56,7 @@
                         <v-btn
                           color="orange lighten-2"
                           dark
-                          v-on:click="testPay()"
+                          :to="{ name: 'detail_payment'}"
                           class="mb-3 ml-3"
                         >
                             Bayar Sekarang

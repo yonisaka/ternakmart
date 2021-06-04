@@ -107,6 +107,30 @@ const router = new Router({
         requiresAuth: false
       }
     },
+    {
+      path: '/detail_payment',
+      name: 'detail_payment',
+      components: {
+        header: AppHeader,
+        default: () => import("@/views/pages/Home/DetailPayment"),
+        footer: AppFooter
+      },
+      meta: {
+        requiresAuth: false
+      }
+    },
+    {
+      path: '/payment_confirmation',
+      name: 'payment_confirmation',
+      components: {
+        header: AppHeader,
+        default: () => import("@/views/pages/Home/PaymentConfirmation"),
+        footer: AppFooter
+      },
+      meta: {
+        requiresAuth: false
+      }
+    },
   ]
 });
 
