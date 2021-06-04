@@ -18,6 +18,11 @@ Vue.use(Router)
 const router = new Router({
   routes: [
     {
+      path: "/pemesanan_kurban",
+      name: "pemesanan",
+      component: () => import("@/views/Pemesanan")
+    },
+    {
       path: "/splash",
       name: "splash",
       component: () => import("@/views/Splash")
