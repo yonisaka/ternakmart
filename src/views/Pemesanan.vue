@@ -6,7 +6,7 @@
         max-width="674"
         >
             <v-img
-                src=ternak.file_path
+                src="img/brand/banner_pemesanan.jpeg"
                 class="white--text align-end"
                 gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
                 height="150px"
@@ -114,7 +114,7 @@
                                 <v-radio
                                     v-for="data in hewan_sapi"
                                     :key="data.value"
-                                    :label="data.value+` kg`"
+                                    :label="`Berat `+data.value+` kg`"
                                     :value="data.value"
                                 ></v-radio>
                                 </v-radio-group>
@@ -137,7 +137,7 @@
                                 <v-radio
                                     v-for="data in hewan_kambing"
                                     :key="data.value"
-                                    :label="data.value+` kg`"
+                                    :label="`Berat `+data.value+` kg`"
                                     :value="data.value"
                                 ></v-radio>
                                 </v-radio-group>
@@ -160,7 +160,7 @@
                                 <v-radio
                                     v-for="data in hewan_domba"
                                     :key="data.value"
-                                    :label="data.value+` kg`"
+                                    :label="`Berat `+data.value+` kg`"
                                     :value="data.value"
                                 ></v-radio>
                                 </v-radio-group>
@@ -236,11 +236,11 @@
             <v-card>
                 <v-card-title class="headline">
                     <h1 class="mx-auto my-3"><v-icon color="#139CA4" x-large>mdi-checkbox-marked-circle-outline</v-icon></h1>
-                    <span class="mx-auto"> 
+                    <div class="subtitle-1"> 
                         Terima kasih, <br>
-                        ternakmart.id akan mengirimkan rincian <br> 
+                        ternakmart.id akan mengirimkan rincian
                         daftar pesanan dan rincian biaya. 
-                    </span>
+                    </div>
                 </v-card-title>
                 <v-card-actions>
                 <v-spacer></v-spacer>
