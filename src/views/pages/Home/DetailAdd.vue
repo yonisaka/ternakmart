@@ -50,15 +50,64 @@
                                     type="text"
                                 >
                                 </v-text-field>
-                                <v-text-field
+                                <!-- <v-text-field
                                     append-icon="mdi-dollar"
                                     v-model="harga_ongkir"
+                                    @input="formatPrice(harga_ongkir)"
                                     label="Harga Ongkir"
                                     type="text"
                                     readonly
                                 >
-                                </v-text-field>
+                                </v-text-field> -->
+
                             </v-form> 
+                        </v-card-text>
+                        <v-card-text>
+                            <v-row>
+                                <v-col cols="12">
+                                    <div class="title">Total Harga</div>
+                                </v-col>
+                            </v-row>                
+                            <v-row>
+                                <v-col cols="6">
+                                    <label> Masa Perawatan </label>
+                                </v-col>
+                                <v-col cols="6" class="text-right">                                    
+                                    <div class="subtitle">{{masa_perawatan}} Hari</div>
+                                </v-col>
+                            </v-row>            
+                            <v-row>
+                                <v-col cols="6">
+                                    <label> Harga Perawatan </label>
+                                </v-col>
+                                <v-col cols="6" class="text-right">                                    
+                                    <div class="subtitle">Rp. {{formatPrice(ternak.perawatan_harga*masa_perawatan)}}</div>
+                                </v-col>
+                            </v-row>
+                            <v-row>
+                                <v-col cols="6">
+                                    <label> Harga Ternak </label>
+                                </v-col>
+                                <v-col cols="6" class="text-right">                                    
+                                    <div class="subtitle">Rp. {{formatPrice(ternak.harga_perkilo*ternak.ternak_berat)}}</div>
+                                </v-col>
+                            </v-row>
+                            <v-row>
+                                <v-col cols="6">
+                                    <label> Harga Ongkir </label>
+                                </v-col>
+                                <v-col cols="6" class="text-right">                                    
+                                    <div class="subtitle">Rp. {{formatPrice(harga_ongkir)}}</div>
+                                </v-col>
+                            </v-row>
+                            <v-row>
+                                <v-col cols="6">
+                                    <label> Total </label>
+                                </v-col>
+                                <v-col cols="6" class="text-right">                                    
+                                    <div class="subtitle">Rp. {{formatPrice((ternak.perawatan_harga*masa_perawatan)+(ternak.harga_perkilo*ternak.ternak_berat)+harga_ongkir)}}</div>
+                                </v-col>
+                            </v-row>
                         </v-card-text>
                         <v-row>
                             <v-col cols="12">
@@ -97,6 +146,7 @@
 <script>
 import AppBar from '@/components/AppBar.vue';
 import axios from "axios";
+import moment from 'moment';
 
 export default {
     components: {
@@ -117,10 +167,17 @@ export default {
             provinces:[],
             costData:{},
             distance: '',
-            harga_ongkir: ''
+            harga_ongkir: '',
+            masa_perawatan: '',
+            total_harga: '',
+            invoice:{}
         }
     },
     methods:{
+        formatPrice(value) {
+            let val = (value/1).toFixed(2).replace('.', ',')
+            return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+        },
         setProfile(data) {
         this.profile = data;
         }, 
@@ -132,31 +189,38 @@ export default {
         //set data ke tabel transaksi
         this.order.id_ternak = this.ternak.id;
         this.order.id_user =  this.$store.state.auth.user.id;
-        this.order.ternak_harga = this.ternak.ternak_harga;  
-        this.order.masa_perawatan = 12; //contoh
-        this.order.total_harga = 80*this.ternak.ternak_harga;
+        this.order.ternak_harga = this.ternak.harga_perkilo*this.ternak.ternak_berat;  
+        this.order.masa_perawatan = this.masa_perawatan;
+        this.order.total_harga = this.total_harga;
+        // this.order.masa_perawatan = 12; //contoh
+        // this.order.total_harga = 80*this.ternak.ternak_harga;
         this.order.transaksi_st = "cart";
         // this.order.transaksi_alamat = JSON.stringify(this.alamat);
-        this.order.order_id = "ORDER-"+(new Date().getTime());
-        this.order.origin_id = this.ternak.city_id;
-        this.order.destination_id = 472;
+        this.order.order_id = "invoice-"+(new Date().getTime());
+        // this.order.origin_id = this.ternak.city_id;
+        // this.order.destination_id = 472;
         // ongkir
         this.order.distance = this.distance;
         this.order.harga_ongkir = this.harga_ongkir;
         //set data parameter getToken
-        this.parameter.order_id = this.order.order_id;
-        this.parameter.gross_amount = this.order.total_harga;
-        this.parameter.name = this.profile.name;
-        this.parameter.email = this.profile.email;
-        this.parameter.phone = "089602015445";
+        // this.parameter.order_id = this.order.order_id;
+        // this.parameter.gross_amount = this.order.total_harga;
+        // this.parameter.name = this.profile.name;
+        // this.parameter.email = this.profile.email;
+        // this.parameter.phone = "089602015445";
 
+        // console.log(this.order)
         // set data parameter ger Cost Rajaognkri
-        this.costData.origin = this.ternak.city_id;
-        this.costData.destination = this.order.destination_id;
-        this.costData.weight = 800;
-        this.costData.courier = "jne";
+        // this.costData.origin = this.ternak.city_id;
+        // this.costData.destination = this.order.destination_id;
+        // this.costData.weight = 800;
+        // this.costData.courier = "jne";
 
-        console.log(this.costData)
+        this.invoice.external_id = this.order.order_id;
+        this.invoice.amount = this.total_harga;
+        this.invoice.payer_email = this.profile.email;
+        this.invoice.description = this.ternak.ternak_nama;
+        // console.log(this.costData)
                 axios
                     .post("transaksi", this.order)
                     .then(() => {
@@ -183,7 +247,21 @@ export default {
             //         .then(() => {
             //             console.log(this.costData)
             //             });
-
+            console.log(this.invoice)
+            // XENDIT
+            var instance = axios.create();
+            delete instance.defaults.headers.common['Authorization'];
+            instance.post("https://api.xendit.co/v2/invoices",  
+            {
+                headers: {
+                'content-type': 'application/json',
+                'Authorization': 'Basic eG5kX2RldmVsb3BtZW50X09vbUFmT1V0aCtHb3dzWTZMZUpPSHpMQ1p0U2o4NEo5a1hEbitSeGovbUhXK2J5aERRVnhoZz09Og==',
+                },
+                data:this.invoice
+            })
+            .then(() => {
+                console.log(this.invoice)
+            });
         },
         getkotabyidProv(){
             //get data kota
@@ -211,6 +289,7 @@ export default {
                 }).then((res) => {
                     this.distance = Math.round(res.data.distance)
                     this.harga_ongkir = Math.round(res.data.distance)*5620
+                    this.total_harga = (this.ternak.perawatan_harga*this.masa_perawatan)+(this.ternak.harga_perkilo*this.ternak.ternak_berat)+Math.round(res.data.distance)*5620
                 })
             })
             .catch((error) => console.log(error));
@@ -219,12 +298,17 @@ export default {
     mounted() {
         this.setProfile(this.$store.state.auth.user)
         //get data terbaj by id ternak
-    axios
-      .get("ternak/" + this.$route.params.id)
-      .then((response) => this.setTernak(response.data.ternak))
-      .catch((error) => console.log(error));
-
-    
+        axios
+            .get("ternak/" + this.$route.params.id)
+            .then((response) => {
+                this.setTernak(response.data.ternak)
+                let start = moment(response.data.ternak.tgl_penerimaan);
+                let end = moment();
+                let duration = moment.duration(end.diff(start));
+                let days = duration.asDays();
+                this.masa_perawatan = Math.round(days);
+            })
+            .catch((error) => console.log(error));
   },
 
     created: function () {
