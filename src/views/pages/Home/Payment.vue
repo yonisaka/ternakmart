@@ -16,16 +16,6 @@
                           <table class="table">
                             <tbody>
                               <tr>
-                                <td>Nama Ternak</td>
-                                <td> : </td>
-                                <td>{{data.ternak_nama}}</td>
-                              </tr>
-                              <tr>
-                                <td>Harga</td>
-                                <td> : </td>
-                                <td>{{data.ternak_harga}}</td>
-                              </tr>
-                              <tr>
                                 <td>Penerima</td>
                                 <td> : </td>
                                 <td>{{data.nama_penerima}}</td>
@@ -40,6 +30,27 @@
                                 <td> : </td>
                                 <td>{{data.transaksi_note}}</td>
                               </tr>
+                              <tr>
+                                <td>Nama</td>
+                                <td> : </td>
+                                <td>{{data.ternak_nama}}</td>
+                              </tr>
+                              <tr>
+                                <td>Masa perawatan</td>
+                                <td> : </td>
+                                <td>{{data.masa_perawatan}} Hari</td>
+                              </tr>
+                              <tr>
+                                <td>Harga Ternak</td>
+                                <td> : </td>
+                                <td>Rp. {{formatPrice(data.ternak_harga)}}</td>
+                              </tr>
+                              <tr>
+                                <td>Harga Perawatan</td>
+                                <td> : </td>
+                                <td>Rp. {{formatPrice(data.perawatan_harga*data.masa_perawatan)}}</td>
+                              </tr>
+                              
                             </tbody>
                             </table>
                         </v-card-text>
@@ -49,16 +60,19 @@
                           <span class="subtitle font-weight ml-auto mr-3"
                                     > Total Pembayaran</span>
                                     <span class="subtitle font-weight-bold ml-auto mr-3">
-                                        Rp {{formatPrice(data.ternak_harga)}}
+                                        Rp {{formatPrice(data.total_harga)}}
                                     </span>
                                     
                         </v-card-actions>
                         <v-btn
                           color="orange lighten-2"
                           dark
-                          :to="{ name: 'detail_payment'}"
                           class="mb-3 ml-3"
-                        >
+                          v-on:click="createInvoice()"
+                          :loading="loading3"
+                          :disabled="loading3"
+                          @click="loader = 'loading3'">
+                        
                             Bayar Sekarang
                         </v-btn>
                       </v-card>
@@ -91,7 +105,23 @@ export default {
         parameter: {},
         token:"",
         profile: [],
+        loader: null,
+        loading: false,
+        loading2: false,
+        loading3: false,
+        loading4: false,
+        loading5: false,
     }),
+    watch: {
+      loader () {
+        const l = this.loader
+        this[l] = !this[l]
+
+        setTimeout(() => (this[l] = false), 3000)
+
+        this.loader = null
+      },
+    },
 
     methods:{
     setData(data) {
@@ -101,7 +131,6 @@ export default {
 
     setProfile(data) {
       this.profile = data;
-      console.log(this.profile)
     },  
 
     formatPrice(value) {
@@ -109,23 +138,38 @@ export default {
         return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
     },
 
-    testPay(){
-        this.parameter.order_id = this.data.order_id;
-        this.parameter.gross_amount = this.data.ternak_harga;
-        this.parameter.name = this.profile.name;
-        this.parameter.email = this.profile.email;
+    // testPay(){
+    //     this.parameter.order_id = this.data.order_id;
+    //     this.parameter.gross_amount = this.data.ternak_harga;
+    //     this.parameter.name = this.profile.name;
+    //     this.parameter.email = this.profile.email;
 
-        axios
-            .post("http://ternakmart.id/ternakmart_api/public/api/transaksi_getToken",  this.parameter)
-            .then((response) => {
-                window.snap.pay(response.data.token);
-                console.log(response)
-            })
+    //     axios
+    //         .post("http://ternakmart.id/ternakmart_api/public/api/transaksi_getToken",  this.parameter)
+    //         .then((response) => {
+    //             window.snap.pay(response.data.token);
+    //         })
         
         // console.log(this.parameter.customer_details)
 
         // window.snap.pay(this.data.transaksi_token);
-    },
+    // },
+
+    createInvoice(){
+      this.parameter.external_id = "Invoice-"+(new Date().getTime());
+      this.parameter.amount = this.data.total_harga;
+      this.parameter.payer_email = this.data.email;
+      this.parameter.description = "Order Id "+ this.data.order_id;
+      this.parameter.order_id = this.data.order_id;
+
+      axios
+            .post("transaksi_createinvoice",  this.parameter)
+            .then((response) => {
+                console.log(response.data)
+                window.location = response.data.Response.invoice_url;
+                
+            })
+    }
 
   },
   mounted() {
@@ -148,10 +192,9 @@ export default {
         },
 
     axios
-      .get("http://ternakmart.id/ternakmart_api/public/api/transaksi/"+this.$route.params.id+"/detail")
+      .get("transaksi/"+this.$route.params.id+"/detail")
       .then((response) => {
           this.setData(response.data.cart)
-          console.log(response.data.cart)
           
       })
       .catch((error) => console.log(error));

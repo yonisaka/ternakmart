@@ -54,7 +54,7 @@
                         <v-btn
                         color="#139CA4"
                         :to="'detail/'+ternak.id"
-                        >Spesial Kurban</v-btn>
+                        >Lihat Kurban</v-btn>
                     </v-overlay>
                 </v-fade-transition>
             </v-card>
