@@ -188,6 +188,7 @@ export default {
     // },
     setternaks(data) {
       this.ternaks = data;
+      console.log(this.ternaks);
     },
     setProfile(data) {
       this.profile = data;
@@ -199,7 +200,7 @@ export default {
     axios
       .get("ternak")
       .then((response) => this.setternaks(response.data.ternak.filter(ternak => {
-            return ternak.ternak_st == '1'
+            return ternak.ternak_st == '1' && ternak.order_id == null
         })))
       .catch((error) => console.log(error))
   },

@@ -313,8 +313,8 @@ export default {
             .get("ternak/" + this.$route.params.id)
             .then((response) => {
                 this.setTernak(response.data.ternak)
-                let start = moment(response.data.ternak.tgl_penerimaan);
-                let end = moment();
+                let start = moment();
+                let end = moment("2021-07-19");
                 let duration = moment.duration(end.diff(start));
                 let days = duration.asDays();
                 this.masa_perawatan = Math.round(days);
