@@ -165,8 +165,8 @@ export default {
       axios
             .post("transaksi_createinvoice",  this.parameter)
             .then((response) => {
-                console.log(response.data)
-                window.location = response.data.Response.invoice_url;
+              console.log(response.data)
+              window.location = response.data.Response.invoice_url;
                 
             })
     }
