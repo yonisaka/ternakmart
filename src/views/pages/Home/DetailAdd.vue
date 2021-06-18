@@ -196,7 +196,7 @@ export default {
         // this.order.total_harga = 80*this.ternak.ternak_harga;
         this.order.transaksi_st = "cart";
         // this.order.transaksi_alamat = JSON.stringify(this.alamat);
-        this.order.order_id = "invoice-"+(new Date().getTime());
+        this.order.order_id = "ORDER-"+(new Date().getTime());
         // this.order.origin_id = this.ternak.city_id;
         // this.order.destination_id = 472;
         // ongkir
@@ -220,7 +220,7 @@ export default {
         this.invoice.amount = this.total_harga;
         this.invoice.payer_email = this.profile.email;
         this.invoice.description = this.ternak.ternak_nama;
-        // console.log(this.costData)
+        console.log(this.costData)
                 axios
                     .post("transaksi", this.order)
                     .then(() => {
@@ -247,21 +247,32 @@ export default {
             //         .then(() => {
             //             console.log(this.costData)
             //             });
-            console.log(this.invoice)
+
             // XENDIT
-            var instance = axios.create();
-            delete instance.defaults.headers.common['Authorization'];
-            instance.post("https://api.xendit.co/v2/invoices",  
-            {
-                headers: {
-                'content-type': 'application/json',
-                'Authorization': 'Basic eG5kX2RldmVsb3BtZW50X09vbUFmT1V0aCtHb3dzWTZMZUpPSHpMQ1p0U2o4NEo5a1hEbitSeGovbUhXK2J5aERRVnhoZz09Og==',
-                },
-                data:this.invoice
-            })
-            .then(() => {
-                console.log(this.invoice)
-            });
+            // var instance = axios.create();
+            // delete instance.defaults.headers.common['Authorization'];
+            // instance.post("https://api.ternakmart.id/api/transaksi_createinvoice",  
+            // {
+            //     headers: { 
+            //         'Content-Type': 'application/json', 
+            //         'Authorization': 'Basic eG5kX2RldmVsb3BtZW50X3dhdzlucmJ0TlNRQk5VVmJvNDdoUXdrVXdQcWRNNTVkQ0lWM0RORk5lVFBEa2w1Sndad2VST25RYWE0aW1qZUY6', 
+            //         'Cookie': 'visid_incap_2182539=f5doSCL4TcW2shUF74hn0cq5wWAAAAAAQUIPAAAAAAAdtoEduPjphkSZEy6WRCyn; nlbi_2182539=GEXsFlcMjTLFqzSojjCKbQAAAABdzeyiMmnIbOEpB5YMhYfG; incap_ses_1117_2182539=hcrwPWPgLgJZ+eUf62GAD8q5wWAAAAAAjpk2reA33cMS055xl0xxGQ=='
+            //     },
+            //     data:this.invoice
+            // })
+            // .then((response) => {
+            //     console.log(this.invoice)
+            //     console.log(response)
+            // });
+
+            // axios
+            //         .post("transaksi_createinvoice", this.invoice)
+            //         .then((response) => {
+            //             console.log(this.invoice)
+            //             console.log(response)
+            //         })
+            //         .catch((err) => console.log(err));
+            
         },
         getkotabyidProv(){
             //get data kota
