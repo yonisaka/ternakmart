@@ -52,10 +52,21 @@
                   <router-link class="subtitle-2" :to="{ name: 'register' }">
                      <small>Create new account</small>
                   </router-link>
+                  <br>
+                  <router-link class="subtitle-2" :to="{ name: 'home' }">
+                     <small>Back Home</small>
+                  </router-link>
                </div>
             </v-flex>
          </v-layout>
       </v-container>
+      <v-snackbar
+            v-model="snackbar"
+            timeout="2000"
+            :color="color"
+            >
+            {{ message }}
+      </v-snackbar>
    </v-app>
 </template>
 <script>
@@ -65,10 +76,13 @@ import { LOGIN } from "@/store/actions.type";
 export default {
     name: "Login",
     data() {
-        return {
-        email: null,
-        password: null
-        };
+         return {
+            snackbar: false,
+            message: '',
+            color: '',
+            email: null,
+            password: null
+         };
     },
     methods: {
         onSubmit(email, password) {
@@ -76,12 +90,9 @@ export default {
             .dispatch(LOGIN, { email, password })
             .then((res) => {
                if (res.user.role_id != '4'){
-                  this.$toast.success("Akun tidak tersedia", {
-                  type: "error",
-                  position: "top-right",
-                  duration: 3000,
-                  dismissible: true,
-                  });
+                  this.snackbar = true
+                  this.message = 'Akun Tidak Tersedia'
+                  this.color = 'red'
                } else {
                   this.$router.push({ name: "home" })
                }

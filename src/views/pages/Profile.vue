@@ -13,18 +13,19 @@
         
     <h4>Profile</h4>
   </div> -->
-  <v-row class="justify-md" mt-8 >
+  <v-row class="justify-md" mt-8 align="center">
       <v-col cols="4">
               <v-avatar 
                 color="primary"
                 size="100"
                 >{{profile.name}}</v-avatar>
       </v-col>
-      <v-col cols="6">
+      <v-col cols="8">
           <h2>{{profile.name}}</h2>
-          <subtitle-1>{{profile.email}}</subtitle-1>
+          <subtitle-1>{{profile.email}}</subtitle-1> <br>
+          <small @click="logout">Logout</small>
       </v-col >
-      <v-cols cols="2">
+      <!-- <v-cols cols="2">
         <v-menu
         right
         bottom
@@ -47,9 +48,9 @@
           </v-list-item>
         </v-list>
       </v-menu>
-      </v-cols>
+      </v-cols> -->
   </v-row>
-      <v-divider inset></v-divider>
+      <!-- <v-divider inset></v-divider> -->
     <div class="row mt-3">
         <v-card class="col-12">
 

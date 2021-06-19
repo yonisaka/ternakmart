@@ -1,6 +1,45 @@
 <template>
   <div class="home">
-    <app-header/>
+    <v-app-bar
+        color="#139CA4"
+        flat
+        >
+            <v-img
+                src="img/brand/ternakmart.png"
+                max-height="30"
+                max-width="30"
+                ></v-img>
+            <v-spacer></v-spacer>
+            <v-menu
+                left
+                bottom
+                v-if="profile.name"
+            >
+                <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                    icon
+                    v-bind="attrs"
+                    v-on="on"
+                >
+                    <v-icon color="white">mdi-dots-vertical</v-icon>
+                </v-btn>
+                </template>
+
+                <v-list>
+                <v-list-item
+                    @click="() => {this.$router.push({ path: '/profile' })}"
+                >
+                    <v-list-item-title>Profile</v-list-item-title>
+                </v-list-item>
+                <v-list-item
+                    @click="logout"
+                >
+                    <v-list-item-title>Logout</v-list-item-title>
+                </v-list-item>
+                </v-list>
+            </v-menu>
+        </v-app-bar>
+    <!-- <app-header/> -->
     <div class="oval">
   <div class="square">
   </div>
@@ -8,7 +47,16 @@
   </div>
       <v-container class="mb-12">
         <div class="wrapper ">
-          <h4 class="white--text mb-3">Selamat Datang, <span class="font-weight-bold">{{profile.name}}</span></h4>
+          <h4 class="white--text mb-3">Selamat Datang , 
+            <span v-if="profile.name" class="font-weight-bold"> {{profile.name}}</span>
+            <span v-else class="font-weight-bold"> 
+              <v-btn
+              color="#fca311"
+              to="login"
+              small
+              >Login</v-btn>
+            </span>
+          </h4>
           <v-row no-gutters height="100">
             <v-col>
               <Carousel/>
@@ -25,7 +73,7 @@
         </v-row>
         <v-row>
           <v-col cols="3" class="text-center">
-              <svg width="40" height="35" viewBox="0 0 40 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <svg width="40" height="35" viewBox="0 0 40 35" fill="none" xmlns="http://www.w3.org/2000/svg" @click="() => {this.$router.push({ path: '/qurban' })}">
               <path d="M36.4706 14.3151H34.1144C34.8547 13.46 35.2941 12.3977 35.2941 11.2476C35.2941 9.6437 34.409 8.13938 32.9411 7.17986C32.9412 7.1725 32.9412 7.16507 32.9412 7.15757C32.9412 4.33851 30.3024 2.04502 27.0588 2.04502C26.3317 2.04502 25.62 2.16015 24.9528 2.38265C23.8917 0.923054 22.0329 0 20 0C17.9671 0 16.1083 0.923054 15.0472 2.38265C14.38 2.16015 13.6683 2.04502 12.9412 2.04502C9.69765 2.04502 7.05882 4.33851 7.05882 7.15757C7.05882 7.16507 7.05882 7.1725 7.0589 7.17986C5.5909 8.13932 4.70588 9.6437 4.70588 11.2476C4.70588 12.3977 5.14533 13.46 5.88557 14.3151H3.52941C1.58329 14.3151 0 15.6912 0 17.3827C0 19.0741 1.58329 20.4502 3.52941 20.4502H9.41177V25.6991C9.41177 30.7734 14.1616 34.9017 20 34.9017C25.8384 34.9017 30.5882 30.7734 30.5882 25.6991V20.4502H36.4706C38.4167 20.4502 40 19.0741 40 17.3827C40 15.6912 38.4167 14.3151 36.4706 14.3151ZM7.05882 11.2476C7.05882 10.1532 7.75443 9.13367 8.87412 8.58683C9.71969 8.17388 9.41177 7.39227 9.41177 7.15757C9.41177 5.46613 10.9951 4.09004 12.9412 4.09004C13.6493 4.09004 14.3321 4.27157 14.9161 4.61506C15.5547 4.9908 16.4311 4.73879 16.6859 4.10599C17.1822 2.87325 18.514 2.04502 20 2.04502C21.486 2.04502 22.8178 2.87325 23.3141 4.10599C23.5689 4.73872 24.4451 4.9908 25.0839 4.61506C25.6679 4.27157 26.3507 4.09004 27.0588 4.09004C29.0049 4.09004 30.5882 5.46613 30.5882 7.15757C30.5882 7.39854 30.2796 8.17354 31.1259 8.58683C32.2456 9.13367 32.9412 10.1533 32.9412 11.2476C32.9412 12.939 31.3579 14.3151 29.4118 14.3151C28.3952 14.3151 27.4563 13.9383 26.7682 13.254C26.2994 12.7879 25.4649 12.7885 24.9966 13.254C24.3084 13.9383 23.3695 14.3151 22.3529 14.3151C21.7464 14.3151 21.1538 14.171 20.5918 13.8866C20.226 13.7016 19.774 13.7016 19.4082 13.8866C18.8462 14.171 18.2536 14.3151 17.6471 14.3151C16.6305 14.3151 15.6916 13.9383 15.0035 13.254C14.5347 12.7879 13.7002 12.7885 13.2319 13.254C12.5437 13.9383 11.6048 14.3151 10.5882 14.3151C8.64212 14.3151 7.05882 12.939 7.05882 11.2476ZM9.41177 18.4052H3.52941C2.88071 18.4052 2.35294 17.9465 2.35294 17.3827C2.35294 16.8189 2.88071 16.3602 3.52941 16.3602H9.41177V18.4052ZM20 32.8567C15.4591 32.8567 11.7647 29.6458 11.7647 25.6991V16.2544C12.6152 16.1 13.4193 15.7805 14.1176 15.3192C15.1317 15.9891 16.3686 16.3602 17.6471 16.3602C18.4591 16.3602 19.2479 16.2119 20 15.9186C20.7521 16.2119 21.5409 16.3602 22.3529 16.3602C23.6313 16.3602 24.8683 15.9891 25.8824 15.3192C26.5807 15.7805 27.3848 16.1001 28.2353 16.2544V25.6991C28.2353 29.6458 24.5409 32.8567 20 32.8567ZM36.4706 18.4052H30.5882V16.3602H36.4706C37.1193 16.3602 37.6471 16.8189 37.6471 17.3827C37.6471 17.9465 37.1193 18.4052 36.4706 18.4052Z" fill="#139CA4"/>
               <path d="M15.2942 20.4502C15.9439 20.4502 16.4706 19.9924 16.4706 19.4277C16.4706 18.863 15.9439 18.4052 15.2942 18.4052C14.6444 18.4052 14.1177 18.863 14.1177 19.4277C14.1177 19.9924 14.6444 20.4502 15.2942 20.4502Z" fill="#139CA4"/>
               <path d="M24.7059 20.4502C25.3556 20.4502 25.8824 19.9924 25.8824 19.4277C25.8824 18.863 25.3556 18.4052 24.7059 18.4052C24.0561 18.4052 23.5294 18.863 23.5294 19.4277C23.5294 19.9924 24.0561 20.4502 24.7059 20.4502Z" fill="#139CA4"/>
@@ -102,16 +150,30 @@
             </div>
             
         </slider>
-        <!-- <v-row dense>
-          <v-col
-            v-for="n in 5"
-            :key="n"
-            cols="6"
-          >
-            <Card/>
-          </v-col>
-        </v-row> -->
       </v-container>
+      <v-dialog v-model="dialogLogout" max-width="400px">
+        <v-card>
+            <v-card-title class="headline">
+                <span class="mx-auto"> 
+                  <div class="text-center">
+                    <v-icon
+                      size="100"
+                      color="orange"
+                    >
+                      mdi-alert-circle-outline
+                    </v-icon>
+                  </div>
+                  <h4> Keluar dari akun ? </h4>
+                </span>
+            </v-card-title>
+            <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="blue darken-1" text @click="closeLogout">Cancel</v-btn>
+            <v-btn color="blue darken-1" text @click="logoutItemConfirm">OK</v-btn>
+            <v-spacer></v-spacer>
+            </v-card-actions>
+        </v-card>
+      </v-dialog>
   </div>
 </template>
 
@@ -121,14 +183,12 @@
   width: 100%;
   background-color: #139CA4;
   border-radius: 50%;
-  /* margin-left: -5%; */
 }
 .square {
   height: 110px;
   width: 100%;
   background-color: #139CA4;
   margin-top: -2em;
-  /* border:solid; */
 }
 .wrapper{
   padding: 10px;
@@ -136,7 +196,6 @@
   padding-bottom: 0px;
   margin-bottom: 10px;
   margin-top: -10em;
-  /* border:solid; */
 }
 </style>
 
@@ -144,27 +203,27 @@
 import { slider, slideritem } from 'vue-concise-slider'
 import Carousel from "@/components/Carousel";
 import Card from "@/components/Card";
-// import ButtonCategory from "@/components/ButtonCategory";
-import AppHeader from '@/layout/AppHeader.vue';
+// import DialogLogout from "@/components/DialogLogout";
+import { LOGOUT } from "@/store/actions.type";
 import axios from "axios";
 
 export default {
   name: 'Home',
   components: {
-    AppHeader,
     Carousel,
     Card,
     slider,
     slideritem,
-    // ButtonCategory
+    // DialogLogout
   },
   data () {
     return {
+      dialogLogout: false,
       ternaks: [],
       profile:[],
       //Slider configuration [obj]
       options: {
-        pagination: true,
+        pagination: false,
         thresholdDistance: 100, // Sliding distance threshold
         thresholdTime: 300, // Sliding time threshold decision
         grabCursor: true, // Scratch style
@@ -177,24 +236,25 @@ export default {
     }
   },
   methods: {
-    // filter(){
-    //   if(this.search){
-    //     return this.ternaks.filter((item)=>{
-    //       return this.search.toLowerCase().split(' ').every(v => item.ternak_nama.toLowerCase().includes(v))
-    //     })
-    //   } else {
-    //     return this.ternaks;
-    //   }
-    // },
     setternaks(data) {
       this.ternaks = data;
     },
     setProfile(data) {
       this.profile = data;
     },
+    logout() {
+      this.dialogLogout = true
+    },
+    closeLogout () {
+      this.dialogLogout = false
+    },
+    logoutItemConfirm () {
+        this.$store.dispatch(LOGOUT).then(() => {
+          this.$router.push({ name: "login" });
+      });
+    },
   },
   mounted() {
-    // console.log(this.$cookie.get('user'));
     this.setProfile(this.$store.state.auth.user)
     axios
       .get("ternak")

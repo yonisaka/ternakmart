@@ -19,6 +19,7 @@
             <v-menu
                 left
                 bottom
+                v-if="profile.name"
             >
                 <template v-slot:activator="{ on, attrs }">
                 <v-btn
@@ -78,6 +79,18 @@
                             @change="searchTernak"
                             ></v-select>
                         </v-col>
+                        <!-- <v-col cols="12">
+                            <v-select
+                            v-model="search.lokasi"
+                            item-text="province"
+                            item-value="province_id"
+                            :items="lokasi"
+                            label="Lokasi Ternak"
+                            solo
+                            dense
+                            @change="searchTernak"
+                            ></v-select>
+                        </v-col> -->
                     </v-row>
                 </v-container>
             </v-sheet>
@@ -97,6 +110,29 @@
                 ></v-pagination>
             </div>
         </v-container>
+        <v-dialog v-model="dialogLogout" max-width="400px">
+            <v-card>
+                <v-card-title class="headline">
+                    <span class="mx-auto"> 
+                    <div class="text-center">
+                        <v-icon
+                        size="100"
+                        color="orange"
+                        >
+                        mdi-alert-circle-outline
+                        </v-icon>
+                    </div>
+                    <h4> Keluar dari akun ? </h4>
+                    </span>
+                </v-card-title>
+                <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="blue darken-1" text @click="closeLogout">Cancel</v-btn>
+                <v-btn color="blue darken-1" text @click="logoutItemConfirm">OK</v-btn>
+                <v-spacer></v-spacer>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
     </div>
 </template>
 
@@ -119,6 +155,7 @@ import { LOGOUT } from "@/store/actions.type";
       return {
         page: 1,
         ternaks: [],
+        profile: [],
         search: {},
         searchbar: false,
         ukuran:[
@@ -139,6 +176,8 @@ import { LOGOUT } from "@/store/actions.type";
                 'value' : '>651'
             }
         ],
+        lokasi: [],
+        dialogLogout: false,
       }
     },
 
@@ -153,8 +192,20 @@ import { LOGOUT } from "@/store/actions.type";
     setternaks(data) {
       this.ternaks = data;
     },
-      logout() {
-      this.$store.dispatch(LOGOUT).then(() => {
+    setProfile(data) {
+      this.profile = data;
+    },
+    setLokasi(data) {
+      this.lokasi = data;
+    },
+    logout() {
+      this.dialogLogout = true
+    },
+    closeLogout () {
+      this.dialogLogout = false
+    },
+    logoutItemConfirm () {
+        this.$store.dispatch(LOGOUT).then(() => {
           this.$router.push({ name: "login" });
       });
     },
@@ -170,14 +221,23 @@ import { LOGOUT } from "@/store/actions.type";
     },
   },
   mounted() {
+    this.setProfile(this.$store.state.auth.user)
     this.search.nama = ''
     this.search.ukuran = ''
+    this.search.lokasi = ''
     axios
       .get("ternak")
       .then((response) => this.setternaks(response.data.ternak.filter(ternak => {
             return ternak.ternak_st == '1'
         })))
       .catch((error) => console.log(error))
+    axios
+        .get("lokasi/provinsi")
+        .then((response) => {
+            this.setLokasi(response.data.provinsi)
+        })
+        .catch((error) => console.log(error))
+    
   },
   }
 </script>

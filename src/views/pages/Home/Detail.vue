@@ -130,7 +130,11 @@
             class="my-1 mx-3"
             >
             <div class="subtitle font-weight-bold ml-2">
-                <h2 class="" style="color:#fca311;">Rp {{formatPrice(data.ternak_harga)}}</h2> /Kg
+                    <span class="title" style="color:#fca311;">Rp {{formatPrice(data.ternak_harga)}} </span>
+                    <span class="title">/Kg </span> <br>
+                    <small v-if="data.diskon_st == 1">
+                        Diskon Rp. {{formatPrice(data.diskon_harga)}}
+                    </small>
             </div>
             <v-spacer></v-spacer>
             <v-btn

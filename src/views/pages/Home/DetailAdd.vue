@@ -100,12 +100,20 @@
                                     <div class="subtitle">Rp. {{formatPrice(harga_ongkir)}}</div>
                                 </v-col>
                             </v-row>
+                            <v-row v-if="ternak.diskon_st == 1">
+                                <v-col cols="6">
+                                    <label> Diskon </label>
+                                </v-col>
+                                <v-col cols="6" class="text-right">                                    
+                                    <div class="subtitle">Rp. {{formatPrice(ternak.diskon_harga)}}</div>
+                                </v-col>
+                            </v-row>
                             <v-row>
                                 <v-col cols="6">
                                     <label> Total </label>
                                 </v-col>
                                 <v-col cols="6" class="text-right">                                    
-                                    <div class="subtitle">Rp. {{formatPrice((ternak.perawatan_harga*masa_perawatan)+(ternak.harga_perkilo*ternak.ternak_berat)+harga_ongkir)}}</div>
+                                    <div class="subtitle">Rp. {{formatPrice(((ternak.perawatan_harga*masa_perawatan)+(ternak.harga_perkilo*ternak.ternak_berat)+harga_ongkir)-ternak.diskon_harga)}}</div>
                                 </v-col>
                             </v-row>
                         </v-card-text>

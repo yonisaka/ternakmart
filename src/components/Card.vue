@@ -3,7 +3,8 @@
         <template v-slot:default="{ hover }">
             <v-card
             :loading="loading"
-            class="mx-auto"
+            class="mx-auto mb-2"
+            height="300px"
             >
                 <v-img
                     :src=ternak.file_path
@@ -11,30 +12,43 @@
                     gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
                     height="150px"
                 >
-                <template v-slot:placeholder>
-                    <v-sheet>
-                    <v-skeleton-loader />
-                    </v-sheet>
-                </template>
-                    <!-- <v-card-title>{{ ternak.ternak_nama }}</v-card-title> -->
+                    <v-app-bar
+                        flat
+                        color="rgba(0, 0, 0, 0)"
+                    >
+                        <v-toolbar-title v-if="ternak.diskon_st == 1" class="pl-0 mb-5">
+                            <v-chip
+                            small
+                            color="orange"
+                            label
+                            text-color="white"
+                            >
+                            <v-icon left>
+                                mdi-label
+                            </v-icon>
+                            Diskon
+                            </v-chip>
+                        </v-toolbar-title>
+                    </v-app-bar>
+                    <template v-slot:placeholder>
+                        <v-sheet>
+                        <v-skeleton-loader />
+                        </v-sheet>
+                    </template>
+                    <v-card-title class="mt-15 mb-0">
+                        <!-- <div class="text-caption white--text font-weight-medium">{{ toUpperCase(ternak.ternak_nama) }}</div> -->
+                    </v-card-title>
                 </v-img>
                 <v-card-text
                     align="left"
                 >
-                    <span class="font-weight-bold" > {{ ternak.ternak_nama }}</span> <br>
+                    <span class="subtitle-2 font-weight-medium" > {{ toUpperCase(ternak.ternak_nama) }}</span> <br>
                     <small style="color:#139CA4;">Dibawah Pengawasan <br/> {{ ternak.dokter_nama }}</small>
-                    <v-rating
-                    align="left"
-                    :value="4.5"
-                    color="amber"
-                    dense
-                    half-increments
-                    readonly
-                    size="14"
-                    ></v-rating>
                     <div class="subtitle font-weight-bold">
-                        <span style="color:#fca311;">Rp. {{ formatPrice(ternak.ternak_harga) }}</span>
-                        <span>/ Kg</span>
+                        <span style="color:#fca311;">Rp. {{ formatPrice(ternak.harga_perkilo) }}</span>
+                        <span> / Kg</span> <br>
+                        <small v-bind:class="(ternak.diskon_st == 1) ?'text-decoration-line-through': ''">Rp. {{formatPrice(ternak.harga_perkilo*ternak.ternak_berat)}}</small> <br>
+                        <small v-if="ternak.diskon_st == 1"> Rp. {{formatPrice((ternak.harga_perkilo*ternak.ternak_berat)-ternak.diskon_harga)}} </small>
                     </div>
 
                 </v-card-text>
@@ -77,9 +91,14 @@
                 setTimeout(() => (this.loading = false), 2000)
             },
             formatPrice(value) {
-                let val = (value/1).toFixed(2).replace('.', ',')
+                let val = (value/1).toFixed().replace('.', ',')
                 return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
-            }
+            },
+            toUpperCase(value){
+                if(!value) return ''
+                    value = value.toString()
+                return value.toUpperCase()
+            },
         },
     }
 </script>

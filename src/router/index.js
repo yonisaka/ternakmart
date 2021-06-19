@@ -62,6 +62,9 @@ const router = new Router({
       name: 'detail_add',
       components: {
         default: () => import("@/views/pages/Home/DetailAdd"),
+      },
+      meta: {
+        requiresAuth: true
       }
     },
     {
@@ -69,6 +72,9 @@ const router = new Router({
       name: 'payment',
       components: {
         default: () => import("@/views/pages/Home/Payment"),
+      },
+      meta: {
+        requiresAuth: true
       }
     },
     {
