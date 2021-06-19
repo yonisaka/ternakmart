@@ -11,6 +11,7 @@ import 'vue-toast-notification/dist/theme-default.css';
 
 import { CHECK_AUTH } from "./store/actions.type";
 import ApiService from "./common/api.service";
+import './registerServiceWorker'
 
 
 Vue.config.productionTip = false
