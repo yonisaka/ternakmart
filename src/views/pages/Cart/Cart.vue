@@ -49,6 +49,33 @@
                       </div>
                     </v-col>
                   </v-row>
+                  <v-row>
+                    <v-col cols="5">Masa Perawatan</v-col>
+                    <v-col cols="1">:</v-col>
+                    <v-col cols="6">
+                      <div class="subtitle font-weight-bold" color="#FF8F0B">
+                        {{(item.masa_perawatan)}} Hari
+                      </div>
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col cols="5">Harga Perawatan</v-col>
+                    <v-col cols="1">:</v-col>
+                    <v-col cols="6">
+                      <div class="subtitle font-weight-bold" color="#FF8F0B">
+                        Rp. {{ formatPrice(item.perawatan_harga*item.masa_perawatan) }}
+                      </div>
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col cols="5">Harga Perawatan</v-col>
+                    <v-col cols="1">:</v-col>
+                    <v-col cols="6">
+                      <div class="subtitle font-weight-bold" color="#FF8F0B">
+                        Rp. {{ formatPrice(item.perawatan_harga*item.masa_perawatan) }}
+                      </div>
+                    </v-col>
+                  </v-row>
                 </v-card-subtitle>
                 <v-card-actions>
                   <div class="text-center">
@@ -62,9 +89,11 @@
                           dark
                           v-bind="attrs"
                           v-on="on"
+                          class="mr-2"
                         >
                           Details
                         </v-btn>
+                        <br>
                         <v-btn
                           color="orange lighten-2"
                           dark
@@ -198,6 +227,7 @@ export default {
   methods:{
     setCarts(data) {
       this.carts = data;
+      console.log(this.carts);
     },
     subStr(value) {
       return value.substring(0,100) + '...';
