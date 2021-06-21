@@ -202,7 +202,7 @@ export default {
         this.order.total_harga = this.total_harga;
         // this.order.masa_perawatan = 12; //contoh
         // this.order.total_harga = 80*this.ternak.ternak_harga;
-        this.order.transaksi_st = "cart";
+        this.order.transaksi_st = "CART";
         // this.order.transaksi_alamat = JSON.stringify(this.alamat);
         this.order.order_id = "ORDER-"+(new Date().getTime());
         // this.order.origin_id = this.ternak.city_id;
