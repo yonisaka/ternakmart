@@ -78,6 +78,18 @@ const router = new Router({
       }
     },
     {
+      path: '/activity',
+      name: 'activity',
+      components: {
+        header: AppHeader,
+        default: () => import("@/views/pages/Activity/Index"),
+        footer: AppFooter
+      },
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
       path: '/cart',
       name: 'cart',
       components: {
