@@ -16,7 +16,7 @@
         <v-icon>mdi-home</v-icon>
         </v-btn>
 
-        <v-btn>
+        <v-btn :to="{ name: 'activity' }">
         <span>Activity</span>
 
         <v-icon>mdi-clipboard-list-outline</v-icon>
