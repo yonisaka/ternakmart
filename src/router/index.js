@@ -149,6 +149,18 @@ const router = new Router({
         requiresAuth: false
       }
     },
+    {
+      path: '/activity',
+      name: 'activity',
+      components: {
+        header: AppHeader,
+        default: () => import("@/views/pages/Home/Activity"),
+        footer: AppFooter
+      },
+      meta: {
+        requiresAuth: true
+      }
+    },
   ]
 });
 
