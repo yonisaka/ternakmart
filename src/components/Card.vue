@@ -26,7 +26,8 @@
                             <v-icon left>
                                 mdi-label
                             </v-icon>
-                            Diskon
+                            <!-- Diskon -->
+                            <div v-bind:class="(ternak.diskon_st == 1) ?'text-decoration-line-through': ''">Rp. {{formatPrice(ternak.harga_perkilo*ternak.ternak_berat)}}</div>
                             </v-chip>
                         </v-toolbar-title>
                     </v-app-bar>
@@ -47,8 +48,9 @@
                     <div class="subtitle font-weight-bold">
                         <span style="color:#fca311;">Rp. {{ formatPrice(ternak.harga_perkilo) }}</span>
                         <span> / Kg</span> <br>
-                        <small v-bind:class="(ternak.diskon_st == 1) ?'text-decoration-line-through': ''">Rp. {{formatPrice(ternak.harga_perkilo*ternak.ternak_berat)}}</small> <br>
+                        <!-- <small v-bind:class="(ternak.diskon_st == 1) ?'text-decoration-line-through': ''">Rp. {{formatPrice(ternak.harga_perkilo*ternak.ternak_berat)}}</small> <br> -->
                         <small v-if="ternak.diskon_st == 1"> Rp. {{formatPrice((ternak.harga_perkilo*ternak.ternak_berat)-ternak.diskon_harga)}} </small>
+                        <small v-else>Rp. {{formatPrice(ternak.harga_perkilo*ternak.ternak_berat)}}</small>
                     </div>
 
                 </v-card-text>

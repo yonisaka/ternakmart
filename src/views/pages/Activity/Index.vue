@@ -1,35 +1,54 @@
 <template>
     <div>
-        <AppBar :page="page" :updateCart="carts"/>
+        <AppBar :page="page" />
         <v-container fluid mt-12 mb-12 mx-0>
             <v-tabs
             v-model="tab"
             background-color="transparent"
-            color="basil"
             grow
             >
                 <v-tab>Dalam Proses</v-tab>
-                <v-tab>History</v-tab>
+                <v-tab>Paid</v-tab>
             </v-tabs>
             <v-tabs-items v-model="tab">
                 <v-tab-item class="mt-3">
                     <v-row dense>
                         <v-col 
-                            v-for="(item, i) in proses"
+                            v-for="(item, i) in pendings"
                             :key="i"
                             cols="12">
                             <v-card
                                 elevation="1"
                                 outlined
+                                @click="showDetail(item.id)"
                             >
                                 <div class="d-flex flex-no-wrap justify-space-between">
                                     <div>
                                         <v-card-title
-                                        class="text-h6"
-                                        >{{item.ternak_nama}}</v-card-title>
-
-                                        <v-card-subtitle>Harga : Rp. {{formatPrice(item.total_harga)}}</v-card-subtitle>
-                                        <v-card-subtitle>Status Pemesanan : {{ toUpperCase(item.transaksi_st) }}</v-card-subtitle>
+                                        class="subtitle-1"
+                                        >{{toUpperCase(item.ternak_nama)}}</v-card-title>
+                    
+                                        <v-card-subtitle>
+                                            Harga : Rp. {{formatPrice(item.total_harga)}} <br/>
+                                            Status Pemesanan : {{ toUpperCase(item.transaksi_st) }}
+                                        </v-card-subtitle>
+                                        <v-card-actions class="ml-3">
+                                            <!-- <v-btn
+                                            color="#139CA4"
+                                            dark
+                                            class="mr-2"
+                                            
+                                            >
+                                            Detail
+                                            </v-btn> -->
+                                            <v-btn
+                                            color="orange lighten-2"
+                                            dark
+                                            :to="'payment/'+item.id"
+                                            >
+                                            Checkout
+                                            </v-btn>
+                                        </v-card-actions>
                                     </div>
 
                                     <v-avatar
@@ -47,10 +66,11 @@
                 <v-tab-item>
                     <v-row dense>
                         <v-col 
-                            v-for="(item, i) in history"
+                            v-for="(item, i) in paids"
                             :key="i"
                             cols="12">
                             <v-card
+                                @click="showDetail(item.id)"
                                 elevation="1"
                                 outlined
                             >
@@ -60,8 +80,20 @@
                                         class="text-h6"
                                         >{{item.ternak_nama}}</v-card-title>
 
-                                        <v-card-subtitle>Harga : Rp. {{formatPrice(item.total_harga)}}</v-card-subtitle>
-                                        <v-card-subtitle>Status Pemesanan : {{ toUpperCase(item.transaksi_st) }}</v-card-subtitle>
+                                        <v-card-subtitle>
+                                            Harga : Rp. {{formatPrice(item.total_harga)}} <br/>
+                                            Status Pemesanan : {{ toUpperCase(item.transaksi_st) }}
+                                        </v-card-subtitle>
+                                        <!-- <v-card-actions class="ml-2">
+                                            <v-btn
+                                            color="#139CA4"
+                                            dark
+                                            class="mr-2"
+                                            @click="showDetail(item.id)"
+                                            >
+                                            Detail
+                                            </v-btn>
+                                        </v-card-actions> -->
                                     </div>
 
                                     <v-avatar
@@ -78,6 +110,65 @@
                 </v-tab-item>
             </v-tabs-items>
         </v-container>
+        <v-dialog
+            v-model="dialogDetail"
+            width="500"
+        >
+            <v-card>
+                <v-card-title class="headline grey lighten-2">
+                    Detail Pesanan
+                </v-card-title>
+
+                <v-card-text>
+                    <div class="mt-3">
+                    <v-row>
+                        <v-col cols="4">Nama Ternak</v-col>
+                        <v-col cols="1">:</v-col>
+                        <v-col cols="7">{{detail.ternak_nama}}</v-col>
+                    </v-row>
+                    <v-row>
+                        <v-col cols="4">Deskripsi</v-col>
+                        <v-col cols="1">:</v-col>
+                        <v-col cols="12">{{detail.ternak_deskripsi}}</v-col>
+                    </v-row>
+                    <v-row>
+                        <v-col cols="4">Harga</v-col>
+                        <v-col cols="1">:</v-col>
+                        <v-col cols="7">Rp. {{formatPrice(detail.ternak_harga)}}</v-col>
+                    </v-row>
+                    <v-row>
+                        <v-col cols="4">Penerima</v-col>
+                        <v-col cols="1">:</v-col>
+                        <v-col cols="7">{{detail.nama_penerima}}</v-col>
+                    </v-row>
+                    <v-row>
+                        <v-col cols="4">Alamat Penerima</v-col>
+                        <v-col cols="1">:</v-col>
+                        <v-col cols="7">{{detail.detail_alamat}}, {{detail.city_name}}, {{detail.province}}</v-col>
+                    </v-row>
+                    <v-row>
+                        <v-col cols="4">Catatan</v-col>
+                        <v-col cols="1">:</v-col>
+                        <v-col cols="7">{{detail.transaksi_note}}</v-col>
+                    </v-row>
+                    </div>
+                </v-card-text>
+
+                <v-divider></v-divider>
+
+                <v-card-actions v-if="detail.transaksi_st != 'PAID'">
+                    <v-spacer></v-spacer>
+                    
+                    <v-btn
+                    color="orange lighten-2"
+                    dark
+                    :to="'payment/'+detail.id"
+                >
+                    Checkout
+                </v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
     </div>
 </template>
 
@@ -97,16 +188,21 @@ export default {
                 link: '/',
                 title: 'Activity',
             },
-            proses: [],
-            history: [],
+            pendings: [],
+            paids: [],
+            detail: {},
+            dialogDetail: false,
         }
     },
     methods:{
-        setProses(data) {
-            this.proses = data;
+        setPendings(data) {
+            this.pendings = data;
         },
-        setHistory(data) {
-            this.history = data;
+        setPaids(data) {
+            this.paids = data;
+        },
+        setDetail(data) {
+            this.detail = data;
         },
         subStr(value) {
             return value.substring(0,100) + '...';
@@ -120,21 +216,26 @@ export default {
                 value = value.toString()
             return value.toUpperCase()
         },
+        showDetail(id) {
+            axios
+            .get("transaksi/"+id+"/detail")
+            .then((response) => {
+                this.setDetail(response.data.cart)
+                this.dialogDetail = true
+            })
+            .catch((error) => console.log(error));
+        },
     },
 
     mounted() {
         axios
-        .get("transaksi/"+this.$store.state.auth.user.id+"/cart")
-        .then((response) => this.setProses(response.data.cart.filter(cart => {
-            return cart.transaksi_st != 'PAID' 
-        })))
+        .get("transaksi/"+this.$store.state.auth.user.id+"/waiting")
+        .then((response) => this.setPendings(response.data.cart) )
         .catch((error) => console.log(error));
 
         axios
-        .get("transaksi/"+this.$store.state.auth.user.id+"/cart")
-        .then((response) => this.setHistory(response.data.cart.filter(cart => {
-            return cart.transaksi_st == 'PAID' 
-        })))
+        .get("transaksi/"+this.$store.state.auth.user.id+"/confirmation")
+        .then((response) => this.setPaids(response.data.cart))
         .catch((error) => console.log(error));
     },
 }

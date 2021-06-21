@@ -334,6 +334,7 @@ export default {
   },
   data(){
     return{
+        tab: null,
         page: {
             link: '/',
             title: 'Activity',
@@ -345,11 +346,9 @@ export default {
   methods:{
     setPendings(data) {
       this.pendings = data;
-      console.log(this.pendings);
     },
     setPaids(data) {
       this.paids = data;
-      console.log(this.paids);
     },
     subStr(value) {
       return value.substring(0,100) + '...';
