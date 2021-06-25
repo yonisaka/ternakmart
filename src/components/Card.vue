@@ -44,7 +44,10 @@
                     align="left"
                 >
                     <span class="subtitle-2 font-weight-medium" > {{ toUpperCase(ternak.ternak_nama) }}</span> <br>
-                    <small style="color:#139CA4;">Dibawah Pengawasan <br/> {{ ternak.dokter_nama }}</small>
+                    <small style="color:#139CA4;">Dibawah Pengawasan <br/> 
+                        <span v-if="ternak.dokter_nama == ''">{{ternak.dokter_nama}}</span>
+                        <span v-else>{{ternak.admin_nama}}</span>
+                    </small>
                     <div class="subtitle font-weight-bold">
                         <span style="color:#fca311;">Rp. {{ formatPrice(ternak.harga_perkilo) }}</span>
                         <span> / Kg</span> <br>
