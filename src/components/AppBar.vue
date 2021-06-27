@@ -10,7 +10,7 @@
     >
         <v-icon>mdi-chevron-left</v-icon>
     </v-btn>
-    <span class="title font-weight-bold text-center mx-auto">{{ page.title }}</span>
+    <span class="subtitle font-weight-medium">{{ page.title }}</span>
     </v-app-bar>
 </template>
 

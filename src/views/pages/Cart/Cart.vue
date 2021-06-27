@@ -67,15 +67,6 @@
                       </div>
                     </v-col>
                   </v-row>
-                  <v-row>
-                    <v-col cols="5">Harga Perawatan</v-col>
-                    <v-col cols="1">:</v-col>
-                    <v-col cols="6">
-                      <div class="subtitle font-weight-bold" color="#FF8F0B">
-                        Rp. {{ formatPrice(item.perawatan_harga*item.masa_perawatan) }}
-                      </div>
-                    </v-col>
-                  </v-row>
                 </v-card-subtitle>
                 <v-card-actions>
                   <div class="text-center">

@@ -118,7 +118,7 @@
                             <v-row>
                               <v-col cols="4">Deskripsi</v-col>
                               <v-col cols="1">:</v-col>
-                              <v-col cols="12">{{item.ternak_deskripsi}}</v-col>
+                              <v-col cols="12" class="text-justify">{{item.ternak_deskripsi}}</v-col>
                             </v-row>
                             <v-row>
                               <v-col cols="4">Harga</v-col>

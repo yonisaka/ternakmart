@@ -7,55 +7,59 @@
                     
                     <v-row class="mt-12">
                         <v-col cols="12">
-                            <v-card>
+                        <v-card flat>
                         
 
                         <v-card-text>
-                            <h3 class="subtitle font-weight-bold"
-                                    > Detail Pemesanan </h3>
-                          <table class="table">
-                            <tbody>
-                              <tr>
-                                <td>Penerima</td>
-                                <td> : </td>
-                                <td>{{data.nama_penerima}}</td>
-                              </tr>
-                              <tr>
-                                <td>Detail Alamat</td>
-                                <td> : </td>
-                                <td>{{data.detail_alamat}}</td>
-                              </tr>
-                              <tr>
-                                <td>Note</td>
-                                <td> : </td>
-                                <td>{{data.transaksi_note}}</td>
-                              </tr>
-                              <tr>
-                                <td>Nama</td>
-                                <td> : </td>
-                                <td>{{data.ternak_nama}}</td>
-                              </tr>
-                              <tr>
-                                <td>Masa perawatan</td>
-                                <td> : </td>
-                                <td>{{data.masa_perawatan}} Hari</td>
-                              </tr>
-                              <tr>
-                                <td>Harga Ternak</td>
-                                <td> : </td>
-                                <td>Rp. {{formatPrice(data.ternak_harga)}}</td>
-                              </tr>
-                              <tr>
-                                <td>Harga Perawatan</td>
-                                <td> : </td>
-                                <td>Rp. {{formatPrice(data.perawatan_harga*data.masa_perawatan)}}</td>
-                              </tr>
-                              
-                            </tbody>
-                            </table>
+                          <h3 class="subtitle font-weight-bold ma-3"> 
+                            Detail Pemesanan 
+                          </h3>
+                          <v-divider></v-divider>
+                          <div class="ma-3">
+                            <v-row>
+                              <v-col cols="12">
+                                <v-img height="200" width="100%" :src="data.file_path" ></v-img>
+                              </v-col>
+                            </v-row>
+                            <v-row>
+                              <v-col cols="5">Penerima</v-col>
+                              <v-col cols="1">:</v-col>
+                              <v-col cols="6">{{data.nama_penerima}}</v-col>
+                            </v-row>
+                            <v-row>
+                              <v-col cols="5">Detail Alamat</v-col>
+                              <v-col cols="1">:</v-col>
+                              <v-col cols="6">{{data.detail_alamat}}</v-col>
+                            </v-row>
+                            <v-row>
+                              <v-col cols="5">Hewan Ternak</v-col>
+                              <v-col cols="1">:</v-col>
+                              <v-col cols="6">{{data.ternak_nama}}</v-col>
+                            </v-row>
+                            <v-row>
+                              <v-col cols="5">Masa perawatan</v-col>
+                              <v-col cols="1">:</v-col>
+                              <v-col cols="6">{{data.masa_perawatan}} Bulan</v-col>
+                            </v-row>
+                            <v-row>
+                              <v-col cols="5">Harga Ternak</v-col>
+                              <v-col cols="1">:</v-col>
+                              <v-col cols="6">Rp. {{formatPrice(data.ternak_harga)}}</v-col>
+                            </v-row>
+                            <v-row>
+                              <v-col cols="5">Harga Perawatan</v-col>
+                              <v-col cols="1">:</v-col>
+                              <v-col cols="6">Rp. {{formatPrice(data.perawatan_harga*data.masa_perawatan)}}</v-col>
+                            </v-row>
+                            <v-row>
+                              <v-col cols="5">Harga Pengiriman</v-col>
+                              <v-col cols="1">:</v-col>
+                              <v-col cols="6">Rp. {{formatPrice(data.harga_ongkir)}}</v-col>
+                            </v-row>
+                          </div>
                         </v-card-text>
                         <v-divider class="mx-4"></v-divider>
-                        <v-card-actions>
+                        <v-card-text class="text-right">
                           <v-spacer></v-spacer>
                           <span class="subtitle font-weight ml-auto mr-3"
                                     > Total Pembayaran</span>
@@ -63,11 +67,12 @@
                                         Rp {{formatPrice(data.total_harga)}}
                                     </span>
                                     
-                        </v-card-actions>
+                        </v-card-text>
+                        <v-card-actions>
                         <v-btn
                           color="orange lighten-2"
+                          block
                           dark
-                          class="mb-3 ml-3"
                           v-on:click="createInvoice()"
                           :loading="loading3"
                           :disabled="loading3"
@@ -75,6 +80,7 @@
                         
                             Bayar Sekarang
                         </v-btn>
+                        </v-card-actions>
                       </v-card>
                         </v-col>
                     </v-row>

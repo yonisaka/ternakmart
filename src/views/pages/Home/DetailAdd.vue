@@ -164,7 +164,7 @@ export default {
         return {
             page: {
                 link: '/detail/'+this.$route.params.id,
-                title: 'Add Address',
+                title: 'Detail Pemesanan',
             },
             ternak:{},
             // alamat:{},

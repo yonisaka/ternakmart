@@ -30,17 +30,19 @@
                     
                                         <v-card-subtitle>
                                             Harga : Rp. {{formatPrice(item.total_harga)}} <br/>
-                                            Status Pemesanan : {{ toUpperCase(item.transaksi_st) }}
-                                        </v-card-subtitle>
-                                        <v-card-actions class="ml-3">
-                                            <!-- <v-btn
-                                            color="#139CA4"
-                                            dark
-                                            class="mr-2"
-                                            
+                                            <v-chip 
+                                            small
+                                            class="mt-1"
+                                            color="orange"
+                                            outlined
+                                            label
+                                            v-if="item.transaksi_st == 'PENDING'"
                                             >
-                                            Detail
-                                            </v-btn> -->
+                                                Menunggu Pembayaran
+                                            </v-chip>
+                                            
+                                        </v-card-subtitle>
+                                        <v-card-actions class="ml-2">
                                             <v-btn
                                             color="orange lighten-2"
                                             dark
@@ -49,11 +51,14 @@
                                             Checkout
                                             </v-btn>
                                         </v-card-actions>
+                                        <!-- <v-card-actions class="ml-3">
+                                            
+                                        </v-card-actions> -->
                                     </div>
 
                                     <v-avatar
                                         class="ma-3"
-                                        size="125"
+                                        size="150"
                                         tile
                                     >
                                         <v-img :src="item.file_path" ></v-img>
@@ -82,7 +87,15 @@
 
                                         <v-card-subtitle>
                                             Harga : Rp. {{formatPrice(item.total_harga)}} <br/>
-                                            Status Pemesanan : {{ toUpperCase(item.transaksi_st) }}
+                                            <v-chip 
+                                            label
+                                            small
+                                            class="mt-1"
+                                            color="success"
+                                            outlined
+                                            v-if="item.transaksi_st == 'PAID'">
+                                                Sudah Dibayar
+                                            </v-chip>
                                         </v-card-subtitle>
                                         <!-- <v-card-actions class="ml-2">
                                             <v-btn
@@ -129,12 +142,12 @@
                     <v-row>
                         <v-col cols="4">Deskripsi</v-col>
                         <v-col cols="1">:</v-col>
-                        <v-col cols="12">{{detail.ternak_deskripsi}}</v-col>
+                        <v-col cols="12" class="text-justify">{{detail.ternak_deskripsi}}</v-col>
                     </v-row>
                     <v-row>
                         <v-col cols="4">Harga</v-col>
                         <v-col cols="1">:</v-col>
-                        <v-col cols="7">Rp. {{formatPrice(detail.ternak_harga)}}</v-col>
+                        <v-col cols="7">Rp. {{formatPrice(detail.total_harga)}}</v-col>
                     </v-row>
                     <v-row>
                         <v-col cols="4">Penerima</v-col>
