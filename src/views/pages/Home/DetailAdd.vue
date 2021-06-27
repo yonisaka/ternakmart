@@ -130,7 +130,7 @@
                                 </v-btn>
                             </v-col>
                         </v-row>
-                        <v-row>
+                        <!-- <v-row>
                             <v-col cols="12">
                                 <v-btn 
                                 type="submit"
@@ -143,7 +143,7 @@
                                 Remove
                                 </v-btn>
                             </v-col>
-                        </v-row>
+                        </v-row> -->
                     </v-card>
                 </v-flex>
             </v-layout>

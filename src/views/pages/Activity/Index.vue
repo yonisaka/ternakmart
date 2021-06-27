@@ -12,7 +12,7 @@
             </v-tabs>
             <v-tabs-items v-model="tab">
                 <v-tab-item class="mt-3">
-                    <v-row dense>
+                    <v-row v-if="pendings.length != 0" dense>
                         <v-col 
                             v-for="(item, i) in pendings"
                             :key="i"
@@ -67,9 +67,14 @@
                             </v-card>
                         </v-col>
                     </v-row>
+                    <v-row v-else class="mt-3">
+                        <v-col cols="12" class="text-center">
+                            <span class="font-weight-medium grey--text">Tidak ada transaksi</span> 
+                        </v-col>
+                    </v-row>
                 </v-tab-item>
                 <v-tab-item>
-                    <v-row dense>
+                    <v-row v-if="paids.length != 0" dense>
                         <v-col 
                             v-for="(item, i) in paids"
                             :key="i"
@@ -118,6 +123,11 @@
                                     </v-avatar>
                                 </div>
                             </v-card>
+                        </v-col>
+                    </v-row>
+                    <v-row v-else class="mt-3">
+                        <v-col cols="12" class="text-center">
+                            <span class="font-weight-medium grey--text">Tidak ada transaksi</span> 
                         </v-col>
                     </v-row>
                 </v-tab-item>

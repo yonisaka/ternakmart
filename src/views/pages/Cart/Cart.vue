@@ -2,8 +2,7 @@
   <div>
     <AppBar :page="page" :updateCart="carts"/>
     <v-container class="elevation-0 mt-12 mb-12">
-      <v-row dense>
-
+      <v-row v-if="carts.length != 0" dense>
         <v-col
           v-for="(item, i) in carts"
           :key="i"
@@ -189,6 +188,11 @@
                   </div>
                 </v-card-actions>
           </v-card>
+        </v-col>
+      </v-row>
+      <v-row v-else class="mt-3">
+        <v-col cols="12" class="text-center">
+            <span class="subtitle font-weight-medium grey--text">Tidak ada keranjang</span> 
         </v-col>
       </v-row>
     </v-container>

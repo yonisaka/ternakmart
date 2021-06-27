@@ -238,7 +238,6 @@ export default {
   methods: {
     setternaks(data) {
       this.ternaks = data;
-      console.log(this.ternaks);
     },
     setProfile(data) {
       this.profile = data;
@@ -255,8 +254,10 @@ export default {
       });
     },
   },
-  mounted() {
+  created() {
     this.setProfile(this.$store.state.auth.user)
+  },
+  mounted() {
     axios
       .get("ternak")
       .then((response) => this.setternaks(response.data.ternak.filter(ternak => {
