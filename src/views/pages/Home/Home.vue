@@ -254,7 +254,7 @@ export default {
       });
     },
   },
-  created() {
+  beforeMount() {
     this.setProfile(this.$store.state.auth.user)
   },
   mounted() {
