@@ -40,11 +40,11 @@
           'deep-purple accent-4',
         ],
         slides: [
-          'http://ternakmart.id/ternakmart_api/public/carousel/cr1.jpeg',
-          'http://ternakmart.id/ternakmart_api/public/carousel/cr2.jpeg',
-          'http://ternakmart.id/ternakmart_api/public/carousel/cr3.jpeg',
-          'http://ternakmart.id/ternakmart_api/public/carousel/cr4.jpeg',
-          'http://ternakmart.id/ternakmart_api/public/carousel/cr5.jpeg',
+          'http://api.caltymart.com/carousel/cr1.jpeg',
+          'http://api.caltymart.com/carousel/cr2.jpeg',
+          'http://api.caltymart.com/carousel/cr3.jpeg',
+          'http://api.caltymart.com/carousel/cr4.jpeg',
+          'http://api.caltymart.com/carousel/cr5.jpeg',
         ],
     }),
   }

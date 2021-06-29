@@ -238,6 +238,7 @@ export default {
   methods: {
     setternaks(data) {
       this.ternaks = data;
+      console.log(this.ternaks);
     },
     setProfile(data) {
       this.profile = data;
