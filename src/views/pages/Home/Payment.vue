@@ -74,11 +74,18 @@
                           block
                           dark
                           v-on:click="createInvoice()"
-                          :loading="loading3"
-                          :disabled="loading3"
-                          @click="loader = 'loading3'">
-                        
-                            Bayar Sekarang
+                          :disabled="isLoading"
+                          >
+                          <span v-if="isLoading">
+                           <v-progress-circular
+                           :size="15"
+                           indeterminate
+                           color="orange lighten-2"
+                           ></v-progress-circular>
+                        </span>
+                        <span v-else>
+                           Bayar Sekarang
+                        </span>
                         </v-btn>
                         </v-card-actions>
                       </v-card>
@@ -112,22 +119,8 @@ export default {
         token:"",
         profile: [],
         loader: null,
-        loading: false,
-        loading2: false,
-        loading3: false,
-        loading4: false,
-        loading5: false,
+        isLoading: false,
     }),
-    watch: {
-      loader () {
-        const l = this.loader
-        this[l] = !this[l]
-
-        setTimeout(() => (this[l] = false), 3000)
-
-        this.loader = null
-      },
-    },
 
     methods:{
     setData(data) {
@@ -167,10 +160,11 @@ export default {
       this.parameter.payer_email = this.data.email;
       this.parameter.description = "Order Id "+ this.data.order_id;
       this.parameter.order_id = this.data.order_id;
-
+      this.isLoading = true
       axios
             .post("transaksi_createinvoice",  this.parameter)
             .then((response) => {
+              this.isLoading = false
               console.log(response.data)
               window.location = response.data.Response.invoice_url;
                 

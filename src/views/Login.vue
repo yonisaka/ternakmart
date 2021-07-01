@@ -43,8 +43,19 @@
                      color="#139CA4"
                      block
                      form="login"
+                     :disabled="isLoading"
                      >
-                        Masuk
+                        <span v-if="isLoading">
+                           Loading 
+                           <v-progress-circular
+                           :size="15"
+                           indeterminate
+                           color="secondary"
+                           ></v-progress-circular>
+                        </span>
+                        <span v-else>
+                           Masuk
+                        </span>
                      </v-btn>
                   </v-card-actions>
                </v-card>
@@ -81,22 +92,34 @@ export default {
             message: '',
             color: '',
             email: null,
-            password: null
+            password: null,
+            isLoading: false,
          };
     },
     methods: {
         onSubmit(email, password) {
-        this.$store
+           this.isLoading = true
+            this.$store
             .dispatch(LOGIN, { email, password })
             .then((res) => {
+               console.log(res);
                if (res.user.role_id != '4'){
                   this.snackbar = true
                   this.message = 'Akun Tidak Tersedia'
                   this.color = 'red'
                } else {
+                  this.isLoading = false
+                  this.snackbar = true
+                  this.message = 'Berhasil Login'
+                  this.color = '#139CA4'
                   this.$router.push({ name: "home" })
                }
-            });
+            })
+            .catch(() => this.isLoading = false)
+            // this.isLoading = false
+            if(this.errors){
+               this.isLoading = false
+            }
         }
     },
     computed: {

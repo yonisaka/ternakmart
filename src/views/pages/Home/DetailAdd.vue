@@ -148,6 +148,13 @@
                 </v-flex>
             </v-layout>
         </v-container>
+        <v-snackbar
+            v-model="snackbar"
+            timeout="2000"
+            :color="color"
+            >
+            {{ message }}
+        </v-snackbar>
     </div>
 </template>
 
@@ -178,7 +185,10 @@ export default {
             harga_ongkir: '',
             masa_perawatan: '',
             total_harga: '',
-            invoice:{}
+            invoice:{},
+            snackbar: false,
+            message: '',
+            color: '',
         }
     },
     methods:{
@@ -233,12 +243,9 @@ export default {
                     .post("transaksi", this.order)
                     .then(() => {
                         this.$router.push({ path: "/cart"})
-                        this.$toast.success("Sukses Masuk Keranjang", {
-                        type: "success",
-                        position: "top-right",
-                        duration: 3000,
-                        dismissible: true,
-                        });
+                        this.snackbar = true
+                        this.message = 'Berhasil Login'
+                        this.color = '#139CA4'
                     })
                     .catch((err) => console.log(err));
 
