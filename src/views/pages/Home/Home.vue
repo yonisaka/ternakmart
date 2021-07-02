@@ -130,6 +130,30 @@
             </div>
           </v-col>
         </v-row>
+        <v-row justify="space-around">
+          <v-col
+            cols="12"
+            sm="10"
+            md="8"
+          >
+            <v-sheet
+              class="py-1 px-1"
+            >
+              <v-chip-group
+                :mandatory="mandatory"
+                active-class="primary--text"
+              >
+                <v-chip
+                  v-for="tag in city"
+                  :key="tag.city_id"
+                  @click="searchTernak(tag.city_id)"
+                >
+                  {{ tag.city_name }}
+                </v-chip>
+              </v-chip-group>
+            </v-sheet>
+          </v-col>
+        </v-row>
         <slider ref="slider" :options="options" class="mt-5">
             <!-- slideritem wrapped package with the components you need -->
             <slideritem v-for="ternak in ternaks" :key="ternak.id" style="width:48%; margin-right:2%">
@@ -232,13 +256,17 @@ export default {
         // loop: false, // Infinite loop
         // autoplay: 0 // Auto play[ms]
       },
-      search:''
+      search:{},
+      city: [],
+      mandatory: false,
     }
   },
   methods: {
     setternaks(data) {
       this.ternaks = data;
-      console.log(this.ternaks);
+    },
+    setCity(data) {
+      this.city = data;
     },
     setProfile(data) {
       this.profile = data;
@@ -254,6 +282,16 @@ export default {
           this.$router.push({ name: "login" });
       });
     },
+    searchTernak(city_id) {
+        this.search.city_id = city_id
+        axios
+        // .post("cariternak/?nama="+this.search.nama+"&ukuran="+this.search.ukuran)
+        .post("cariternak",this.search)
+        .then((response) => this.setternaks(response.data.ternak.filter(ternak => {
+                return ternak.ternak_st == '1' && ternak.order_id == null
+            })))
+        .catch((error) => console.log(error))
+    },
   },
   beforeMount() {
     this.setProfile(this.$store.state.auth.user)
@@ -264,6 +302,10 @@ export default {
       .then((response) => this.setternaks(response.data.ternak.filter(ternak => {
             return ternak.ternak_st == '1' && ternak.order_id == null
         })))
+      .catch((error) => console.log(error))
+    axios
+      .get("lokasi/kota_aktif")
+      .then((response) => this.setCity(response.data.kota))
       .catch((error) => console.log(error))
   },
   inject: {

@@ -96,6 +96,30 @@
             </v-sheet>
         </v-expand-transition>
         <v-container>
+             <v-row justify="space-around">
+                <v-col
+                    cols="12"
+                    sm="10"
+                    md="8"
+                >
+                    <v-sheet
+                    class="py-1 px-1"
+                    >
+                    <v-chip-group
+                        :mandatory="mandatory"
+                        active-class="primary--text"
+                    >
+                        <v-chip
+                        v-for="tag in city"
+                        :key="tag.city_id"
+                        @click="searchLokasi(tag.city_id)"
+                        >
+                        {{ tag.city_name }}
+                        </v-chip>
+                    </v-chip-group>
+                    </v-sheet>
+                </v-col>
+            </v-row>
             <v-row>
                 <div v-for="ternak in ternaks" :key="ternak.id" style="width:44%; margin-left:4%; margin-top:4%; margin-bottom:2%">
                         <Card :ternak="ternak"/>
@@ -158,6 +182,7 @@ import { LOGOUT } from "@/store/actions.type";
         profile: [],
         search: {},
         searchbar: false,
+        mandatory: false,
         ukuran:[
             {
                 'text' : 'Kurban Sedang',
@@ -178,6 +203,7 @@ import { LOGOUT } from "@/store/actions.type";
         ],
         lokasi: [],
         dialogLogout: false,
+        city: []
       }
     },
 
@@ -191,6 +217,9 @@ import { LOGOUT } from "@/store/actions.type";
     },
     setternaks(data) {
       this.ternaks = data;
+    },
+    setCity(data) {
+      this.city = data;
     },
     setProfile(data) {
       this.profile = data;
@@ -209,13 +238,16 @@ import { LOGOUT } from "@/store/actions.type";
           this.$router.push({ name: "login" });
       });
     },
+    searchLokasi(city_id){
+        this.search.city_id = city_id
+        this.searchTernak();
+    },
     searchTernak() {
-        console.log(this.search)
         axios
         // .post("cariternak/?nama="+this.search.nama+"&ukuran="+this.search.ukuran)
         .post("cariternak",this.search)
         .then((response) => this.setternaks(response.data.ternak.filter(ternak => {
-                return ternak.ternak_st == '1'
+                return ternak.ternak_st == '1' && ternak.order_id == null
             })))
         .catch((error) => console.log(error))
     },
@@ -228,7 +260,7 @@ import { LOGOUT } from "@/store/actions.type";
     axios
       .get("ternak")
       .then((response) => this.setternaks(response.data.ternak.filter(ternak => {
-            return ternak.ternak_st == '1'
+            return ternak.ternak_st == '1' && ternak.order_id == null
         })))
       .catch((error) => console.log(error))
     axios
@@ -237,7 +269,10 @@ import { LOGOUT } from "@/store/actions.type";
             this.setLokasi(response.data.provinsi)
         })
         .catch((error) => console.log(error))
-    
+    axios
+      .get("lokasi/kota_aktif")
+      .then((response) => this.setCity(response.data.kota))
+      .catch((error) => console.log(error))
   },
   }
 </script>
