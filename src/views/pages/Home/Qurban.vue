@@ -126,14 +126,14 @@
                         <Card :ternak="ternak"/>
                 </div>
             </v-row>
-            <div class="text-center mt-4">
+            <!-- <div class="text-center mt-4">
                 <v-pagination
                 v-model="page"
                 :length="ternaks.length"
                 prev-icon="mdi-menu-left"
                 next-icon="mdi-menu-right"
                 ></v-pagination>
-            </div>
+            </div> -->
         </v-container>
         <v-dialog v-model="dialogLogout" max-width="400px">
             <v-card>
