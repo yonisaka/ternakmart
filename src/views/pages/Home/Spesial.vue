@@ -5,10 +5,12 @@
             <v-row class="my-10">
                 <v-col 
                 cols="12" 
+                lg="7"
+                class="mx-auto"
                 v-for="(img, i) in images"
                 :key="i"
                 >
-                    <img :src="img" width="100%">
+                    <img :src="img" width="100%" class="px-5">
                 </v-col>
             </v-row>
         </v-container>

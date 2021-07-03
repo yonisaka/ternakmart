@@ -56,7 +56,7 @@
                     class="fill-height"
                     no-gutters
                     >
-                        <v-col cols="12">
+                        <v-col cols="12" lg="8" class="mx-auto">
                             <v-text-field
                             v-model="search.nama"
                             @keyup="searchTernak"
@@ -67,7 +67,7 @@
                                 color="white"
                             ></v-text-field>
                         </v-col>
-                        <v-col cols="12">
+                        <v-col cols="12" lg="8" class="mx-auto">
                             <v-select
                             v-model="search.ukuran"
                             item-text="text"
@@ -111,7 +111,7 @@
             <v-row v-if="loading">
                 <v-col cols="12" lg="8" class="mx-auto">
                     <v-row>
-                        <v-col cols="6" v-for="i in 4" :key="i">
+                        <v-col cols="6" lg="4" v-for="i in 9" :key="i">
                             <v-sheet
                             color="grey lighten-4"
                             >
@@ -125,10 +125,10 @@
                     </v-row>
                 </v-col>
             </v-row>
-            <v-row v-else>
+            <v-row v-else class="mb-15">
                 <v-col cols="12" lg="8" class="mx-auto">
                     <v-row>
-                        <v-col cols="6" v-for="ternak in ternaks" :key="ternak.id">
+                        <v-col cols="6" lg="4" v-for="ternak in ternaks" :key="ternak.id">
                             <Card :ternak="ternak"/>
                         </v-col>
                     </v-row>
