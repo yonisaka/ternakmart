@@ -154,26 +154,29 @@
             </v-sheet>
           </v-col>
         </v-row>
-        <slider ref="slider" :options="options" class="mt-5">
-            <!-- slideritem wrapped package with the components you need -->
-            <slideritem v-for="ternak in ternaks" :key="ternak.id" style="width:48%; margin-right:2%">
-              <Card :ternak="ternak"/>
-            </slideritem>
-            <!-- Customizable loading -->
-            <div slot="loading">
-                <v-sheet
+        <v-row v-if="loading">
+          <v-col cols="6" v-for="i in 2" :key="i">
+            <v-sheet
               :color="`grey ${theme.isDark ? 'darken-2' : 'lighten-4'}`"
-              class="pa-3"
             >
               <v-skeleton-loader
-                class="mx-auto"
-                max-width="300"
+                elevation="2"
+                :loading="loading"
                 type="card"
               ></v-skeleton-loader>
             </v-sheet>
-            </div>
-            
-        </slider>
+          </v-col>
+        </v-row>
+        <v-row v-else>
+          <v-col cols="12">
+            <slider ref="slider" :options="options">
+                <!-- slideritem wrapped package with the components you need -->
+                <slideritem v-for="ternak in ternaks" :key="ternak.id" style="width:48%; margin-right:2%">
+                  <Card :ternak="ternak"/>
+                </slideritem>
+            </slider>
+          </v-col>
+        </v-row>
       </v-container>
       <v-dialog v-model="dialogLogout" max-width="400px">
         <v-card>
@@ -242,6 +245,7 @@ export default {
   },
   data () {
     return {
+      loading: true,
       dialogLogout: false,
       ternaks: [],
       profile:[],
@@ -299,9 +303,14 @@ export default {
   mounted() {
     axios
       .get("ternak")
-      .then((response) => this.setternaks(response.data.ternak.filter(ternak => {
-            return ternak.ternak_st == '1' && ternak.order_id == null
-        })))
+      .then((response) => 
+        {
+          this.loading = false
+          this.setternaks(response.data.ternak.filter(ternak => {
+              return ternak.ternak_st == '1' && ternak.order_id == null
+          }))
+        }
+        )
       .catch((error) => console.log(error))
     axios
       .get("lokasi/kota_aktif")

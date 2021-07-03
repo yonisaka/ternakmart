@@ -79,18 +79,6 @@
                             @change="searchTernak"
                             ></v-select>
                         </v-col>
-                        <!-- <v-col cols="12">
-                            <v-select
-                            v-model="search.lokasi"
-                            item-text="province"
-                            item-value="province_id"
-                            :items="lokasi"
-                            label="Lokasi Ternak"
-                            solo
-                            dense
-                            @change="searchTernak"
-                            ></v-select>
-                        </v-col> -->
                     </v-row>
                 </v-container>
             </v-sheet>
@@ -120,7 +108,20 @@
                     </v-sheet>
                 </v-col>
             </v-row>
-            <v-row>
+            <v-row v-if="loading">
+                <v-col cols="6" v-for="i in 4" :key="i">
+                    <v-sheet
+                    color="grey lighten-4"
+                    >
+                    <v-skeleton-loader
+                        elevation="2"
+                        :loading="loading"
+                        type="card"
+                    ></v-skeleton-loader>
+                    </v-sheet>
+                </v-col>
+            </v-row>
+            <v-row v-else>
                 <div v-for="ternak in ternaks" :key="ternak.id" style="width:44%; margin-left:4%; margin-top:4%; margin-bottom:2%">
                         <Card :ternak="ternak"/>
                 </div>
@@ -177,6 +178,7 @@ import { LOGOUT } from "@/store/actions.type";
     },
     data () {
       return {
+        loading: true,
         page: 1,
         ternaks: [],
         profile: [],
@@ -259,9 +261,15 @@ import { LOGOUT } from "@/store/actions.type";
     this.search.lokasi = ''
     axios
       .get("ternak")
-      .then((response) => this.setternaks(response.data.ternak.filter(ternak => {
-            return ternak.ternak_st == '1' && ternak.order_id == null
-        })))
+      .then((response) => 
+            {
+                this.loading = false
+                this.setternaks(response.data.ternak.filter(ternak => {
+                    return ternak.ternak_st == '1' && ternak.order_id == null
+                }))  
+            }
+            
+        )
       .catch((error) => console.log(error))
     axios
         .get("lokasi/provinsi")
