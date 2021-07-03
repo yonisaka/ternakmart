@@ -40,11 +40,11 @@
           'deep-purple accent-4',
         ],
         slides: [
-          'http://api.caltymart.com/carousel/cr1.jpeg',
-          'http://api.caltymart.com/carousel/cr2.jpeg',
-          'http://api.caltymart.com/carousel/cr3.jpeg',
-          'http://api.caltymart.com/carousel/cr4.jpeg',
-          'http://api.caltymart.com/carousel/cr5.jpeg',
+          'https://api.caltymart.com/carousel/cr1.jpeg',
+          'https://api.caltymart.com/carousel/cr2.jpeg',
+          'https://api.caltymart.com/carousel/cr3.jpeg',
+          'https://api.caltymart.com/carousel/cr4.jpeg',
+          'https://api.caltymart.com/carousel/cr5.jpeg',
         ],
     }),
   }

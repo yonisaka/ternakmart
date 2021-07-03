@@ -109,22 +109,30 @@
                 </v-col>
             </v-row>
             <v-row v-if="loading">
-                <v-col cols="6" v-for="i in 4" :key="i">
-                    <v-sheet
-                    color="grey lighten-4"
-                    >
-                    <v-skeleton-loader
-                        elevation="2"
-                        :loading="loading"
-                        type="card"
-                    ></v-skeleton-loader>
-                    </v-sheet>
+                <v-col cols="12" lg="8" class="mx-auto">
+                    <v-row>
+                        <v-col cols="6" v-for="i in 4" :key="i">
+                            <v-sheet
+                            color="grey lighten-4"
+                            >
+                            <v-skeleton-loader
+                                elevation="2"
+                                :loading="loading"
+                                type="card"
+                            ></v-skeleton-loader>
+                            </v-sheet>
+                        </v-col>
+                    </v-row>
                 </v-col>
             </v-row>
             <v-row v-else>
-                <div v-for="ternak in ternaks" :key="ternak.id" style="width:44%; margin-left:4%; margin-top:4%; margin-bottom:2%">
-                        <Card :ternak="ternak"/>
-                </div>
+                <v-col cols="12" lg="8" class="mx-auto">
+                    <v-row>
+                        <v-col cols="6" v-for="ternak in ternaks" :key="ternak.id">
+                            <Card :ternak="ternak"/>
+                        </v-col>
+                    </v-row>
+                </v-col>
             </v-row>
             <!-- <div class="text-center mt-4">
                 <v-pagination
