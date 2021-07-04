@@ -53,9 +53,6 @@
                                                     Checkout
                                                     </v-btn>
                                                 </v-card-actions>
-                                                <!-- <v-card-actions class="ml-3">
-                                                    
-                                                </v-card-actions> -->
                                             </div>
 
                                             <v-avatar
@@ -104,16 +101,15 @@
                                                         Sudah Dibayar
                                                     </v-chip>
                                                 </v-card-subtitle>
-                                                <!-- <v-card-actions class="ml-2">
+                                                <v-card-actions class="ml-2">
                                                     <v-btn
-                                                    color="#139CA4"
+                                                    color="green lighten-2"
                                                     dark
-                                                    class="mr-2"
-                                                    @click="showDetail(item.id)"
+                                                    @click="btnConfirmation(item.id)"
                                                     >
-                                                    Detail
+                                                    Sudah Diterima
                                                     </v-btn>
-                                                </v-card-actions> -->
+                                                </v-card-actions>
                                             </div>
 
                                             <v-avatar
@@ -196,6 +192,19 @@
                 </v-card-actions>
             </v-card>
         </v-dialog>
+        <v-dialog v-model="dialogConfirmation" max-width="400px">
+            <v-card>
+                <v-card-title class="subtitle">
+                    <span class="mx-auto"> Pengiriman Sudah Diterima ?</span>
+                </v-card-title>
+                <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="blue darken-1" text @click="closeDialogConfirmation">Cancel</v-btn>
+                <v-btn color="blue darken-1" text @click="confirmationDialogItemConfirm(detail.id)">Ya</v-btn>
+                <v-spacer></v-spacer>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
     </div>
 </template>
 
@@ -219,6 +228,7 @@ export default {
             paids: [],
             detail: {},
             dialogDetail: false,
+            dialogConfirmation: false,
         }
     },
     methods:{
@@ -252,6 +262,31 @@ export default {
             })
             .catch((error) => console.log(error));
         },
+        btnConfirmation(id) {
+            axios
+            .get("/transaksi/"+ id +"/detail")
+            .then((res) => {
+                this.detail = res.data.cart
+                this.dialogConfirmation = true
+            })
+        },
+        confirmationDialogItemConfirm(id) {
+            this.detail.pengiriman_st = 'Sudah Diterima'
+            axios
+            .put("/transaksi/"+ id, this.detail)
+            .then((res) => {
+                console.log(res)
+                this.snackbar = true
+                this.message = 'Berhasil Update Data'
+                this.color = '#139CA4'
+                this.dialogConfirmation = false
+                setTimeout( () => this.$router.go(), 1000);
+            })
+            .catch((err) => console.log(err));
+        },
+        closeDialogConfirmation(){
+            this.dialogConfirmation = false
+        }
     },
 
     mounted() {

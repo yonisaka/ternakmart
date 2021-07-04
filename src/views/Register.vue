@@ -112,8 +112,19 @@
                             color="#139CA4"
                             block
                             form="register"
+                            :disabled="isLoading"
                             >
-                            Daftar
+                            <span v-if="isLoading">
+                                Loading 
+                                <v-progress-circular
+                                :size="15"
+                                indeterminate
+                                color="secondary"
+                                ></v-progress-circular>
+                            </span>
+                            <span v-else>
+                                Daftar
+                            </span>
                             </v-btn>
                         </v-card-actions>
                     </v-card>
@@ -125,6 +136,13 @@
                 </v-flex>
             </v-layout>
         </v-container>
+        <v-snackbar
+            v-model="snackbar"
+            timeout="2000"
+            :color="color"
+            >
+            {{ message }}
+        </v-snackbar>
     </v-app>
 </template>
 <script>
@@ -154,6 +172,7 @@ export default {
                 }
             ],
             menu: false,
+            isLoading: false,
         }
     },
     computed: {
@@ -163,35 +182,37 @@ export default {
     },
     methods: {
         onSubmit() {
-            // this.$store
-            //     .dispatch(REGISTER, {
-            //         name: this.name,
-            //         email: this.email,
-            //         password: this.password,
-            //         password_confirmation: this.password_confirmation,
-            //         role_id: '3'
-            //     })
-            //     .then((response) => {
-            //         this.$toast.success(response.message, {
-            //             type: "success",
-            //             position: "top-right",
-            //             duration: 3000,
-            //             dismissible: true,
-            //         });
-            //         this.$router.push({ name: "login" })
-            //     });
+            this.isLoading = true
             this.form.name = this.form.nama_lengkap
             this.form.role_id = '4'
-            this.form.user_st = 'Tidak Aktif'
+            this.form.user_st = 'Aktif'
                 ApiService.setHeader();
                 ApiService.post("users", this.form)
                 .then((res) => {
                     this.form.id_user = res.data.user.id
                     ApiService.post("customer", this.form)
                     .then(() => {
-                        this.$router.push({ path: '/login'})
+                        this.isLoading = false
+                        this.snackbar = true
+                        this.message = 'Berhasil Pendaftaran'
+                        this.color = '#139CA4'
+                        setTimeout( () => this.$router.push({ path: '/login'}), 2000);
                     })
+                    .catch((err) => {
+                        this.errors = err.response.data
+                        this.snackbar = true
+                        this.message = 'Gagal Pendaftaran'
+                        this.color = 'red'
+                        this.isLoading = false
+                    });
                 })
+                .catch((err) => {
+                    this.errors = err.response.data
+                    this.snackbar = true
+                    this.message = 'Gagal Pendaftaran'
+                    this.color = 'red'
+                    this.isLoading = false
+                });
         }
     }
 };
