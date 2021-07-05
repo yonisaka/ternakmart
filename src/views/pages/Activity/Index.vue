@@ -2,136 +2,136 @@
     <div>
         <AppBar :page="page" />
         <v-container fluid mt-12 mb-12 mx-0>
-            <v-tabs
-            v-model="tab"
-            background-color="transparent"
-            grow
-            >
-                <v-tab>Dalam Proses</v-tab>
-                <v-tab>Paid</v-tab>
-            </v-tabs>
-            <v-tabs-items v-model="tab">
-                <v-tab-item class="mt-3">
-                    <v-row v-if="pendings.length != 0" dense>
-                        <v-col 
-                            v-for="(item, i) in pendings"
-                            :key="i"
-                            cols="12">
-                            <v-card
-                                elevation="1"
-                                outlined
-                                @click="showDetail(item.id)"
-                            >
-                                <div class="d-flex flex-no-wrap justify-space-between">
-                                    <div>
-                                        <v-card-title
-                                        class="subtitle-1"
-                                        >{{toUpperCase(item.ternak_nama)}}</v-card-title>
-                    
-                                        <v-card-subtitle>
-                                            Harga : Rp. {{formatPrice(item.total_harga)}} <br/>
-                                            <v-chip 
-                                            small
-                                            class="mt-1"
-                                            color="orange"
-                                            outlined
-                                            label
-                                            v-if="item.transaksi_st == 'PENDING'"
-                                            >
-                                                Menunggu Pembayaran
-                                            </v-chip>
-                                            
-                                        </v-card-subtitle>
-                                        <v-card-actions class="ml-2">
-                                            <v-btn
-                                            color="orange lighten-2"
-                                            dark
-                                            :to="'payment/'+item.id"
-                                            >
-                                            Checkout
-                                            </v-btn>
-                                        </v-card-actions>
-                                        <!-- <v-card-actions class="ml-3">
-                                            
-                                        </v-card-actions> -->
-                                    </div>
-
-                                    <v-avatar
-                                        class="ma-3"
-                                        size="150"
-                                        tile
+            <v-row>
+                <v-col cols="12" lg="6" class="mx-auto">
+                    <v-tabs
+                    v-model="tab"
+                    background-color="transparent"
+                    grow
+                    >
+                        <v-tab>Dalam Proses</v-tab>
+                        <v-tab>Paid</v-tab>
+                    </v-tabs>
+                    <v-tabs-items v-model="tab">
+                        <v-tab-item class="mt-3">
+                            <v-row v-if="pendings.length != 0" dense>
+                                <v-col 
+                                    v-for="(item, i) in pendings"
+                                    :key="i"
+                                    cols="12">
+                                    <v-card
+                                        elevation="1"
+                                        outlined
+                                        @click="showDetail(item.id)"
                                     >
-                                        <v-img :src="item.file_path" ></v-img>
-                                    </v-avatar>
-                                </div>
-                            </v-card>
-                        </v-col>
-                    </v-row>
-                    <v-row v-else class="mt-3">
-                        <v-col cols="12" class="text-center">
-                            <span class="font-weight-medium grey--text">Tidak ada transaksi</span> 
-                        </v-col>
-                    </v-row>
-                </v-tab-item>
-                <v-tab-item>
-                    <v-row v-if="paids.length != 0" dense>
-                        <v-col 
-                            v-for="(item, i) in paids"
-                            :key="i"
-                            cols="12">
-                            <v-card
-                                @click="showDetail(item.id)"
-                                elevation="1"
-                                outlined
-                            >
-                                <div class="d-flex flex-no-wrap justify-space-between">
-                                    <div>
-                                        <v-card-title
-                                        class="text-h6"
-                                        >{{item.ternak_nama}}</v-card-title>
+                                        <div class="d-flex flex-no-wrap justify-space-between">
+                                            <div>
+                                                <v-card-title
+                                                class="subtitle-1"
+                                                >{{toUpperCase(item.ternak_nama)}}</v-card-title>
+                            
+                                                <v-card-subtitle>
+                                                    Harga : Rp. {{formatPrice(item.total_harga)}} <br/>
+                                                    <v-chip 
+                                                    small
+                                                    class="mt-1"
+                                                    color="orange"
+                                                    outlined
+                                                    label
+                                                    v-if="item.transaksi_st == 'PENDING'"
+                                                    >
+                                                        Menunggu Pembayaran
+                                                    </v-chip>
+                                                    
+                                                </v-card-subtitle>
+                                                <v-card-actions class="ml-2">
+                                                    <v-btn
+                                                    color="orange lighten-2"
+                                                    dark
+                                                    :to="'payment/'+item.id"
+                                                    >
+                                                    Checkout
+                                                    </v-btn>
+                                                </v-card-actions>
+                                            </div>
 
-                                        <v-card-subtitle>
-                                            Harga : Rp. {{formatPrice(item.total_harga)}} <br/>
-                                            <v-chip 
-                                            label
-                                            small
-                                            class="mt-1"
-                                            color="success"
-                                            outlined
-                                            v-if="item.transaksi_st == 'PAID'">
-                                                Sudah Dibayar
-                                            </v-chip>
-                                        </v-card-subtitle>
-                                        <!-- <v-card-actions class="ml-2">
-                                            <v-btn
-                                            color="#139CA4"
-                                            dark
-                                            class="mr-2"
-                                            @click="showDetail(item.id)"
+                                            <v-avatar
+                                                class="ma-3"
+                                                size="150"
+                                                tile
                                             >
-                                            Detail
-                                            </v-btn>
-                                        </v-card-actions> -->
-                                    </div>
-
-                                    <v-avatar
-                                        class="ma-3"
-                                        size="125"
-                                        tile
+                                                <v-img :src="item.file_path" ></v-img>
+                                            </v-avatar>
+                                        </div>
+                                    </v-card>
+                                </v-col>
+                            </v-row>
+                            <v-row v-else class="mt-3">
+                                <v-col cols="12" class="text-center">
+                                    <span class="font-weight-medium grey--text">Tidak ada transaksi</span> 
+                                </v-col>
+                            </v-row>
+                        </v-tab-item>
+                        <v-tab-item>
+                            <v-row v-if="paids.length != 0" dense>
+                                <v-col 
+                                    v-for="(item, i) in paids"
+                                    :key="i"
+                                    cols="12">
+                                    <v-card
+                                        @click="showDetail(item.id)"
+                                        elevation="1"
+                                        outlined
                                     >
-                                        <v-img :src="item.file_path" ></v-img>
-                                    </v-avatar>
-                                </div>
-                            </v-card>
-                        </v-col>
-                    </v-row>
-                    <v-row v-else class="mt-3">
-                        <v-col cols="12" class="text-center">
-                            <span class="font-weight-medium grey--text">Tidak ada transaksi</span> 
-                        </v-col>
-                    </v-row>
-                </v-tab-item>
-            </v-tabs-items>
+                                        <div class="d-flex flex-no-wrap justify-space-between">
+                                            <div>
+                                                <v-card-title
+                                                class="text-h6"
+                                                >{{item.ternak_nama}}</v-card-title>
+
+                                                <v-card-subtitle>
+                                                    Harga : Rp. {{formatPrice(item.total_harga)}} <br/>
+                                                    <v-chip 
+                                                    label
+                                                    small
+                                                    class="mt-1"
+                                                    color="success"
+                                                    outlined
+                                                    v-if="item.transaksi_st == 'PAID'">
+                                                        Sudah Dibayar
+                                                    </v-chip>
+                                                </v-card-subtitle>
+                                                <v-card-actions class="ml-2">
+                                                    <v-btn
+                                                    color="green lighten-2"
+                                                    dark
+                                                    @click="btnConfirmation(item.id)"
+                                                    >
+                                                    Sudah Diterima
+                                                    </v-btn>
+                                                </v-card-actions>
+                                            </div>
+
+                                            <v-avatar
+                                                class="ma-3"
+                                                size="125"
+                                                tile
+                                            >
+                                                <v-img :src="item.file_path" ></v-img>
+                                            </v-avatar>
+                                        </div>
+                                    </v-card>
+                                </v-col>
+                            </v-row>
+                            <v-row v-else class="mt-3">
+                                <v-col cols="12" class="text-center">
+                                    <span class="font-weight-medium grey--text">Tidak ada transaksi</span> 
+                                </v-col>
+                            </v-row>
+                        </v-tab-item>
+                    </v-tabs-items>
+                </v-col>
+            </v-row>
         </v-container>
         <v-dialog
             v-model="dialogDetail"
@@ -192,6 +192,19 @@
                 </v-card-actions>
             </v-card>
         </v-dialog>
+        <v-dialog v-model="dialogConfirmation" max-width="400px">
+            <v-card>
+                <v-card-title class="subtitle">
+                    <span class="mx-auto"> Pengiriman Sudah Diterima ?</span>
+                </v-card-title>
+                <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="blue darken-1" text @click="closeDialogConfirmation">Cancel</v-btn>
+                <v-btn color="blue darken-1" text @click="confirmationDialogItemConfirm(detail.id)">Ya</v-btn>
+                <v-spacer></v-spacer>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
     </div>
 </template>
 
@@ -215,6 +228,7 @@ export default {
             paids: [],
             detail: {},
             dialogDetail: false,
+            dialogConfirmation: false,
         }
     },
     methods:{
@@ -248,6 +262,31 @@ export default {
             })
             .catch((error) => console.log(error));
         },
+        btnConfirmation(id) {
+            axios
+            .get("/transaksi/"+ id +"/detail")
+            .then((res) => {
+                this.detail = res.data.cart
+                this.dialogConfirmation = true
+            })
+        },
+        confirmationDialogItemConfirm(id) {
+            this.detail.pengiriman_st = 'Sudah Diterima'
+            axios
+            .put("/transaksi/"+ id, this.detail)
+            .then((res) => {
+                console.log(res)
+                this.snackbar = true
+                this.message = 'Berhasil Update Data'
+                this.color = '#139CA4'
+                this.dialogConfirmation = false
+                setTimeout( () => this.$router.go(), 1000);
+            })
+            .catch((err) => console.log(err));
+        },
+        closeDialogConfirmation(){
+            this.dialogConfirmation = false
+        }
     },
 
     mounted() {

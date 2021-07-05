@@ -112,8 +112,19 @@
                             color="#139CA4"
                             block
                             form="register"
+                            :disabled="isLoading"
                             >
-                            Daftar
+                            <span v-if="isLoading">
+                                Loading 
+                                <v-progress-circular
+                                :size="15"
+                                indeterminate
+                                color="secondary"
+                                ></v-progress-circular>
+                            </span>
+                            <span v-else>
+                                Daftar
+                            </span>
                             </v-btn>
                         </v-card-actions>
                     </v-card>
@@ -148,6 +159,13 @@
             </v-card>
             </v-dialog>
         </v-container>
+        <v-snackbar
+            v-model="snackbar"
+            timeout="2000"
+            :color="color"
+            >
+            {{ message }}
+        </v-snackbar>
     </v-app>
 </template>
 <script>
@@ -178,6 +196,7 @@ export default {
             ],
             menu: false,
             dialog: false,
+            isLoading: false,
         }
     },
     computed: {
@@ -205,9 +224,10 @@ export default {
             //         this.$router.push({ name: "login" })
             //     });
 
+            this.isLoading = true
             this.form.name = this.form.nama_lengkap
             this.form.role_id = '4'
-            this.form.user_st = 'Tidak Aktif'
+            this.form.user_st = 'Aktif'
                 ApiService.setHeader();
                 ApiService.post("users", this.form)
                 .then((res) => {
@@ -216,9 +236,28 @@ export default {
                     .then(() => {
                         this.dialog = true
                         // this.$router.push({ path: '/login'})
+                        this.isLoading = false
+                        this.snackbar = true
+                        this.message = 'Berhasil Pendaftaran'
+                        this.color = '#139CA4'
+                        // setTimeout( () => this.$router.push({ path: '/login'}), 2000);
                     })
+                    .catch((err) => {
+                        this.errors = err.response.data
+                        this.snackbar = true
+                        this.message = 'Gagal Pendaftaran'
+                        this.color = 'red'
+                        this.isLoading = false
+                    });
                 })
 
+                .catch((err) => {
+                    this.errors = err.response.data
+                    this.snackbar = true
+                    this.message = 'Gagal Pendaftaran'
+                    this.color = 'red'
+                    this.isLoading = false
+                });
         }
     }
 };

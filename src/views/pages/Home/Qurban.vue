@@ -56,7 +56,7 @@
                     class="fill-height"
                     no-gutters
                     >
-                        <v-col cols="12">
+                        <v-col cols="12" lg="8" class="mx-auto">
                             <v-text-field
                             v-model="search.nama"
                             @keyup="searchTernak"
@@ -67,7 +67,7 @@
                                 color="white"
                             ></v-text-field>
                         </v-col>
-                        <v-col cols="12">
+                        <v-col cols="12" lg="8" class="mx-auto">
                             <v-select
                             v-model="search.ukuran"
                             item-text="text"
@@ -79,36 +79,69 @@
                             @change="searchTernak"
                             ></v-select>
                         </v-col>
-                        <!-- <v-col cols="12">
-                            <v-select
-                            v-model="search.lokasi"
-                            item-text="province"
-                            item-value="province_id"
-                            :items="lokasi"
-                            label="Lokasi Ternak"
-                            solo
-                            dense
-                            @change="searchTernak"
-                            ></v-select>
-                        </v-col> -->
                     </v-row>
                 </v-container>
             </v-sheet>
         </v-expand-transition>
         <v-container>
-            <v-row>
-                <div v-for="ternak in ternaks" :key="ternak.id" style="width:44%; margin-left:4%; margin-top:4%; margin-bottom:2%">
-                        <Card :ternak="ternak"/>
-                </div>
+             <v-row justify="space-around">
+                <v-col
+                    cols="12"
+                    sm="10"
+                    md="8"
+                >
+                    <v-sheet
+                    class="py-1 px-1"
+                    >
+                    <v-chip-group
+                        :mandatory="mandatory"
+                        active-class="primary--text"
+                    >
+                        <v-chip
+                        v-for="tag in city"
+                        :key="tag.city_id"
+                        @click="searchLokasi(tag.city_id)"
+                        >
+                        {{ tag.city_name }}
+                        </v-chip>
+                    </v-chip-group>
+                    </v-sheet>
+                </v-col>
             </v-row>
-            <div class="text-center mt-4">
+            <v-row v-if="loading">
+                <v-col cols="12" lg="8" class="mx-auto">
+                    <v-row>
+                        <v-col cols="6" lg="4" v-for="i in 9" :key="i">
+                            <v-sheet
+                            color="grey lighten-4"
+                            >
+                            <v-skeleton-loader
+                                elevation="2"
+                                :loading="loading"
+                                type="card"
+                            ></v-skeleton-loader>
+                            </v-sheet>
+                        </v-col>
+                    </v-row>
+                </v-col>
+            </v-row>
+            <v-row v-else class="mb-15">
+                <v-col cols="12" lg="8" class="mx-auto">
+                    <v-row>
+                        <v-col cols="6" lg="4" v-for="ternak in ternaks" :key="ternak.id">
+                            <Card :ternak="ternak"/>
+                        </v-col>
+                    </v-row>
+                </v-col>
+            </v-row>
+            <!-- <div class="text-center mt-4">
                 <v-pagination
                 v-model="page"
                 :length="ternaks.length"
                 prev-icon="mdi-menu-left"
                 next-icon="mdi-menu-right"
                 ></v-pagination>
-            </div>
+            </div> -->
         </v-container>
         <v-dialog v-model="dialogLogout" max-width="400px">
             <v-card>
@@ -153,11 +186,13 @@ import { LOGOUT } from "@/store/actions.type";
     },
     data () {
       return {
+        loading: true,
         page: 1,
         ternaks: [],
         profile: [],
         search: {},
         searchbar: false,
+        mandatory: false,
         ukuran:[
             {
                 'text' : 'Kurban Sedang',
@@ -178,6 +213,7 @@ import { LOGOUT } from "@/store/actions.type";
         ],
         lokasi: [],
         dialogLogout: false,
+        city: []
       }
     },
 
@@ -191,6 +227,9 @@ import { LOGOUT } from "@/store/actions.type";
     },
     setternaks(data) {
       this.ternaks = data;
+    },
+    setCity(data) {
+      this.city = data;
     },
     setProfile(data) {
       this.profile = data;
@@ -209,13 +248,16 @@ import { LOGOUT } from "@/store/actions.type";
           this.$router.push({ name: "login" });
       });
     },
+    searchLokasi(city_id){
+        this.search.city_id = city_id
+        this.searchTernak();
+    },
     searchTernak() {
-        console.log(this.search)
         axios
         // .post("cariternak/?nama="+this.search.nama+"&ukuran="+this.search.ukuran)
         .post("cariternak",this.search)
         .then((response) => this.setternaks(response.data.ternak.filter(ternak => {
-                return ternak.ternak_st == '1'
+                return ternak.ternak_st == '1' && ternak.order_id == null
             })))
         .catch((error) => console.log(error))
     },
@@ -227,9 +269,15 @@ import { LOGOUT } from "@/store/actions.type";
     this.search.lokasi = ''
     axios
       .get("ternak")
-      .then((response) => this.setternaks(response.data.ternak.filter(ternak => {
-            return ternak.ternak_st == '1'
-        })))
+      .then((response) => 
+            {
+                this.loading = false
+                this.setternaks(response.data.ternak.filter(ternak => {
+                    return ternak.ternak_st == '1' && ternak.order_id == null
+                }))  
+            }
+            
+        )
       .catch((error) => console.log(error))
     axios
         .get("lokasi/provinsi")
@@ -237,7 +285,10 @@ import { LOGOUT } from "@/store/actions.type";
             this.setLokasi(response.data.provinsi)
         })
         .catch((error) => console.log(error))
-    
+    axios
+      .get("lokasi/kota_aktif")
+      .then((response) => this.setCity(response.data.kota))
+      .catch((error) => console.log(error))
   },
   }
 </script>

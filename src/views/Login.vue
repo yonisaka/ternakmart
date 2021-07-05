@@ -104,6 +104,7 @@ export default {
             .then((res) => {
                console.log(res);
                if (res.user.role_id != '4'){
+                  this.isLoading = false
                   this.snackbar = true
                   this.message = 'Akun Tidak Tersedia'
                   this.color = 'red'
