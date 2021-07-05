@@ -124,6 +124,29 @@
                     </div>
                 </v-flex>
             </v-layout>
+            <v-dialog
+            v-model="dialog"
+            persistent
+            max-width="290"
+            >
+            <v-card>
+                <v-card-title class="text-h5">
+                Registrasi Berhasil!
+                </v-card-title>
+                <v-card-text>Silahkan buka email yang baru saja didaftarkan untuk aktivasi akun anda.</v-card-text>
+                <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn
+                    color="green darken-1"
+                    text
+                    @click="dialog = false"
+                    :to="'login'"
+                >
+                    Oke
+                </v-btn>
+                </v-card-actions>
+            </v-card>
+            </v-dialog>
         </v-container>
     </v-app>
 </template>
@@ -154,6 +177,7 @@ export default {
                 }
             ],
             menu: false,
+            dialog: false,
         }
     },
     computed: {
@@ -180,6 +204,7 @@ export default {
             //         });
             //         this.$router.push({ name: "login" })
             //     });
+
             this.form.name = this.form.nama_lengkap
             this.form.role_id = '4'
             this.form.user_st = 'Tidak Aktif'
@@ -189,9 +214,11 @@ export default {
                     this.form.id_user = res.data.user.id
                     ApiService.post("customer", this.form)
                     .then(() => {
-                        this.$router.push({ path: '/login'})
+                        this.dialog = true
+                        // this.$router.push({ path: '/login'})
                     })
                 })
+
         }
     }
 };
