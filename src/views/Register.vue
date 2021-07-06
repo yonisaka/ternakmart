@@ -135,6 +135,29 @@
                     </div>
                 </v-flex>
             </v-layout>
+            <v-dialog
+            v-model="dialog"
+            persistent
+            max-width="290"
+            >
+            <v-card>
+                <v-card-title class="text-h5">
+                Registrasi Berhasil!
+                </v-card-title>
+                <v-card-text>Silahkan buka email yang baru saja didaftarkan untuk aktivasi akun anda.</v-card-text>
+                <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn
+                    color="green darken-1"
+                    text
+                    @click="dialog = false"
+                    :to="'login'"
+                >
+                    Oke
+                </v-btn>
+                </v-card-actions>
+            </v-card>
+            </v-dialog>
         </v-container>
         <v-snackbar
             v-model="snackbar"
@@ -172,6 +195,7 @@ export default {
                 }
             ],
             menu: false,
+            dialog: false,
             isLoading: false,
         }
     },
@@ -182,21 +206,41 @@ export default {
     },
     methods: {
         onSubmit() {
+            // this.$store
+            //     .dispatch(REGISTER, {
+            //         name: this.name,
+            //         email: this.email,
+            //         password: this.password,
+            //         password_confirmation: this.password_confirmation,
+            //         role_id: '3'
+            //     })
+            //     .then((response) => {
+            //         this.$toast.success(response.message, {
+            //             type: "success",
+            //             position: "top-right",
+            //             duration: 3000,
+            //             dismissible: true,
+            //         });
+            //         this.$router.push({ name: "login" })
+            //     });
+
             this.isLoading = true
             this.form.name = this.form.nama_lengkap
             this.form.role_id = '4'
-            this.form.user_st = 'Aktif'
+            this.form.user_st = 'Tidak Aktif'
                 ApiService.setHeader();
                 ApiService.post("users", this.form)
                 .then((res) => {
                     this.form.id_user = res.data.user.id
                     ApiService.post("customer", this.form)
                     .then(() => {
+                        this.dialog = true
+                        // this.$router.push({ path: '/login'})
                         this.isLoading = false
                         this.snackbar = true
                         this.message = 'Berhasil Pendaftaran'
                         this.color = '#139CA4'
-                        setTimeout( () => this.$router.push({ path: '/login'}), 2000);
+                        // setTimeout( () => this.$router.push({ path: '/login'}), 2000);
                     })
                     .catch((err) => {
                         this.errors = err.response.data
@@ -206,6 +250,7 @@ export default {
                         this.isLoading = false
                     });
                 })
+
                 .catch((err) => {
                     this.errors = err.response.data
                     this.snackbar = true
