@@ -50,16 +50,6 @@
                                     type="text"
                                 >
                                 </v-text-field>
-                                <!-- <v-text-field
-                                    append-icon="mdi-dollar"
-                                    v-model="harga_ongkir"
-                                    @input="formatPrice(harga_ongkir)"
-                                    label="Harga Ongkir"
-                                    type="text"
-                                    readonly
-                                >
-                                </v-text-field> -->
-
                             </v-form> 
                         </v-card-text>
                         <v-card-text>
@@ -108,12 +98,20 @@
                                     <div class="subtitle">Rp. {{formatPrice(ternak.diskon_harga)}}</div>
                                 </v-col>
                             </v-row>
+                            <v-row v-if="promo_ongkir_st == 1">
+                                <v-col cols="6">
+                                    <label> Promo Ongkir </label>
+                                </v-col>
+                                <v-col cols="6" class="text-right">                                    
+                                    <div class="subtitle">Rp. {{formatPrice(promo_ongkir_harga)}}</div>
+                                </v-col>
+                            </v-row>
                             <v-row>
                                 <v-col cols="6">
                                     <label> Total </label>
                                 </v-col>
                                 <v-col cols="6" class="text-right">                                    
-                                    <div class="subtitle">Rp. {{formatPrice(((ternak.perawatan_harga*masa_perawatan)+(ternak.harga_perkilo*ternak.ternak_berat)+harga_ongkir)-ternak.diskon_harga)}}</div>
+                                    <div class="subtitle">Rp. {{formatPrice((total_harga)-ternak.diskon_harga)}}</div>
                                 </v-col>
                             </v-row>
                         </v-card-text>
@@ -130,20 +128,6 @@
                                 </v-btn>
                             </v-col>
                         </v-row>
-                        <!-- <v-row>
-                            <v-col cols="12">
-                                <v-btn 
-                                type="submit"
-                                class="white--text font-weight-bold"
-                                color="red"
-                                block
-                                outlined
-                                form="register"
-                                >
-                                Remove
-                                </v-btn>
-                            </v-col>
-                        </v-row> -->
                     </v-card>
                 </v-flex>
             </v-layout>
@@ -184,6 +168,8 @@ export default {
             distance: '',
             harga_ongkir: '',
             masa_perawatan: '',
+            promo_ongkir_st: '',
+            promo_ongkir_harga: '',
             total_harga: '',
             invoice:{},
             snackbar: false,
@@ -299,31 +285,53 @@ export default {
             .catch((error) => console.log(error));
         },
         gethargaOngkir(){
-            //get data kota
+            // cek promo ongkir
             axios
-            .get("lokasi/kota/"+this.order.city_id+"/detail")
-            .then((response) => {
-                let start_point = (response.data.kota.latitude + "," + response.data.kota.longitude)
-                let end_point = (this.ternak.latitude + "," + this.ternak.longitude)
-                
-                axios.get("https://distance-calculator.p.rapidapi.com/v1/one_to_one?start_point="+start_point+"&end_point="+end_point+"&unit=kilometers", {
-                    headers: {
-                        'x-rapidapi-key': '38066ec1d5msh0c6db7b7abef6cap10f235jsn47d20ec77887',
-                        'x-rapidapi-host': 'distance-calculator.p.rapidapi.com',
-                        'useQueryString': 'true'
+                .get("promo_ongkir/"+this.order.city_id)
+                .then((response) => {
+                    let promo = response.data
+                    if (promo.data != null){
+                        this.promo_ongkir_st = promo.data.status_promo
+                        this.promo_ongkir_harga = promo.data.promo_harga
+                    } else {
+                        this.promo_ongkir_st = 0
+                        this.promo_ongkir_harga = 0
                     }
-                }).then((res) => {
-                    this.distance = Math.round(res.data.distance)
-                    this.harga_ongkir = Math.round(res.data.distance)*5620
-                    this.total_harga = (this.ternak.perawatan_harga*this.masa_perawatan)+(this.ternak.harga_perkilo*this.ternak.ternak_berat)+Math.round(res.data.distance)*5620
+                    //get data kota
+                    axios
+                    .get("lokasi/kota/"+this.order.city_id+"/detail")
+                    .then((response) => {
+                        let start_point = (response.data.kota.latitude + "," + response.data.kota.longitude)
+                        let end_point = (this.ternak.latitude + "," + this.ternak.longitude)
+                        
+                        axios.get("https://distance-calculator.p.rapidapi.com/v1/one_to_one?start_point="+start_point+"&end_point="+end_point+"&unit=kilometers", {
+                            headers: {
+                                'x-rapidapi-key': '38066ec1d5msh0c6db7b7abef6cap10f235jsn47d20ec77887',
+                                'x-rapidapi-host': 'distance-calculator.p.rapidapi.com',
+                                'useQueryString': 'true'
+                            }
+                        }).then((res) => {
+                            this.distance = Math.round(res.data.distance)
+                            this.harga_ongkir = Math.round(res.data.distance)*5620
+                            
+                            if (this.promo_ongkir_st == 1){
+                                // console.log('harga asli ='+ ((this.ternak.perawatan_harga*this.masa_perawatan)+(this.ternak.harga_perkilo*this.ternak.ternak_berat)+Math.round(res.data.distance)*5620))
+                                // console.log('promo ='+ this.promo_ongkir_harga)
+                                this.total_harga = ((this.ternak.perawatan_harga*this.masa_perawatan)+(this.ternak.harga_perkilo*this.ternak.ternak_berat)+(Math.round(res.data.distance)*5620))-this.promo_ongkir_harga
+                            } else {
+                                // console.log('ssss')
+                                this.total_harga = (this.ternak.perawatan_harga*this.masa_perawatan)+(this.ternak.harga_perkilo*this.ternak.ternak_berat)+Math.round(res.data.distance)*5620
+                            }
+                        })
+                    })
+                    .catch((error) => console.log(error));
                 })
-            })
-            .catch((error) => console.log(error));
+                .catch((error) => console.log(error));
         }
     },
     mounted() {
         this.setProfile(this.$store.state.auth.user)
-        //get data terbaj by id ternak
+        //get data ternak by id ternak
         axios
             .get("ternak/" + this.$route.params.id)
             .then((response) => {

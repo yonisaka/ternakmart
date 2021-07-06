@@ -227,7 +227,7 @@ export default {
             this.isLoading = true
             this.form.name = this.form.nama_lengkap
             this.form.role_id = '4'
-            this.form.user_st = 'Aktif'
+            this.form.user_st = 'Tidak Aktif'
                 ApiService.setHeader();
                 ApiService.post("users", this.form)
                 .then((res) => {
