@@ -225,11 +225,11 @@ export default {
                         }).then((res) => {
                             this.distance = Math.round(res.data.distance)
                             this.harga_ongkir = Math.round(res.data.distance)*5620
-                            
+                      
                             if (this.promo_ongkir_st == 1){
-                                this.total_harga = (this.produk.produk_harga+parseInt(this.distance))-this.promo_ongkir_harga
+                                this.total_harga = (parseInt(this.produk.produk_harga)+this.harga_ongkir)-this.promo_ongkir_harga
                             } else {
-                                this.total_harga = (this.produk.produk_harga+parseInt(this.distance))
+                                this.total_harga = (parseInt(this.produk.produk_harga)+this.harga_ongkir)
                             }
                         })
                     })
