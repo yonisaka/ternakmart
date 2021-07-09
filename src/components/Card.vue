@@ -3,7 +3,7 @@
         <template v-slot:default="{ hover }">
             <v-card
             :loading="loading"
-            class="mx-auto mb-2"
+            class="mx-auto mb-2 round-card"
             height="300px"
             >
                 <v-img
@@ -80,6 +80,11 @@
         </template>
     </v-hover>
 </template>
+<style scoped>
+.round-card {
+  border-radius: 10px;
+}
+</style>
 <script>
     export default {
         props: ["ternak"],

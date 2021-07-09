@@ -162,11 +162,12 @@
                 </v-card-actions>
             </v-card>
         </v-dialog>
+        <AppFooter/>
     </div>
 </template>
 
 <script>
-
+import AppFooter from "@/layout/AppFooter";
 import CardProduk from "@/components/CardProduk";
 import axios from "axios";
 import { mapGetters } from "vuex";
@@ -176,6 +177,7 @@ import { LOGOUT } from "@/store/actions.type";
     name: 'Qurban',
   components: {
     CardProduk,
+    AppFooter
   },
   computed: 
     {
