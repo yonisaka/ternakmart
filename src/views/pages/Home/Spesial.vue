@@ -42,8 +42,8 @@ export default {
             title: 'Spesial Promo',
         },
         images: [
-            'https://api.caltymart.com/promo/pr1.png',
-            'https://api.caltymart.com/promo/pr2.png',
+            'https://api.caltymart.com/promo/pr1.jpeg',
+            'https://api.caltymart.com/promo/pr2.jpeg',
         //   'https://api.caltymart.com/promo/jabodetabek_pr1.png',
         //   'https://api.caltymart.com/promo/jabodetabek_pr2.png',
         //   'https://api.caltymart.com/promo/jabodetabek_pr3.png',
