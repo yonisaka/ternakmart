@@ -88,7 +88,7 @@
                   </svg>
                   <br>
                   <span class="subtitle black--text">
-                  Qurban
+                  Ternak
                   </span>
                 </a>
               </v-col>
@@ -147,7 +147,7 @@
             <v-row>
               <v-col cols="8" >
                 <div class="subtitle font-weight-bold">
-                  Qurban Premium
+                  Ternak Premium
                 </div>
               </v-col>
               <v-col cols="4" class="text-right">
