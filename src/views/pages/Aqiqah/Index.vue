@@ -264,13 +264,13 @@ import { LOGOUT } from "@/store/actions.type";
             {
                 this.loading = false
                 this.setProduks(response.data.data.filter(produk => {
-                    return produk.kategori == 'produk'
+                    return produk.kategori == 'aqiqah'
                 }))  
             }
         )
       .catch((error) => console.log(error))
     axios
-      .get("lokasi/kota_aktif_produk")
+      .get("lokasi/kota_aktif_aqiqah")
       .then((response) => this.setCity(response.data.kota))
       .catch((error) => console.log(error))
   },

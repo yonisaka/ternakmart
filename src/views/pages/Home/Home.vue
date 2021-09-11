@@ -94,7 +94,7 @@
               </v-col>
               <v-col cols="3" class="text-center">
                 <a>
-                  <svg width="35" height="37" viewBox="0 0 35 37" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <svg width="35" height="37" viewBox="0 0 35 37" fill="none" xmlns="http://www.w3.org/2000/svg" @click="() => {this.$router.push({ path: '/aqiqah' })}">
                   <path d="M12.3917 17.0135C12.0924 17.0135 11.8497 17.2561 11.8497 17.5555V18.4711C11.8497 18.7704 12.0924 19.0131 12.3917 19.0131C12.691 19.0131 12.9337 18.7704 12.9337 18.4711V17.5555C12.9337 17.2561 12.691 17.0135 12.3917 17.0135Z" fill="#139CA4"/>
                   <path d="M21.9224 19.0132C22.2217 19.0132 22.4643 18.7705 22.4643 18.4712V17.5555C22.4643 17.2562 22.2217 17.0135 21.9224 17.0135C21.623 17.0135 21.3804 17.2562 21.3804 17.5555V18.4712C21.3804 18.7705 21.623 19.0132 21.9224 19.0132Z" fill="#139CA4"/>
                   <path d="M14.9647 19.4672C14.6654 19.4672 14.4227 19.7098 14.4227 20.0091C14.4227 21.4327 16.1195 22.1804 17.1709 21.2285C17.4629 21.4929 17.8499 21.6542 18.2739 21.6542C19.1811 21.6542 19.919 20.9163 19.919 20.0091C19.919 19.7098 19.6764 19.4672 19.377 19.4672C19.0777 19.4672 18.8351 19.7098 18.8351 20.0091C18.8351 20.3185 18.5834 20.5702 18.274 20.5702C17.9646 20.5702 17.7129 20.3185 17.7129 20.0091V19.409C17.9703 19.316 18.2031 19.1589 18.3869 18.9477C18.5834 18.7219 18.5595 18.3795 18.3336 18.1831C18.1079 17.9866 17.7655 18.0104 17.569 18.2363C17.4666 18.3541 17.3188 18.4217 17.1635 18.4218C17.1634 18.4218 17.1632 18.4218 17.163 18.4218C17.0078 18.4218 16.8601 18.3544 16.7575 18.2371C16.5607 18.0116 16.2183 17.9884 15.9927 18.1853C15.7673 18.3822 15.7441 18.7246 15.941 18.9501C16.1282 19.1646 16.3661 19.3231 16.6289 19.4148V20.0091C16.6289 20.3185 16.3772 20.5702 16.0678 20.5702C15.7585 20.5702 15.5068 20.3185 15.5068 20.0091C15.5068 19.7098 15.2641 19.4672 14.9647 19.4672Z" fill="#139CA4"/>
@@ -201,7 +201,7 @@
         </v-row>
         <v-row justify="space-around" v-else>
           <v-col cols="12" lg="8">
-            <div v-if="xs" style="width:100%;margin:20px auto;height:300px">
+            <div v-if="xs" style="width:100%;margin-bottom:20px auto;height:300px">
               <slider ref="slider" :options="options">
                   <!-- slideritem wrapped package with the components you need -->
                   <slideritem v-for="ternak in ternaks" :key="ternak.id" style="width:48%;margin-right:2%">
@@ -209,7 +209,7 @@
                   </slideritem>
               </slider>
             </div>
-            <div v-else style="width:100%;margin:20px auto;height:300px">
+            <div v-else style="width:100%;margin-bottom:20px auto;height:300px">
               <slider ref="slider" :options="options">
                   <!-- slideritem wrapped package with the components you need -->
                   <slideritem v-for="ternak in ternaks" :key="ternak.id" style="width:32%;margin-right:2%">
@@ -219,12 +219,12 @@
             </div>
           </v-col>
         </v-row>
-         <v-row>
+        <v-row>
           <v-col lg="8" cols="12" class="mx-auto">
             <v-row>
               <v-col cols="8" >
                 <div class="subtitle font-weight-bold">
-                  Produk Qurban
+                  Produk
                 </div>
               </v-col>
               <v-col cols="4" class="text-right">
@@ -278,7 +278,7 @@
         </v-row>
         <v-row justify="space-around" v-else>
           <v-col cols="12" lg="8">
-            <div v-if="xs" style="width:100%;margin:20px auto;height:300px">
+            <div v-if="xs" style="width:100%;margin-bottom:20px auto;height:300px">
               <slider ref="slider" :options="options">
                   <!-- slideritem wrapped package with the components you need -->
                   <slideritem v-for="produk in produks" :key="produk.id" style="width:48%;margin-right:2%">
@@ -286,11 +286,88 @@
                   </slideritem>
               </slider>
             </div>
-            <div v-else style="width:100%;margin:20px auto;height:300px">
+            <div v-else style="width:100%;margin-bottom:20px auto;height:300px">
               <slider ref="slider" :options="options">
                   <!-- slideritem wrapped package with the components you need -->
                   <slideritem v-for="produk in produks" :key="produk.id" style="width:32%;margin-right:2%">
                     <CardProduk :produk="produk"/>
+                  </slideritem>
+              </slider>
+            </div>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col lg="8" cols="12" class="mx-auto">
+            <v-row>
+              <v-col cols="8" >
+                <div class="subtitle font-weight-bold">
+                  Aqiqah
+                </div>
+              </v-col>
+              <v-col cols="4" class="text-right">
+                <a class="subtitle" @click="() => {this.$router.push({ path: '/aqiqah' })}">
+                  Lihat semua
+                </a>
+              </v-col>
+            </v-row>
+          </v-col>
+        </v-row>
+        <v-row justify="space-around">
+          <v-col
+            cols="12"
+            sm="10"
+            md="8"
+          >
+            <v-sheet
+              class="py-1 px-1"
+            >
+              <v-chip-group
+                :mandatory="mandatory"
+                active-class="primary--text"
+              >
+                <v-chip
+                  v-for="tag in city_aqiqah"
+                  :key="tag.city_id"
+                  @click="searchAqiqah(tag.city_id)"
+                >
+                  {{ tag.city_name }}
+                </v-chip>
+              </v-chip-group>
+            </v-sheet>
+          </v-col>
+        </v-row>
+        <v-row justify="space-around" v-if="loading">
+          <v-col cols="12" lg="8" class="mx-auto">
+            <v-row>
+              <v-col lg="4" cols="6" v-for="i in options.infinite" :key="i">
+                <v-sheet
+                  :color="`grey ${theme.isDark ? 'darken-2' : 'lighten-4'}`"
+                >
+                  <v-skeleton-loader
+                    elevation="2"
+                    :loading="loading"
+                    type="card"
+                  ></v-skeleton-loader>
+                </v-sheet>
+              </v-col>
+            </v-row>
+          </v-col>
+        </v-row>
+        <v-row justify="space-around" v-else>
+          <v-col cols="12" lg="8">
+            <div v-if="xs" style="width:100%;margin-bottom:20px auto;height:300px">
+              <slider ref="slider" :options="options">
+                  <!-- slideritem wrapped package with the components you need -->
+                  <slideritem v-for="aqiqah in aqiqahs" :key="aqiqah.id" style="width:48%;margin-right:2%">
+                    <CardAqiqah :produk="aqiqah"/>
+                  </slideritem>
+              </slider>
+            </div>
+            <div v-else style="width:100%;margin-bottom:20px auto;height:300px">
+              <slider ref="slider" :options="options">
+                  <!-- slideritem wrapped package with the components you need -->
+                  <slideritem v-for="aqiqah in aqiqahs" :key="aqiqah.id" style="width:32%;margin-right:2%">
+                    <CardAqiqah :produk="aqiqah"/>
                   </slideritem>
               </slider>
             </div>
@@ -350,6 +427,7 @@ import { slider, slideritem } from 'vue-concise-slider'
 import Carousel from "@/components/Carousel";
 import Card from "@/components/Card";
 import CardProduk from "@/components/CardProduk";
+import CardAqiqah from "@/components/CardAqiqah";
 // import DialogLogout from "@/components/DialogLogout";
 import { LOGOUT } from "@/store/actions.type";
 import axios from "axios";
@@ -361,7 +439,8 @@ export default {
     Card,
     slider,
     slideritem,
-    CardProduk
+    CardProduk,
+    CardAqiqah,
     // DialogLogout
   },
   data () {
@@ -370,6 +449,7 @@ export default {
       dialogLogout: false,
       ternaks: [],
       produks: [],
+      aqiqahs: [],
       profile:[],
       //Slider configuration [obj]
       options: {
@@ -387,6 +467,7 @@ export default {
       search:{},
       city: [],
       city_produk: [],
+      city_aqiqah: [],
       mandatory: false,
       xs: false,
       sm: false,
@@ -399,11 +480,17 @@ export default {
     setProduks(data) {
       this.produks = data;
     },
+    setAqiqahs(data) {
+      this.aqiqahs = data;
+    },
     setCity(data) {
       this.city = data;
     },
     setCityProduk(data) {
       this.city_produk = data;
+    },
+    setCityAqiqah(data) {
+      this.city_aqiqah = data;
     },
     setProfile(data) {
       this.profile = data;
@@ -435,7 +522,21 @@ export default {
         .post("cariproduk",this.search)
         .then((response) => {
             console.log(response)
-            this.setProduks(response.data.data)
+            this.setProduks(response.data.data.filter(produk => {
+                return produk.kategori == 'produk'
+              }))  
+        })
+        .catch((error) => console.log(error))
+    },
+    searchAqiqah(city_id) {
+        this.search.city_id = city_id
+        axios
+        .post("cariproduk",this.search)
+        .then((response) => {
+            console.log(response)
+            this.setAqiqahs(response.data.data.filter(produk => {
+                return produk.kategori == 'aqiqah'
+              }))  
         })
         .catch((error) => console.log(error))
     },
@@ -470,13 +571,22 @@ export default {
       .then((response) => 
           {
               this.loading = false
-              this.setProduks(response.data.data)  
+              this.setProduks(response.data.data.filter(produk => {
+                return produk.kategori == 'produk'
+              }))  
+              this.setAqiqahs(response.data.data.filter(produk => {
+                return produk.kategori == 'aqiqah'
+              }))  
           }
         )
       .catch((error) => console.log(error))
     axios
       .get("lokasi/kota_aktif_produk")
       .then((response) => this.setCityProduk(response.data.kota))
+      .catch((error) => console.log(error))
+    axios
+      .get("lokasi/kota_aktif_aqiqah")
+      .then((response) => this.setCityAqiqah(response.data.kota))
       .catch((error) => console.log(error))
   },
   inject: {

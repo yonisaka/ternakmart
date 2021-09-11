@@ -190,6 +190,35 @@ const router = new Router({
       //   requiresAuth: false
       // }
     },
+    {
+      path: '/aqiqah',
+      component: () => import("@/views/pages/Index"),
+      children: [
+        {
+          path: '',
+          name: 'aqiqah',
+          components: {
+            header: AppHeader,
+            default : () => import("@/views/pages/Aqiqah/Index"),
+            footer: AppFooter
+          }
+        },
+        {
+          path: 'detail/:id',
+          component: () => import("@/views/pages/Aqiqah/Detail")
+        },
+        {
+          path: 'detail/add/:id',
+          component: () => import("@/views/pages/Aqiqah/Add"),
+          meta: {
+            requiresAuth: false
+          }
+        },
+      ],
+      // meta: {
+      //   requiresAuth: false
+      // }
+    },
   ]
 });
 
