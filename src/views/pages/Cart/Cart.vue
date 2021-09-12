@@ -2,21 +2,24 @@
   <div>
     <AppBar :page="page" :updateCart="carts"/>
     <v-container class="elevation-0 mt-12 mb-12">
-      <v-row v-if="carts.length != 0" dense>
+      <div v-if="carts.length != 0">
+      <v-row v-for="(item, i) in carts"
+          :key="i" dense>
         <v-col
-          v-for="(item, i) in carts"
-          :key="i"
+          
           cols="12"
+          lg="6"
+          class="mx-auto"
         >
           <v-card v-if="item.st == 'ternak'" class="mt-3">
                 <v-img
                   class="white--text align-end"
-                  height="250px"
+                  height="250"
                   :src="item.file_ternak" 
                 >
                 </v-img>
                 <v-card-title>{{item.ternak_nama}}</v-card-title>
-                <v-card-text> {{subStr(item.ternak_deskripsi)}}</v-card-text>
+                <v-card-text><span v-html="subStr(item.ternak_deskripsi)"></span></v-card-text>
                 <v-card-subtitle>
                   <v-row>
                     <v-col cols="5">Harga Ternak</v-col>
@@ -96,7 +99,7 @@
                             <v-row>
                               <v-col cols="4">Deskripsi</v-col>
                               <v-col cols="1">:</v-col>
-                              <v-col cols="12">{{item.ternak_deskripsi}}</v-col>
+                              <v-col cols="12"><span v-html="item.produk_deskripsi"></span></v-col>
                             </v-row>
                             <v-row>
                               <v-col cols="4">Harga</v-col>
@@ -142,13 +145,13 @@
           <v-card v-else class="mt-3">
             <v-img
                 class="white--text align-end"
-                height="250px"
+                height="250"
                 :src="item.file_produk" 
               >
               </v-img>
               <v-card-title>{{item.produk_nama}}</v-card-title>
               <v-card-subtitle>{{ item.qty }} {{ toUpperCase(item.produk_jenis) }}</v-card-subtitle>
-              <v-card-text> {{subStr(item.produk_deskripsi)}}</v-card-text>
+              <v-card-text> <span v-html="subStr(item.produk_deskripsi)"></span></v-card-text>
               <v-card-text>
                 <v-row>
                   <v-col cols="5">Harga Produk</v-col>
@@ -181,11 +184,14 @@
           </v-card>
         </v-col>
       </v-row>
-      <v-row v-else class="mt-3">
+    </div>
+    <div v-else>
+      <v-row class="mt-3">
         <v-col cols="12" class="text-center">
             <span class="subtitle font-weight-medium grey--text">Tidak ada keranjang</span> 
         </v-col>
       </v-row>
+    </div>
     </v-container>
   </div>
 </template>
